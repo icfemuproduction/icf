@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ProdOneAdapter extends RecyclerView.Adapter<ProdOneAdapter.ViewHolder> {
+public class ProdLineAdapter extends RecyclerView.Adapter<ProdLineAdapter.ViewHolder> {
 
     Context context;
     ArrayList<String> sections;
 
-    public ProdOneAdapter(Context context, ArrayList<String> sections) {
+    public ProdLineAdapter(Context context, ArrayList<String> sections) {
         this.context = context;
         this.sections = sections;
     }
@@ -30,7 +30,7 @@ public class ProdOneAdapter extends RecyclerView.Adapter<ProdOneAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.singleSection.setText("Section " + position + " : ");
+        holder.singleSection.setText("Section " + String.valueOf(position+1)+ " : ");
         holder.singleText.setText(sections.get(position));
     }
 

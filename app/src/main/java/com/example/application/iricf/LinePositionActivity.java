@@ -14,6 +14,9 @@ public class LinePositionActivity extends AppCompatActivity {
     @BindView(R.id.production_line_button)
     Button productionLineButton;
 
+    @BindView(R.id.despatch_shed_button)
+    Button dispatchShedButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,13 @@ public class LinePositionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LinePositionActivity.this,ProductionLineActivity.class));
+            }
+        });
+
+        dispatchShedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LinePositionActivity.this,DispatchActivity.class));
             }
         });
 

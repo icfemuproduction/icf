@@ -15,7 +15,7 @@ public class ProductionLineActivity extends AppCompatActivity {
     @BindView(R.id.production_one_rv)
     RecyclerView productionOneRv;
 
-    ProdOneAdapter prodOneAdapter;
+    ProdLineAdapter prodOneAdapter;
     ArrayList<String> tempArray = new ArrayList<>();
 
     @Override
@@ -35,7 +35,7 @@ public class ProductionLineActivity extends AppCompatActivity {
         tempArray.add("ewqm64");
         tempArray.add("lker54");
 
-        prodOneAdapter = new ProdOneAdapter(this,tempArray);
+        prodOneAdapter = new ProdLineAdapter(this,tempArray);
         productionOneRv.setLayoutManager(new LinearLayoutManager(this));
         productionOneRv.setAdapter(prodOneAdapter);
     }

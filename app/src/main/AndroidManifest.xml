@@ -19,8 +19,11 @@
         <activity
             android:name=".LinePositionActivity"
             android:parentActivityName=".HomeActivity" />
-        <activity android:name=".ProductionLineActivity"
-            android:parentActivityName=".LinePositionActivity"></activity>
+        <activity
+            android:name=".ProductionLineActivity"
+            android:parentActivityName=".LinePositionActivity" />
+        <activity android:name=".DispatchActivity" />
+        <activity android:name=".CoachStatusActivity"></activity>
     </application>
 
 </manifest>

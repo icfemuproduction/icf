@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IRICF.iml" filepath="$PROJECT_DIR$/IRICF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ICF.iml" filepath="$PROJECT_DIR$/ICF.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
