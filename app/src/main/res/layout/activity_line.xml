@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.application.iricf.LinePositionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_bar_layout"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/transbg">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_bar"
+            android:hint="Search for a coach"
+            android:textCursorDrawable="@null"
+            android:inputType="textPhonetic"
+            android:completionThreshold="1"
+            android:imeOptions="actionSearch"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            android:dropDownAnchor="@+id/search_layout"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/et_border"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar_layout"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_line_button"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:text="Production line"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/XXX"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        android:text="Cxxxxxxxxx shed"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/despatch_shed_button"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        android:text="Despatch shed"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/paint_shop_button"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        android:text="Paint shop"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/outshed_button"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        android:text="Out shed"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/transbg">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shell_recieved_button"
+                        android:textSize="20sp"
+                        android:padding="20dp"
+                        android:textColor="@color/buttonTextColor"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        android:text="Shell Received"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>
