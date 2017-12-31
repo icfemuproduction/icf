@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.application.iricf">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".HomeActivity" />
         <activity
             android:name=".LinePositionActivity"
             android:parentActivityName=".HomeActivity" />
@@ -23,7 +19,25 @@
             android:name=".ProductionLineActivity"
             android:parentActivityName=".LinePositionActivity" />
         <activity android:name=".DispatchActivity" />
-        <activity android:name=".CoachStatusActivity"></activity>
+        <activity android:name=".CoachStatusActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".CreateUserActivity"
+            android:parentActivityName=".UserProfileActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".CoachesEdit" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".EditStatusActivity"></activity>
     </application>
 
 </manifest>

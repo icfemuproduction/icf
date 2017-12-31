@@ -19,6 +19,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/rake_search_bar"
+            android:textColor="@color/black"
             android:hint="Search for a rake"
             android:textCursorDrawable="@null"
             android:inputType="textPhonetic"
@@ -30,7 +31,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/et_border"/>
+            android:background="@drawable/et_border" />
 
         <ImageView
             android:layout_width="0dp"

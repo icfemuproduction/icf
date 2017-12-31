@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">IRICF</string>
+    <string name="enter_the_username">Enter the username</string>
+    <string name="user_signin">User SignIn</string>
+    <string name="create_rake">Create Rake</string>
+    <string name="create_coach">Create Coach</string>
+    <string name="commission_shed">Commission shed</string>
+    <string name="enter_name">Enter your name</string>
 </resources>

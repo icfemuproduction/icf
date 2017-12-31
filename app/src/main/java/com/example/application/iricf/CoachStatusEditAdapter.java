@@ -5,19 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAdapter.ViewHolder>{
+public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEditAdapter.ViewHolder> {
 
     Context context;
     ArrayList<String> statusName,statusValue;
 
-    public StatusPropertyAdapter(Context context, ArrayList<String> statusName,ArrayList<String> statusValue) {
+    public CoachStatusEditAdapter(Context context, ArrayList<String> statusName,ArrayList<String> statusValue) {
         this.context = context;
         this.statusName = statusName;
         this.statusValue = statusValue;
@@ -25,7 +27,7 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_line,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_coach_status_edit,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -33,8 +35,8 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.propertyTv.setText(statusName.get(position));
-        holder.valueTv.setText(statusValue.get(position));
+        holder.statusNameTv.setText(statusName.get(position));
+        holder.statusValueTv.setText(statusValue.get(position));
 
     }
 
@@ -45,15 +47,18 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.single_line_section_tv)
-        TextView propertyTv;
+        @BindView(R.id.status_name_tv)
+        TextView statusNameTv;
 
-        @BindView(R.id.single_line_tv)
-        TextView valueTv;
+        @BindView(R.id.status_value_tv)
+        TextView statusValueTv;
+
+        @BindView(R.id.status_edit_button)
+        ImageView statusEditButton;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
-
         }
     }
 }
