@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         role = preferences.getString(ROLE,null);
         token = preferences.getString(TOKEN,"");
         Log.e("SAN","Role : " + role);
+        getRole();
 
         buttonLinePosition.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,6 @@ public class HomeActivity extends AppCompatActivity {
                     editor.putString(ROLE,role)
                             .apply();
                     Log.e("SAN","Role : " + role);
-                    editActivity();
                 }
 
             }
@@ -115,6 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                     editActivity();
                 }else {
                     getRole();
+
                 }
                 break;
             case R.id.create_user_menu:
@@ -122,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
                     createUserActivity();
                 }else {
                     getRole();
+
                 }
                 break;
 

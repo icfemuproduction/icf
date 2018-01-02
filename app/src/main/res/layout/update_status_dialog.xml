@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="UPDATE"
+        android:background="@drawable/transbg"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_dialog_tv"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_gravity="left"
+        android:text="rake"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_dialog_et"
+        android:background="@drawable/et_gradient"
+        android:padding="7dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_dialog_cancel_button"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Cancel"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_dialog_button"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="add"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

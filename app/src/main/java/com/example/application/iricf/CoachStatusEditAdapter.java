@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 
 public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEditAdapter.ViewHolder> {
 
+    OnClickListener onClickListener;
     Context context;
     ArrayList<String> statusName,statusValue;
 
@@ -23,6 +24,10 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
         this.context = context;
         this.statusName = statusName;
         this.statusValue = statusValue;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener){
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -33,10 +38,17 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.statusNameTv.setText(statusName.get(position));
         holder.statusValueTv.setText(statusValue.get(position));
+
+        holder.statusEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.itemClicked(view,position);
+            }
+        });
 
     }
 
@@ -60,5 +72,9 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    public interface OnClickListener{
+        void itemClicked(View view,int position);
     }
 }

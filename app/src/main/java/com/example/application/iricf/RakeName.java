@@ -10,6 +10,11 @@ public class RakeName {
     @SerializedName("rake_num")
     private String rakeNum;
 
+    public RakeName(String railway, String rakeNum) {
+        this.railway = railway;
+        this.rakeNum = rakeNum;
+    }
+
     public String getRailway() {
         return railway;
     }

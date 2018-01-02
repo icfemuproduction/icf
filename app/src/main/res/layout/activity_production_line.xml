@@ -52,6 +52,7 @@
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -84,13 +85,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_two_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -111,7 +112,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Line Three"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
@@ -122,13 +122,14 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_three_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
+            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -160,13 +161,14 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_four_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
+            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -198,11 +200,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_five_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -235,11 +239,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_six_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -272,11 +278,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_seven_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -309,11 +317,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_eight_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -346,11 +356,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_nine_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -383,12 +395,15 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_ten_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -419,11 +434,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_eleven_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -456,11 +473,13 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_twelve_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -493,13 +512,14 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/production_thirteen_rv">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

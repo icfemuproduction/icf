@@ -1,0 +1,1142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.application.iricf.AddCoachActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_coach_card"
+        android:layout_margin="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="ADD COACH"
+                android:background="@drawable/transbg"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_coach_num_et"
+                android:hint="Enter coach number"
+                android:background="@drawable/et_gradient"
+                android:padding="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
+
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_coach_type_spinner"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/add_coach_button"
+                android:text="Next>>" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_coach_position_card"
+        android:layout_margin="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="ADD POSITION"
+                android:background="@drawable/transbg"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="15dp"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_coach_position_spinner"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_coach_position_line_et"
+                android:hint="Enter Line No. (Optional)"
+                android:background="@drawable/et_gradient"
+                android:padding="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_coach_position_stage_et"
+                android:hint="Enter stage No. (Optional)"
+                android:background="@drawable/et_gradient"
+                android:padding="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/add_coach_position_button"
+                android:text="Next>>" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_coach_status_card"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="STATUS"
+                    android:background="@drawable/transbg"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note_date_should_be_of_format_yyyy_mm_dd"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Shell Received"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shell_recieved_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Intake"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/intake_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Agency"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/agency_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Conduit Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/conduit_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="IV Coupler Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/coupler_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="EW Panel Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ew_panel_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Roof Passenger Tray Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/roof_tray_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:text="HT Room Tray Loading"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ht_tray_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="HT Equipment Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ht_equip_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="High Dip"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/high_dip_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="UF Tray Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uf_tray_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="UF Transformer Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uf_trans_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="UF Wiring"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uf_wire_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for Roof Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_roof_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Roof Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/roof_clear_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for EndWall Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_ew_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="EndWall Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ew_clear_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Mechanical Paneling"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mech_pan_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for Trough Floor Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_tf_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Trough Floor Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tf_clear_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Trough Floor Provision"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tf_prov_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="LF Loading"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lf_load_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for Power Continuity"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_pow_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Power HV"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pow_hv_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for HiDip Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_dip_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="HiDip Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dip_clear_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Lowering"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lower_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Offering for Control Continuity"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/off_cont_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Control HV"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cont_hv_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="load Test"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/load_test_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="RMVU Testing"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rmvu_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Pantograph"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/panto_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="PCP Clearance"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pcp_clear_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Basic Unit Formation"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bu_form_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Rake Formation"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rake_form_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".9"
+                        android:gravity="center"
+                        android:text="Remarks"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remarks_et"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/et_gradient"
+                        android:padding="7dp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/update_status_button"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="update"/>
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

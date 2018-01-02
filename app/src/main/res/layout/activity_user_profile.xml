@@ -16,7 +16,9 @@
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/create_rake_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/create_rake_layout"
         android:background="@drawable/transbg"
         android:layout_alignParentBottom="true">
 
@@ -60,14 +63,6 @@
             android:layout_weight="1"
             android:id="@+id/create_rake_button"
             android:text="@string/create_rake"
-            android:layout_margin="10dp"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/create_coach_button"
-            android:text="@string/create_coach"
             android:layout_margin="10dp"/>
 
     </LinearLayout>

@@ -61,7 +61,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         rolesArrayList.add("read");
         rolesArrayList.add("write");
         rolesArrayList.add("admin");
-        
+
         roleAdapter = new ArrayAdapter<String>(this, R.layout.single_spinner_item, rolesArrayList);
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roleSpinner.setAdapter(roleAdapter);
@@ -134,15 +134,17 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             return;
         }
 
-        Call<ResponseBody> call = apiInterface.createUser(name,userName,password,role,token);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<PostResponse> call = apiInterface.createUser(name,userName,password,role,token);
+        call.enqueue(new Callback<PostResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+
                 Toast.makeText(getApplicationContext(),"User Created Successfully",Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<PostResponse> call, Throwable t) {
                 Log.e("SAN","Failed : " + t.toString());
             }
         });

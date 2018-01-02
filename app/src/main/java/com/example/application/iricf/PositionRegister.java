@@ -2,74 +2,31 @@ package com.example.application.iricf;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PositionRegister {
 
     @SerializedName("data")
-    private Datum datum;
+    private List<Position> positionList = new ArrayList<>();
 
     @SerializedName("status")
-    private int status;
+    private Integer status;
 
-    public Datum getDatum() {
-        return datum;
+
+    public List<Position> getPositionList() {
+        return positionList;
     }
 
-    public void setDatum(Datum datum) {
-        this.datum = datum;
+    public void setPositionList(List<Position> positionList) {
+        this.positionList = positionList;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    class Datum{
-
-        @SerializedName("line")
-        private String line;
-
-        @SerializedName("stage")
-        private String stage;
-
-        @SerializedName("coach_num")
-        private String coachNum;
-
-        @SerializedName("rake_num")
-        private String rakeNum;
-
-        public String getLine() {
-            return line;
-        }
-
-        public void setLine(String line) {
-            this.line = line;
-        }
-
-        public String getStage() {
-            return stage;
-        }
-
-        public void setStage(String stage) {
-            this.stage = stage;
-        }
-
-        public String getCoachNum() {
-            return coachNum;
-        }
-
-        public void setCoachNum(String coachNum) {
-            this.coachNum = coachNum;
-        }
-
-        public String getRakeNum() {
-            return rakeNum;
-        }
-
-        public void setRakeNum(String rakeNum) {
-            this.rakeNum = rakeNum;
-        }
     }
 }

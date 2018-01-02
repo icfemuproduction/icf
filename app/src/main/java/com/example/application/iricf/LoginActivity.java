@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 } else {
                     Toast.makeText(getApplicationContext(),"Error SignIn",Toast.LENGTH_SHORT).show();
+                    Log.e("SAN","Error signin in");
                 }
 
 
@@ -117,7 +118,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<LoginRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Failed" + t.toString(),Toast.LENGTH_SHORT).show();
+                Log.e("SAN","Failed" + t.toString());
             }
         });
 

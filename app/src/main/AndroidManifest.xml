@@ -23,7 +23,7 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".HomeActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".CreateUserActivity"
             android:parentActivityName=".UserProfileActivity"
@@ -37,7 +37,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditStatusActivity"></activity>
+        <activity android:name=".EditStatusActivity" />
+        <activity android:name=".AddCoachActivity" />
+        <activity android:name=".CommissionActivity" />
+        <activity android:name=".OutShedActivity" />
+        <activity android:name=".PaintActivity" />
+        <activity android:name=".ShellActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,9 +16,9 @@ import butterknife.ButterKnife;
 public class LineAdapters extends RecyclerView.Adapter<LineAdapters.ViewHolder> {
 
     Context context;
-    ArrayList<String> coaches;
+    List<StagePosition> coaches;
 
-    public LineAdapters(Context context, ArrayList<String> coaches) {
+    public LineAdapters(Context context, List<StagePosition> coaches) {
         this.coaches = coaches;
         this.context = context;
     }
@@ -32,8 +33,8 @@ public class LineAdapters extends RecyclerView.Adapter<LineAdapters.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.lineNumberTv.setText("Line " +  String.valueOf(position+1)+ " : ");
-        holder.coachNameTv.setText(coaches.get(position));
+        holder.lineNumberTv.setText("Line " +  coaches.get(position).getStage() + " : ");
+        holder.coachNameTv.setText(coaches.get(position).getCoachNum());
     }
 
     @Override
