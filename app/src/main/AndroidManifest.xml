@@ -11,25 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity" />
-        <activity
-            android:name=".LinePositionActivity"
-            android:parentActivityName=".HomeActivity" />
-        <activity
-            android:name=".ProductionLineActivity"
-            android:parentActivityName=".LinePositionActivity" />
-        <activity android:name=".DispatchActivity" />
-        <activity android:name=".CoachStatusActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".HomeActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CreateUserActivity"
-            android:parentActivityName=".UserProfileActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".CoachesEdit" />
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,12 +19,54 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditStatusActivity" />
-        <activity android:name=".AddCoachActivity" />
-        <activity android:name=".CommissionActivity" />
-        <activity android:name=".OutShedActivity" />
-        <activity android:name=".PaintActivity" />
-        <activity android:name=".ShellActivity"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Login"/>
+        <activity android:name=".HomeActivity"
+            android:label="Home"/>
+        <activity android:name=".UserProfileActivity"
+            android:label="Edit Rakes"
+            android:parentActivityName=".HomeActivity"/>
+        <activity android:name=".CoachesEdit"
+            android:label="Edit Coaches"
+            android:parentActivityName=".UserProfileActivity"/>
+        <activity android:name=".AddCoachActivity"
+            android:label="Add Coach"/>
+        <activity android:name=".EditStatusActivity"
+            android:label="Edit Status" />
+        <activity
+            android:name=".CreateUserActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Create User"/>
+        <activity
+            android:name=".LinePositionActivity"
+            android:parentActivityName=".HomeActivity"
+            android:label="Line Position"/>
+        <activity
+            android:name=".ProductionLineActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Production Line"/>
+        <activity android:name=".DispatchActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Dispatch Shed" />
+        <activity android:name=".CommissionActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Commission Shed" />
+        <activity android:name=".OutShedActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Out Shed" />
+        <activity android:name=".PaintActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Paint Shop" />
+        <activity android:name=".ShellActivity"
+            android:parentActivityName=".LinePositionActivity"
+            android:label="Shells Received" />
+        <activity android:name=".CoachStatusActivity"
+            android:parentActivityName=".HomeActivity"
+            android:label="Coach Status" />
+
     </application>
 
 </manifest>

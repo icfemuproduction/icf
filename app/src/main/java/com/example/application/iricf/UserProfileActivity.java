@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +43,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.rakes_edit_card)
     CardView rakesEditCard;
 
+    @BindView(R.id.user_profile_progress)
+    ProgressBar progressBar;
+
     SharedPreferences preferences;
     CoachStatusAdapter rakesAdapter;
     ArrayList<String> rakeNames,zonesArrayList;
@@ -65,12 +68,10 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         buttonCreateRake.setOnClickListener(this);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = preferences.getString(TOKEN,"");
-        Log.d("SAN","Token" + token);
 
         rakeNames = new ArrayList<>();
         rakeList = new ArrayList<>();
         zonesArrayList = new ArrayList<>();
-        Log.d("SAN","Getting Rakes");
         getRakes();
 
         rakesAdapter = new CoachStatusAdapter(this,rakeNames);
@@ -165,6 +166,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.createRake(token,railwayName,rakeNum);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -182,6 +184,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
                 b.dismiss();
                 zonesArrayList.clear();
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -189,6 +192,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
                 b.dismiss();
                 zonesArrayList.clear();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -210,24 +214,32 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
                 RakeRegister rakeRegister = response.body();
-                Log.d("SAN",response.body().toString());
+
 
                 Integer statusCode = rakeRegister.getStatus();
-                rakeList = rakeRegister.getRakes();
-                for(int i=0 ; i<rakeList.size() ; i++){
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(rakeList.get(i).getRailway());
-                    sb.append(rakeList.get(i).getRakeNum());
-                    String rakeName = sb.toString();
-                    rakeNames.add(rakeName);
+                if(statusCode == 200){
+                    rakeList = rakeRegister.getRakes();
+                    for(int i=0 ; i<rakeList.size() ; i++){
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(rakeList.get(i).getRailway());
+                        sb.append(rakeList.get(i).getRakeNum());
+                        String rakeName = sb.toString();
+                        rakeNames.add(rakeName);
+                    }
+                    rakesAdapter.notifyDataSetChanged();
+                    rakesEditCard.setVisibility(View.VISIBLE);
+
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
                 }
-                rakesAdapter.notifyDataSetChanged();
-                rakesEditCard.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

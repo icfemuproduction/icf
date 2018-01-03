@@ -14,10 +14,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +54,9 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
 
     @BindView(R.id.get_coach_position_button)
     ImageView getCoachPositionButton;
+
+    @BindView(R.id.line_position_progress)
+    ProgressBar progressBar;
 
     SharedPreferences preferences;
     String token;
@@ -125,10 +128,12 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         if(coachNum.isEmpty()){
             coachSearchBar.setError("Coach Number Required");
             coachSearchBar.requestFocus();
+            return;
         }
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(coachSearchBar.getWindowToken(), 0);
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<CoachPositionRegister> call = apiInterface.getCoachPosition(coachNum,token);
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
@@ -150,12 +155,17 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
                     }
                     createDialog(lineName,lineNo,lineStage);
                     coachSearchBar.setText("");
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error fetching data. Try Again.",Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onFailure(Call<CoachPositionRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error fetching data. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

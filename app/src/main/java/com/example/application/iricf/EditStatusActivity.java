@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
@@ -71,9 +72,6 @@ public class EditStatusActivity extends AppCompatActivity {
     public static final String RAKE_FORMATION = "Rake Formation";
     public static final String REMARKS = "Remarks";
 
-    @BindView(R.id.edit_coach_status_card)
-    CardView editCoachStatusCard;
-
     @BindView(R.id.edit_coach_status_name_tv)
     TextView coachNameTv;
 
@@ -94,6 +92,12 @@ public class EditStatusActivity extends AppCompatActivity {
 
     @BindView(R.id.edit_coach_stage_tv)
     TextView editCoachStageTv;
+
+    @BindView(R.id.edit_status_progress)
+    ProgressBar progressBar;
+
+    @BindView(R.id.edit_coach_status_card)
+    CardView cardView;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -131,7 +135,7 @@ public class EditStatusActivity extends AppCompatActivity {
         statusKeyArrayList = new ArrayList<>();
         coachPositionList = new ArrayList<>();
         getPosition();
-        //getStatus();
+        getStatus();
         statusNameArrayList.add(SHELL_RECEIVED);
         statusNameArrayList.add(INTAKE);
         statusNameArrayList.add(AGENCY);
@@ -265,6 +269,7 @@ public class EditStatusActivity extends AppCompatActivity {
             stage = 0;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,positionName,line,stage);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -287,11 +292,13 @@ public class EditStatusActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -481,6 +488,7 @@ public class EditStatusActivity extends AppCompatActivity {
         }
 
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
                 roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
                 tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear,buForm,
@@ -497,12 +505,13 @@ public class EditStatusActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
                 }
-
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -751,12 +760,17 @@ public class EditStatusActivity extends AppCompatActivity {
                     }
                     coachStatusEditAdapter.notifyDataSetChanged();
                     rakeNameTv.setText("Rake Number : "+ rakeNum);
+                    cardView.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

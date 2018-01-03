@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.Toast;
@@ -168,6 +169,9 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
     @BindView(R.id.update_status_button)
     Button updateStatusButton;
+
+    @BindView(R.id.add_coach_progress)
+    ProgressBar progressBar;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -417,9 +421,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
-
-
-        Log.e("SAN","Coach Num: " + coachNum);
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
                 roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
                 tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear,buForm,
@@ -437,18 +439,15 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                     finish();
                 }else {
-                    Toast.makeText(getApplicationContext(),"Error Uploading. Try Again",Toast.LENGTH_SHORT).show();
-                    Log.e("SAN","FAiled : " + status);
+                    Toast.makeText(getApplicationContext(),"Error Updating Status. Try Again",Toast.LENGTH_SHORT).show();
                 }
-
-
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
-                Log.e("SAN","FAiled : " +t.toString());
-
+                Toast.makeText(getApplicationContext(),"Error Updating Status. Try Again",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -466,8 +465,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             line = Integer.parseInt(lineString);
         }
 
-
-
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,coachPosition,line,stage);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -482,11 +480,13 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Updating Position. Try Again",Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Updating Position. Try Again",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -501,9 +501,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        Log.e("SAN","Coachnum: " +  coachNum);
-        Log.e("SAN","rakenum : " +  rakeNum);
-        Log.e("SAN","Coachtype" +  coachType);
+        progressBar.setVisibility(View.VISIBLE);
 
         Call<PostResponse> call = apiInterface.createCoach(token,coachNum,rakeNum,coachType);
         call.enqueue(new Callback<PostResponse>() {
@@ -517,15 +515,15 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
                     addCoachPositionCard.setVisibility(View.VISIBLE);
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
-                    Log.e("SAN","Failed : "+ status );
 
                 }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
-                Log.e("SAN","Failed : " + t.toString());
+                Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

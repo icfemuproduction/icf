@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -66,7 +69,11 @@ public class ProductionLineActivity extends AppCompatActivity {
     @BindView(R.id.production_thirteen_rv)
     RecyclerView productionThirteenRv;
 
+    @BindView(R.id.production_line_layout)
+    LinearLayout productionLineLayout;
 
+    @BindView(R.id.production_line_progress)
+    ProgressBar progressBar;
 
     ProdLineAdapter prodOneAdapter,prodTwoAdapter,prodThreeAdapter,prodFourAdapter,prodFiveAdapter
             ,prodSixAdapter,prodSevenAdapter,prodEightAdapter,prodNineAdapter,prodTenAdapter,
@@ -258,16 +265,21 @@ public class ProductionLineActivity extends AppCompatActivity {
                     prodElevenAdapter.notifyDataSetChanged();
                     prodTwelveAdapter.notifyDataSetChanged();
                     prodThirteenAdapter.notifyDataSetChanged();
+                    productionLineLayout.setVisibility(View.VISIBLE);
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
+                        ,Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

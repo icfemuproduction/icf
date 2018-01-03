@@ -4,9 +4,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +29,12 @@ public class CommissionActivity extends AppCompatActivity {
 
     @BindView(R.id.commission_shed_rv)
     RecyclerView commissionShedRv;
+
+    @BindView(R.id.commission_shed_card)
+    CardView cardView;
+
+    @BindView(R.id.commission_shed_progress)
+    ProgressBar progressBar;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -78,16 +87,21 @@ public class CommissionActivity extends AppCompatActivity {
                     sortList(stagePositionList);
 
                     commissionAdapter.notifyDataSetChanged();
+                    cardView.setVisibility(View.VISIBLE);
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
+                        ,Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

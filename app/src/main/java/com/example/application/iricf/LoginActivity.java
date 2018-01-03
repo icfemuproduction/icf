@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -33,6 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.sign_in_button)
     Button signInButton;
 
+    @BindView(R.id.login_progress_bar)
+    ProgressBar progressBar;
+
     ApiInterface apiInterface;
     String token;
     SharedPreferences preferences;
@@ -56,8 +61,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.sign_in_button:
                 signInUser();
-                break;
-            default:
                 break;
         }
     }
@@ -86,8 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(signInPasswordEt.getWindowToken(), 0);
 
-        Log.e("SAN","Button Clicked");
+        progressBar.setVisibility(View.VISIBLE);
         Call<LoginRegister> call = apiInterface.login(username,password);
         call.enqueue(new Callback<LoginRegister>() {
             @Override
@@ -107,10 +112,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             .apply();
 
                     validSignIn();
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 } else {
                     Toast.makeText(getApplicationContext(),"Error SignIn",Toast.LENGTH_SHORT).show();
-                    Log.e("SAN","Error signin in");
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -118,8 +124,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<LoginRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Failed" + t.toString(),Toast.LENGTH_SHORT).show();
-                Log.e("SAN","Failed" + t.toString());
+                Toast.makeText(getApplicationContext(),"Failed : " + t.toString(),Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -130,7 +136,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Log.e("SAN","Started new Act");
             startActivity(intent);
             finish();
 

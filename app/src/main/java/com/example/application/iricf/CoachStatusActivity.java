@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +82,12 @@ public class CoachStatusActivity extends AppCompatActivity {
 
     @BindView(R.id.coach_status_rv)
     RecyclerView coachesRv;
+
+    @BindView(R.id.rake_search_layout)
+    LinearLayout rakeSearchLayout;
+
+    @BindView(R.id.coach_status_progress)
+    ProgressBar progressBar;
 
     List<CoachPerRake> coachPerRakeArrayList;
     ArrayList<String> coachNamesArrayList;
@@ -189,6 +197,7 @@ public class CoachStatusActivity extends AppCompatActivity {
 
     private void fetchCoaches(String rakeNum) {
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum,token);
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
@@ -205,13 +214,18 @@ public class CoachStatusActivity extends AppCompatActivity {
                     }
                     coachStatusAdapter.notifyDataSetChanged();
                     coachesCard.setVisibility(View.VISIBLE);
-
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
                 }
+
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onFailure(Call<CoachPerRakeRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -226,25 +240,26 @@ public class CoachStatusActivity extends AppCompatActivity {
                 RakeRegister rakeRegister = response.body();
 
                 Integer statusCode = rakeRegister.getStatus();
-                rakeList = rakeRegister.getRakes();
-                for(int i=0 ; i<rakeList.size() ; i++){
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(rakeList.get(i).getRailway());
-                    sb.append(rakeList.get(i).getRakeNum());
-                    String rakeName = sb.toString();
-                    rakeNames.add(rakeName);
+                if(statusCode == 200){
+                    rakeList = rakeRegister.getRakes();
+                    for(int i=0 ; i<rakeList.size() ; i++){
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(rakeList.get(i).getRailway());
+                        sb.append(rakeList.get(i).getRakeNum());
+                        String rakeName = sb.toString();
+                        rakeNames.add(rakeName);
+                    }
+                    predictionAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.single_prediction,rakeNames);
+                    rakeSearchBar.setAdapter(predictionAdapter);
                 }
-                Log.e("SAN","Size : " + rakeNames.size());
-                for(int i=0 ; i<rakeNames.size();i++){
-                    Log.e("SAN","names : " + rakeNames.get(i));
-                }
-                predictionAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.single_prediction,rakeNames);
-                rakeSearchBar.setAdapter(predictionAdapter);
+                progressBar.setVisibility(View.INVISIBLE);
+                rakeSearchLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
-
+                progressBar.setVisibility(View.INVISIBLE);
+                rakeSearchLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -276,8 +291,9 @@ public class CoachStatusActivity extends AppCompatActivity {
         statusPropertyRv.setAdapter(statusPropertyAdapter);
 
 
-       Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName,token);
-       call.enqueue(new Callback<CoachStatusRegister>() {
+        progressBar.setVisibility(View.VISIBLE);
+        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName,token);
+        call.enqueue(new Callback<CoachStatusRegister>() {
            @Override
            public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
 
@@ -524,22 +540,16 @@ public class CoachStatusActivity extends AppCompatActivity {
                    statusPropertyAdapter.notifyDataSetChanged();
                    rakeNameTv.setText("Rake Number : " + rakeNum);
                    b.show();
-
+               }else {
+                   Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
                }
-
-
-
-
-
-
-
-
-
+               progressBar.setVisibility(View.INVISIBLE);
            }
 
            @Override
            public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
-
+               Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+               progressBar.setVisibility(View.INVISIBLE);
            }
        });
 

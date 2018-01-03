@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,6 +41,9 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
 
     @BindView(R.id.create_user_button)
     Button createUserButton;
+
+    @BindView(R.id.create_user_progress)
+    ProgressBar progressBar;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -134,18 +138,27 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.createUser(name,userName,password,role,token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                Toast.makeText(getApplicationContext(),"User Created Successfully",Toast.LENGTH_SHORT).show();
-                finish();
+                int status = response.body().getStatus();
+
+                if(status == 200){
+                    Toast.makeText(getApplicationContext(),"User Created Successfully",Toast.LENGTH_SHORT).show();
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error Creating User. Try Again Later.",Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Log.e("SAN","Failed : " + t.toString());
+                Toast.makeText(getApplicationContext(),"Error Creating User. Try Again Later.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

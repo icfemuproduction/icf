@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/rake_search_layout"
         android:layout_marginBottom="10dp"
+        android:visibility="invisible"
         android:background="@drawable/transbg">
 
         <AutoCompleteTextView
@@ -84,5 +85,11 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/coach_status_progress"/>
 
 </RelativeLayout>

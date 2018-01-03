@@ -7,6 +7,7 @@
     android:background="@drawable/bg"
     tools:context="com.example.application.iricf.AddCoachActivity">
 
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -1133,10 +1134,16 @@
                     android:text="update"/>
             </LinearLayout>
 
-
         </ScrollView>
 
-
     </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:id="@+id/add_coach_progress"/>
+
 
 </RelativeLayout>

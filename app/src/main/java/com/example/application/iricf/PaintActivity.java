@@ -4,9 +4,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +29,12 @@ public class PaintActivity extends AppCompatActivity {
 
     @BindView(R.id.paint_shop_rv)
     RecyclerView paintShopRv;
+
+    @BindView(R.id.paint_shop_card)
+    CardView cardView;
+
+    @BindView(R.id.paint_shop_progress)
+    ProgressBar progressBar;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -77,16 +86,20 @@ public class PaintActivity extends AppCompatActivity {
                     sortList(stagePositionList);
 
                     paintAdapter.notifyDataSetChanged();
+                    cardView.setVisibility(View.VISIBLE);
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
+                        ,Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

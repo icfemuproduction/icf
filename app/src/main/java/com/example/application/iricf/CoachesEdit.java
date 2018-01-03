@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
@@ -28,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CoachesEdit extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class CoachesEdit extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TOKEN = "token";
     public static final String RAKE_NUM = "rakeNum";
@@ -46,17 +47,15 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
     @BindView(R.id.create_coach_button)
     Button createCoachButton;
 
+    @BindView(R.id.edit_coach_progress)
+    ProgressBar progressBar;
+
     ApiInterface apiInterface;
     SharedPreferences preferences;
     CoachStatusAdapter coachesAdapter;
     List<CoachPerRake> coachPerRakesList;
     ArrayList<String> coachNumList,coachTypeList;
-    ArrayAdapter<String> coachTypeAdapter;
-    String token,rakeNum,coachNumber,coachType;
-    AlertDialog b;
-    EditText addDialogEt;
-    Spinner addDialogSpinner;
-    Button dialogAddButton,dialogCancelButton;
+    String token,rakeNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,114 +125,31 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
                 CoachPerRakeRegister coachPerRakeRegister = response.body();
 
-                coachPerRakesList = coachPerRakeRegister.getCoaches();
+                int status = coachPerRakeRegister.getStatus();
+                if(status == 200){
+                    coachPerRakesList = coachPerRakeRegister.getCoaches();
 
-                for(int i=0; i<coachPerRakesList.size() ; i++){
-                    coachNumList.add(coachPerRakesList.get(i).getCoachNum());
+                    for(int i=0; i<coachPerRakesList.size() ; i++){
+                        coachNumList.add(coachPerRakesList.get(i).getCoachNum());
+                    }
+
+                    coachesAdapter.notifyDataSetChanged();
+                    coachPerRakeCard.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
                 }
-
-                coachesAdapter.notifyDataSetChanged();
-                coachPerRakeCard.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
 
             @Override
             public void onFailure(Call<CoachPerRakeRegister> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
 
 
     }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        coachType =  adapterView.getItemAtPosition(i).toString();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-     /*private void createCoachDialog() {
-
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.add_coach_dialog, null);
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.setCancelable(false);
-        b = dialogBuilder.create();
-        b.show();
-
-        addDialogEt = dialogView.findViewById(R.id.add_coach_dialog_et);
-        dialogAddButton = dialogView.findViewById(R.id.add_coach_dialog_button);
-        dialogCancelButton = dialogView.findViewById(R.id.add_coach_dialog_cancel_button);
-        addDialogSpinner = dialogView.findViewById(R.id.add_coach_dialog_spinner);
-
-        coachTypeList.add("trailer");
-        coachTypeList.add("driving");
-        coachTypeList.add("motor");
-        coachTypeList.add("handicapped");
-
-        coachTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, coachTypeList);
-        coachTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        addDialogSpinner.setAdapter(coachTypeAdapter);
-        addDialogSpinner.setOnItemSelectedListener(this);
-
-        dialogCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                b.dismiss();
-                coachTypeList.clear();
-            }
-        });
-
-        dialogAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createCoach();
-            }
-        });
-
-    }
-
-    private void createCoach(){
-        coachNumber = addDialogEt.getText().toString().trim();
-        if(coachNumber.isEmpty()){
-            addDialogEt.setError("Enter a coach number");
-            addDialogEt.requestFocus();
-            return;
-        }
-
-        Call<PostResponse> call = apiInterface.createCoach(token,coachNumber,rakeNum,coachType);
-        call.enqueue(new Callback<PostResponse>() {
-            @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                PostResponse postResponse = response.body();
-
-                int status = postResponse.getStatus();
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Coach Created Successfully",Toast.LENGTH_SHORT).show();
-                    coachNumList.add(coachNumber);
-                    coachesAdapter.notifyDataSetChanged();
-
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
-                }
-                b.dismiss();
-                coachTypeList.clear();
-            }
-
-            @Override
-            public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
-                b.dismiss();
-                coachTypeList.clear();
-            }
-        });
-    }
-*/
 }
