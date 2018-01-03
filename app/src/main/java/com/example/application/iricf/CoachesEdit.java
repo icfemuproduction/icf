@@ -69,6 +69,15 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
 
         Bundle bundle = getIntent().getExtras();
         rakeNum = bundle.getString(RAKE_NUM);
+        for (int i=0 ; i<rakeNum.length() ; i++){
+            if(rakeNum.charAt(i) =='/'){
+                rakeNum = rakeNum.substring(0,i)+'_'+rakeNum.substring(i+1);
+            }
+
+        }
+
+
+
         rakeNameTv.setText(rakeNum);
 
         coachPerRakesList = new ArrayList<>();
@@ -123,10 +132,11 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
-                CoachPerRakeRegister coachPerRakeRegister = response.body();
 
-                int status = coachPerRakeRegister.getStatus();
+
+                int status = response.code();
                 if(status == 200){
+                    CoachPerRakeRegister coachPerRakeRegister = response.body();
                     coachPerRakesList = coachPerRakeRegister.getCoaches();
 
                     for(int i=0; i<coachPerRakesList.size() ; i++){

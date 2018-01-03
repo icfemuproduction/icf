@@ -171,18 +171,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                PostResponse postResponse = response.body();
-
-                int status = postResponse.getStatus();
+                int status = response.code();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Rake Created Successfully",Toast.LENGTH_SHORT).show();
                     rakeNames.add(railwayName + rakeNum);
                     rakeList.add(new RakeName(railwayName,rakeNum));
                     rakesAdapter.notifyDataSetChanged();
+                    b.dismiss();
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
                 }
-                b.dismiss();
+
                 zonesArrayList.clear();
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -190,7 +189,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
-                b.dismiss();
                 zonesArrayList.clear();
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -213,11 +211,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         call.enqueue(new Callback<RakeRegister>() {
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
-                RakeRegister rakeRegister = response.body();
-
-
-                Integer statusCode = rakeRegister.getStatus();
+                Integer statusCode = response.code();
                 if(statusCode == 200){
+                    RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();
                     for(int i=0 ; i<rakeList.size() ; i++){
                         StringBuilder sb = new StringBuilder();

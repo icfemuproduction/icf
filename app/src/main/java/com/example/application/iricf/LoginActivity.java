@@ -1,17 +1,24 @@
 package com.example.application.iricf;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +50,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
+
+    Calendar myCalendar;
+    DatePickerDialog.OnDateSetListener date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +65,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = preferences.edit();
         signInButton.setOnClickListener(this);
+
+         /*myCalendar = Calendar.getInstance();
+
+
+         date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        signInUsernameEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(LoginActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });*/
+    }
+
+    private void updateLabel() {
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+        signInUsernameEt.setText(sdf.format(myCalendar.getTime()));
     }
 
     @Override
@@ -99,11 +142,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginRegister> call, Response<LoginRegister> response) {
                 LoginRegister loginRegister = response.body();
 
-                int status = loginRegister.getStatus();
+                int status = response.code();
                 if(status == 200){
                      token = loginRegister.getDatum().getToken();
 
-                     Log.e("SAN","in signincall");
 
 
                     editor.putBoolean(LOGGED_IN,true)

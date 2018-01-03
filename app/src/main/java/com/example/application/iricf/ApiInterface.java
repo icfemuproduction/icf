@@ -1,5 +1,7 @@
 package com.example.application.iricf;
 
+import android.support.v7.widget.CardView;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -14,7 +16,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/rakes/{rake_num}/coaches")
-    Call<CoachPerRakeRegister> getRakeCoaches(@Path("rake_num") String rake_num,@Field("token") String token);
+    Call<CoachPerRakeRegister> getRakeCoaches(@Path(value = "rake_num",encoded = true) String rake_num,
+                                              @Field("token") String token);
 
     @FormUrlEncoded
     @POST("/api/login")
@@ -23,7 +26,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/coaches/{coach_num}/status")
-    Call<CoachStatusRegister> getCoachStatus(@Path("coach_num") String coach_num,@Field("token") String token);
+    Call<CoachStatusRegister> getCoachStatus(@Path(value = "coach_num",encoded = true) String coach_num,
+                                             @Field("token") String token);
 
     @FormUrlEncoded
     @POST("/api/user/profile")
@@ -94,7 +98,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/coaches/{coach_num}/position")
-    Call<CoachPositionRegister> getCoachPosition(@Path("coach_num") String coachNum,
+    Call<CoachPositionRegister> getCoachPosition(@Path(value = "coach_num",encoded = true) String coachNum,
                                                  @Field("token") String token);
 
     @FormUrlEncoded
@@ -108,5 +112,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/position/getall")
     Call<PositionRegister> getAllPosition(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/logout")
+    Call<PostResponse> logOut(@Field("token") String token);
 
 }

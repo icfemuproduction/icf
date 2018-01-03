@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,12 +37,16 @@ public class ShellActivity extends AppCompatActivity {
     @BindView(R.id.shell_received_progress)
     ProgressBar progressBar;
 
+    @BindView(R.id.no_of_shells_tv)
+    TextView noOfShellsTv ;
+
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
     List<Position> positionArrayList;
     CoachStatusAdapter shellAdapter;
     ArrayList<String> shellNamesList;
+    Integer noOfShells=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +79,22 @@ public class ShellActivity extends AppCompatActivity {
         call.enqueue(new Callback<PositionRegister>() {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
-                PositionRegister positionRegister = response.body();
-                int status = positionRegister.getStatus();
+
+                int status = response.code();
                 if(status == 200){
+                    PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
                     Log.e("SAN","total size : "+ positionArrayList.size());
                     for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("shell")){
+                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("shell")
+                                || positionArrayList.get(i).getLineName().equalsIgnoreCase("paint") ){
                             shellNamesList.add(positionArrayList.get(i).getCoachNum());
+                            noOfShells++;
                         }
                     }
                     shellAdapter.notifyDataSetChanged();
+                    noOfShellsTv.setText("No. of Shells : " + String.valueOf(noOfShells));
+                    Log.e("SAN","Size : " + shellNamesList.size());
                     cardView.setVisibility(View.VISIBLE);
 
                 }else{

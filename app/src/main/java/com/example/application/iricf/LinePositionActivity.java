@@ -130,6 +130,11 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
             coachSearchBar.requestFocus();
             return;
         }
+        for (int i=0 ; i<coachNum.length() ; i++){
+            if(coachNum.charAt(i) =='/'){
+                coachNum = coachNum.substring(0,i)+'_'+coachNum.substring(i+1);
+            }
+        }
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(coachSearchBar.getWindowToken(), 0);
 
@@ -138,7 +143,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
             public void onResponse(Call<CoachPositionRegister> call, Response<CoachPositionRegister> response) {
-                int status = response.body().getStatus();
+                int status = response.code();
 
                 if(status == 200){
                     CoachPositionRegister positionRegister = response.body();

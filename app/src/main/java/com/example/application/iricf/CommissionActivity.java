@@ -70,9 +70,10 @@ public class CommissionActivity extends AppCompatActivity {
         call.enqueue(new Callback<PositionRegister>() {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
-                PositionRegister positionRegister = response.body();
-                int status = positionRegister.getStatus();
+
+                int status = response.code();
                 if(status == 200){
+                    PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
                     Log.e("SAN","total size : "+ positionArrayList.size());
                     for (int i=0 ; i<positionArrayList.size() ; i++){

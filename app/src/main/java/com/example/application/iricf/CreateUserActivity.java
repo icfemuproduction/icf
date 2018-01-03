@@ -144,7 +144,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status = response.body().getStatus();
+                int status = response.code();
 
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"User Created Successfully",Toast.LENGTH_SHORT).show();

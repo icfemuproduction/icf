@@ -3,6 +3,7 @@ package com.example.application.iricf;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,8 +15,12 @@ public class ApiClient {
 
     static Retrofit getClient(){
 
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(100, TimeUnit.SECONDS)
+                .addInterceptor(logging)
                 .readTimeout(100,TimeUnit.SECONDS).build();
 
         Retrofit.Builder builder = new Retrofit.Builder()

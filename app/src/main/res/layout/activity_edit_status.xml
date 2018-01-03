@@ -160,6 +160,16 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note_date_should_be_of_format_yyyy_mm_dd"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:layout_marginBottom="15dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

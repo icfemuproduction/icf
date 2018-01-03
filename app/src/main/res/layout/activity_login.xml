@@ -34,7 +34,12 @@
             android:background="@drawable/et_gradient"
             android:hint="@string/enter_the_username"
             android:padding="10dp"
+
             android:layout_marginBottom="20dp"/>
+<!--
+        android:clickable="true"
+        android:inputType="none"
+        android:focusable="false"-->
 
 
         <EditText

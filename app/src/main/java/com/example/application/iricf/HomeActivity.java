@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -29,10 +29,13 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.line_position_button)
     Button buttonLinePosition;
 
+    @BindView(R.id.home_progress)
+    ProgressBar progressBar;
+
     ApiInterface apiInterface;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    String role,token;
+    String role= null,token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,10 @@ public class HomeActivity extends AppCompatActivity {
         editor = preferences.edit();
         role = preferences.getString(ROLE,null);
         token = preferences.getString(TOKEN,"");
-        Log.e("SAN","Role : " + role);
-        getRole();
+        if(role == null){
+            getRole();
+        }
+
 
         buttonLinePosition.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,33 +73,25 @@ public class HomeActivity extends AppCompatActivity {
 
     private void getRole() {
 
-        Log.e("SAN","Inside get role");
-        Log.e("SAN",token);
-
         Call<ProfileRegister> call = apiInterface.getUserProfile(token);
         call.enqueue(new Callback<ProfileRegister>() {
             @Override
             public void onResponse(Call<ProfileRegister> call, Response<ProfileRegister> response) {
 
-                Log.e("SAN","Called successfully");
-                ProfileRegister profileRegister = response.body();
-                int statusCode = profileRegister.getStatus();
-                Log.e("SAN","STatus code" +statusCode);
+
+                int statusCode = response.code();
 
                 if(statusCode == 200){
-
+                    ProfileRegister profileRegister = response.body();
                     role = profileRegister.getDatum().getRole();
-                    Log.e("SAN","Putting role");
                     editor.putString(ROLE,role)
                             .apply();
-                    Log.e("SAN","Role : " + role);
                 }
 
             }
 
             @Override
             public void onFailure(Call<ProfileRegister> call, Throwable t) {
-                Log.d("SAN","Failed : " + t.toString());
             }
         });
 
@@ -126,10 +123,41 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
                 break;
+            case R.id.log_out:
+                logUserOut();
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logUserOut() {
+        progressBar.setVisibility(View.VISIBLE);
+        Call<PostResponse> call = apiInterface.logOut(token);
+        call.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                Integer status = response.code();
+
+                if(status == 200){
+                    preferences.edit().clear().apply();
+                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     private void createUserActivity() {
@@ -140,8 +168,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void editActivity(){
-        Log.e("SAN","start act");
         if(role.equals("admin") || role.equals("write")){
             startActivity(new Intent(getApplicationContext(),UserProfileActivity.class));
         }else {

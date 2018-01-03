@@ -431,9 +431,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                PostResponse postResponse = response.body();
-
-                int status = postResponse.getStatus();
+                int status =response.code();
 
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
@@ -471,9 +469,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                PostResponse postResponse = response.body();
-
-                int status = postResponse.getStatus();
+                int status = response.code();
                 if(status == 200){
                     addCoachPositionCard.setVisibility(View.INVISIBLE);
                     addCoachStatusCard.setVisibility(View.VISIBLE);
@@ -507,9 +503,8 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                PostResponse postResponse = response.body();
 
-                int status = postResponse.getStatus();
+                int status = response.code();
                 if(status == 200){
                     addCoachCard.setVisibility(View.INVISIBLE);
                     addCoachPositionCard.setVisibility(View.VISIBLE);

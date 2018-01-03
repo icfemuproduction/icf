@@ -126,6 +126,11 @@ public class EditStatusActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         coachNum = bundle.getString(COACH_NUM);
+        for (int i=0 ; i<coachNum.length() ; i++){
+            if(coachNum.charAt(i) =='/'){
+                coachNum = coachNum.substring(0,i)+'_'+coachNum.substring(i+1);
+            }
+        }
         coachNameTv.setText("Coach Number : " + coachNum);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -274,7 +279,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                int status = response.body().getStatus();
+                int status = response.code();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                     editCoachPositionTv.setText(positionName);
@@ -309,7 +314,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
             public void onResponse(Call<CoachPositionRegister> call, Response<CoachPositionRegister> response) {
-                int status = response.body().getStatus();
+                int status = response.code();
 
                 if(status == 200){
                     CoachPositionRegister positionRegister = response.body();
@@ -350,7 +355,7 @@ public class EditStatusActivity extends AppCompatActivity {
         dialogCancelButton = dialogView.findViewById(R.id.add_dialog_cancel_button);
 
         addDialogTv.setText(statusNameArrayList.get(position));
-        //addDialogEt.setText(statusArrayList.get(position));
+        addDialogEt.setText(statusArrayList.get(position));
         dialogCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -497,7 +502,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                int status = response.body().getStatus();
+                int status = response.code();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                     coachStatusEditAdapter.notifyDataSetChanged();
@@ -524,7 +529,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<CoachStatusRegister>() {
             @Override
             public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
-                int status = response.body().getStatus();
+                int status = response.code();
 
                 if(status == 200){
                     CoachStatusRegister coachStatusRegister = response.body();

@@ -12,10 +12,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/rake_search_layout"
         android:layout_marginBottom="10dp"
-        android:visibility="invisible"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:orientation="vertical"
         android:background="@drawable/transbg">
 
-        <AutoCompleteTextView
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rake_search_spinner"
+            android:padding="15dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"/>
+
+        <!--<AutoCompleteTextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -43,7 +53,7 @@
             android:padding="8dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/transbg"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_search" />-->
 
     </LinearLayout>
 

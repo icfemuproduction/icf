@@ -40,7 +40,7 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
 
     @Override
     public int getItemCount() {
-        return statusValue.size();
+        return statusName.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
