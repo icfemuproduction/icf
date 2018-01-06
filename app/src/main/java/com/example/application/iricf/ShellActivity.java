@@ -80,7 +80,7 @@ public class ShellActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();

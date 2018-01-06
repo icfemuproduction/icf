@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         editor = preferences.edit();
         role = preferences.getString(ROLE,null);
         token = preferences.getString(TOKEN,"");
+        Log.e("SAN",token);
         if(role == null){
             getRole();
         }
@@ -79,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(Call<ProfileRegister> call, Response<ProfileRegister> response) {
 
 
-                int statusCode = response.code();
+                int statusCode = response.body().getStatus();
 
                 if(statusCode == 200){
                     ProfileRegister profileRegister = response.body();
@@ -137,7 +139,7 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                Integer status = response.code();
+                Integer status =response.body().getStatus();
 
                 if(status == 200){
                     preferences.edit().clear().apply();

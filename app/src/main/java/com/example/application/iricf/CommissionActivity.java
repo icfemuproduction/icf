@@ -71,7 +71,7 @@ public class CommissionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
@@ -82,8 +82,11 @@ public class CommissionActivity extends AppCompatActivity {
                         }
                     }
                     for(int j=0 ; j<commissionList.size() ; j++){
-                        stagePositionList.add(new StagePosition(commissionList.get(j).getLineNo()
-                                ,commissionList.get(j).getCoachNum()));
+                        if(commissionList.get(j).getLineNo() != null){
+                            stagePositionList.add(new StagePosition(commissionList.get(j).getLineNo()
+                                    ,commissionList.get(j).getCoachNum()));
+                        }
+
                     }
                     sortList(stagePositionList);
 

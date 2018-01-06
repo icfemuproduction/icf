@@ -85,7 +85,7 @@ public class DispatchActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status = response.code();
+                int status =response.body().getStatus();
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
@@ -97,20 +97,23 @@ public class DispatchActivity extends AppCompatActivity {
                         }
                     }
                     for(int j=0 ; j<dispatchList.size() ; j++){
-                        switch (dispatchList.get(j).getLineNo()){
-                            case 1:
-                                stagePositionListOne.add(new StagePosition(dispatchList.get(j).getStage()
-                                        ,dispatchList.get(j).getCoachNum()));
-                                break;
-                            case 2:
-                                stagePositionListTwo.add(new StagePosition(dispatchList.get(j).getStage()
-                                        ,dispatchList.get(j).getCoachNum()));
-                                break;
-                            case 3:
-                                stagePositionListThree.add(new StagePosition(dispatchList.get(j).getStage()
-                                        ,dispatchList.get(j).getCoachNum()));
-                                break;
+                        if(dispatchList.get(j).getLineNo() != null){
+                            switch (dispatchList.get(j).getLineNo()){
+                                case 1:
+                                    stagePositionListOne.add(new StagePosition(dispatchList.get(j).getStage()
+                                            ,dispatchList.get(j).getCoachNum()));
+                                    break;
+                                case 2:
+                                    stagePositionListTwo.add(new StagePosition(dispatchList.get(j).getStage()
+                                            ,dispatchList.get(j).getCoachNum()));
+                                    break;
+                                case 3:
+                                    stagePositionListThree.add(new StagePosition(dispatchList.get(j).getStage()
+                                            ,dispatchList.get(j).getCoachNum()));
+                                    break;
+                            }
                         }
+
                     }
                     sortList(stagePositionListOne);
                     sortList(stagePositionListTwo);

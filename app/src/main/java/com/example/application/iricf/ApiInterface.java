@@ -11,23 +11,32 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @FormUrlEncoded
-    @POST("/api/rakes/getall")
-    Call<RakeRegister> getRakes(@Field("token") String token);
-
-    @FormUrlEncoded
     @POST("/api/rakes/{rake_num}/coaches")
     Call<CoachPerRakeRegister> getRakeCoaches(@Path(value = "rake_num",encoded = true) String rake_num,
                                               @Field("token") String token);
+
+
+    @FormUrlEncoded
+    @POST("/api/coaches/{coach_num}/status")
+    Call<CoachStatusRegister> getCoachStatus(@Path(value = "coach_num",encoded = true) String coach_num,
+                                             @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("api/coaches/{coach_num}/position")
+    Call<CoachPositionRegister> getCoachPosition(@Path(value = "coach_num",encoded = true) String coachNum,
+                                                 @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/rakes/getall")
+    Call<RakeRegister> getRakes(@Field("token") String token);
+
 
     @FormUrlEncoded
     @POST("/api/login")
     Call<LoginRegister> login(@Field("username") String username,
                               @Field("password") String password);
 
-    @FormUrlEncoded
-    @POST("/api/coaches/{coach_num}/status")
-    Call<CoachStatusRegister> getCoachStatus(@Path(value = "coach_num",encoded = true) String coach_num,
-                                             @Field("token") String token);
+
 
     @FormUrlEncoded
     @POST("/api/user/profile")
@@ -96,10 +105,7 @@ public interface ApiInterface {
                                    @Field("type") String type);
 
 
-    @FormUrlEncoded
-    @POST("api/coaches/{coach_num}/position")
-    Call<CoachPositionRegister> getCoachPosition(@Path(value = "coach_num",encoded = true) String coachNum,
-                                                 @Field("token") String token);
+
 
     @FormUrlEncoded
     @POST("/api/position/new")

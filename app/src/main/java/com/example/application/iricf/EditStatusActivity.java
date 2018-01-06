@@ -126,11 +126,7 @@ public class EditStatusActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         coachNum = bundle.getString(COACH_NUM);
-        for (int i=0 ; i<coachNum.length() ; i++){
-            if(coachNum.charAt(i) =='/'){
-                coachNum = coachNum.substring(0,i)+'_'+coachNum.substring(i+1);
-            }
-        }
+
         coachNameTv.setText("Coach Number : " + coachNum);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -139,8 +135,8 @@ public class EditStatusActivity extends AppCompatActivity {
         statusNameArrayList = new ArrayList<>();
         statusKeyArrayList = new ArrayList<>();
         coachPositionList = new ArrayList<>();
-        getPosition();
-        getStatus();
+        getPosition(coachNum);
+        getStatus(coachNum);
         statusNameArrayList.add(SHELL_RECEIVED);
         statusNameArrayList.add(INTAKE);
         statusNameArrayList.add(AGENCY);
@@ -230,7 +226,7 @@ public class EditStatusActivity extends AppCompatActivity {
         coachPositionUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updatePosition();
+                updatePosition(coachNum);
             }
         });
 
@@ -248,7 +244,7 @@ public class EditStatusActivity extends AppCompatActivity {
         editCoachPosSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                positionName = adapterView.getItemAtPosition(i).toString();
+                positionName = adapterView.getItemAtPosition(i).toString().toLowerCase();
             }
 
             @Override
@@ -258,7 +254,7 @@ public class EditStatusActivity extends AppCompatActivity {
         });
     }
 
-    private void updatePosition() {
+    private void updatePosition(String coachnum) {
 
         final String lineString = coachLineNoEt.getText().toString();
         final String stageString = coachStageNoEt.getText().toString();
@@ -279,7 +275,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                     editCoachPositionTv.setText(positionName);
@@ -308,13 +304,18 @@ public class EditStatusActivity extends AppCompatActivity {
         });
     }
 
-    private void getPosition() {
+    private void getPosition(String coachnum) {
+        for (int i=0 ; i<coachnum.length() ; i++){
+            if(coachnum.charAt(i) =='/'){
+                coachnum = coachnum.substring(0,i)+'_'+coachnum.substring(i+1);
+            }
+        }
 
-        Call<CoachPositionRegister> call = apiInterface.getCoachPosition(coachNum,token);
+        Call<CoachPositionRegister> call = apiInterface.getCoachPosition(coachnum,token);
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
             public void onResponse(Call<CoachPositionRegister> call, Response<CoachPositionRegister> response) {
-                int status = response.code();
+                int status =response.body().getStatus();
 
                 if(status == 200){
                     CoachPositionRegister positionRegister = response.body();
@@ -366,13 +367,13 @@ public class EditStatusActivity extends AppCompatActivity {
         dialogAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateStatus(position);
+                updateStatus(position,coachNum);
             }
         });
 
     }
 
-    private void updateStatus(int position) {
+    private void updateStatus(int position,String coachnum) {
 
         String editedValue = addDialogEt.getText().toString().trim();
         if(editedValue.isEmpty()){
@@ -492,7 +493,6 @@ public class EditStatusActivity extends AppCompatActivity {
                 break;
         }
 
-
         progressBar.setVisibility(View.VISIBLE);
         Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
                 roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
@@ -502,7 +502,7 @@ public class EditStatusActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                     coachStatusEditAdapter.notifyDataSetChanged();
@@ -523,13 +523,18 @@ public class EditStatusActivity extends AppCompatActivity {
 
     }
 
-    private void getStatus() {
+    private void getStatus(String coachnum) {
 
-        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachNum,token);
+        for (int i=0 ; i<coachnum.length() ; i++){
+            if(coachnum.charAt(i) =='/'){
+                coachnum = coachnum.substring(0,i)+'_'+coachnum.substring(i+1);
+            }
+        }
+        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachnum,token);
         call.enqueue(new Callback<CoachStatusRegister>() {
             @Override
             public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
 
                 if(status == 200){
                     CoachStatusRegister coachStatusRegister = response.body();

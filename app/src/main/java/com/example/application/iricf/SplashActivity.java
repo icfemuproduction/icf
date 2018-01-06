@@ -80,7 +80,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(retrofit2.Call<ProfileRegister> call, Response<ProfileRegister> response) {
 
                 ProfileRegister profileRegister = response.body();
-                int statusCode = response.code();
+                int statusCode = response.body().getStatus();
                 Log.d("SAN","code: " + statusCode);
 
                 if(statusCode == 200){

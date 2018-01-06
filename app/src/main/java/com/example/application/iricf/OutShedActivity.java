@@ -71,7 +71,7 @@ public class OutShedActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
@@ -82,8 +82,11 @@ public class OutShedActivity extends AppCompatActivity {
                         }
                     }
                     for(int j=0 ; j<outShedList.size() ; j++){
-                        stagePositionList.add(new StagePosition(outShedList.get(j).getLineNo()
-                                ,outShedList.get(j).getCoachNum()));
+                        if(outShedList.get(j).getLineNo()!=null){
+                            stagePositionList.add(new StagePosition(outShedList.get(j).getLineNo()
+                                    ,outShedList.get(j).getCoachNum()));
+                        }
+
                     }
                     sortList(stagePositionList);
 

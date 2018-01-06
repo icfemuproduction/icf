@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginRegister> call, Response<LoginRegister> response) {
                 LoginRegister loginRegister = response.body();
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                      token = loginRegister.getDatum().getToken();
 

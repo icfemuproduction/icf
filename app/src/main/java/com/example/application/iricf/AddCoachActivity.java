@@ -232,7 +232,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         coachPositionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                coachPosition = adapterView.getItemAtPosition(i).toString();
+                coachPosition = adapterView.getItemAtPosition(i).toString().toLowerCase();
             }
 
             @Override
@@ -431,7 +431,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status =response.code();
+                int status =response.body().getStatus();
 
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
@@ -469,13 +469,15 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
+
                     addCoachPositionCard.setVisibility(View.INVISIBLE);
                     addCoachStatusCard.setVisibility(View.VISIBLE);
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Updating Position. Try Again",Toast.LENGTH_SHORT).show();
                 }
+
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
@@ -504,13 +506,13 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status = response.code();
+                int status =response.body().getStatus();
                 if(status == 200){
                     addCoachCard.setVisibility(View.INVISIBLE);
                     addCoachPositionCard.setVisibility(View.VISIBLE);
+
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
-
                 }
                 progressBar.setVisibility(View.INVISIBLE);
             }

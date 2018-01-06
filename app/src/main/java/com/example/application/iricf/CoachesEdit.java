@@ -134,7 +134,7 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
 
 
-                int status = response.code();
+                int status =response.body().getStatus();
                 if(status == 200){
                     CoachPerRakeRegister coachPerRakeRegister = response.body();
                     coachPerRakesList = coachPerRakeRegister.getCoaches();

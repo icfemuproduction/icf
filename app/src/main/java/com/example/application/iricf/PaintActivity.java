@@ -70,7 +70,7 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
@@ -81,8 +81,10 @@ public class PaintActivity extends AppCompatActivity {
                         }
                     }
                     for(int j=0 ; j<paintList.size() ; j++){
-                        stagePositionList.add(new StagePosition(paintList.get(j).getLineNo()
-                                ,paintList.get(j).getCoachNum()));
+                        if(paintList.get(j).getLineNo() != null){
+                            stagePositionList.add(new StagePosition(paintList.get(j).getLineNo()
+                                    ,paintList.get(j).getCoachNum()));
+                        }
                     }
                     sortList(stagePositionList);
 

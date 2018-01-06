@@ -171,7 +171,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
                 if(status == 200){
                     Toast.makeText(getApplicationContext(),"Rake Created Successfully",Toast.LENGTH_SHORT).show();
                     rakeNames.add(railwayName + rakeNum);
@@ -211,7 +211,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         call.enqueue(new Callback<RakeRegister>() {
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
-                Integer statusCode = response.code();
+                Integer statusCode =response.body().getStatus();
                 if(statusCode == 200){
                     RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();

@@ -143,7 +143,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
             public void onResponse(Call<CoachPositionRegister> call, Response<CoachPositionRegister> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
 
                 if(status == 200){
                     CoachPositionRegister positionRegister = response.body();

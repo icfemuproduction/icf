@@ -2,12 +2,14 @@ package com.example.application.iricf;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,13 +101,13 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     CoachStatusAdapter coachStatusAdapter;
 
     ArrayList<Property> propertyArrayList;
-    ArrayList<String> rakeNames,statusArrayList,statusNameArrayList;;
+    ArrayList<String> rakeNames,statusArrayList,statusNameArrayList,rakeNumbersList;;
     ArrayAdapter<String> predictionAdapter;
     List<RakeName> rakeList;
     StatusPropertyAdapter statusPropertyAdapter;
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,rakeNum;
+    String token,rakeNum,rakeNumber;
     AlertDialog b;
 
     @Override
@@ -119,6 +121,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         rakeNames = new ArrayList<>();
+        rakeNumbersList = new ArrayList<>();
         coachPerRakeArrayList = new ArrayList<>();
         statusArrayList = new ArrayList<>();
         statusNameArrayList = new ArrayList<>();
@@ -172,49 +175,29 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void itemClicked(View view, int position) {
                 String coachNum = coachNamesArrayList.get(position);
-                for (int i=0 ; i<coachNum.length() ; i++){
-                    if(coachNum.charAt(i) =='/'){
-                        coachNum = coachNum.substring(0,i)+'_'+coachNum.substring(i+1);
-                    }
-                }
-
                 displayStatus(coachNum);
             }
         });
 
-        /*rakeSearchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                rakeNum = rakeSearchBar.getText().toString();
-                rakeNum = rakeNum.substring(rakeNum.length() - 7);
-                fetchCoaches(rakeNum);
-            }
-        });
-        rakeSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                rakeNum = rakeSearchBar.getText().toString();
-                if(rakeNum.length() < 7){
-                    Toast.makeText(getApplicationContext(),"Invalid Rake Number",Toast.LENGTH_SHORT).show();
-                }else{
-                    rakeNum = rakeNum.substring(rakeNum.length() - 7);
-                    fetchCoaches(rakeNum);
-                }
-
-            }
-        });*/
         rakeSearchSpinner.setOnItemSelectedListener(this);
     }
 
-    private void fetchCoaches(String rakeNum) {
+    private void fetchCoaches(String rakenum) {
 
+        for (int i=0 ; i<rakenum.length() ; i++){
+            if(rakenum.charAt(i) =='/'){
+
+                rakenum = rakenum.substring(0,i)+'_'+rakenum.substring(i+1);
+            }
+
+        }
         progressBar.setVisibility(View.VISIBLE);
-        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum,token);
+        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakenum,token);
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
-                int status = response.code();
+                int status = response.body().getStatus();
 
                 if(status == 200){
                     CoachPerRakeRegister coachPerRakeRegister = response.body();
@@ -249,7 +232,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
 
-                Integer statusCode = response.code();
+                Integer statusCode =response.body().getStatus();
                 if(statusCode == 200){
                     RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();
@@ -259,8 +242,9 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                         sb.append(rakeList.get(i).getRakeNum());
                         String rakeName = sb.toString();
                         rakeNames.add(rakeName);
+                        rakeNumbersList.add(rakeList.get(i).getRakeNum());
                     }
-                    predictionAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.single_spinner_item,rakeNames);
+                    predictionAdapter = new ArrayAdapter<>(CoachStatusActivity.this,android.R.layout.simple_dropdown_item_1line,rakeNames);
                     predictionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     rakeSearchSpinner.setAdapter(predictionAdapter);
                 }else {
@@ -280,6 +264,12 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void displayStatus(String coachName) {
+
+        for (int i=0 ; i<coachName.length() ; i++){
+            if(coachName.charAt(i) =='/'){
+                coachName = coachName.substring(0,i)+'_'+coachName.substring(i+1);
+            }
+        }
 
         statusPropertyAdapter = new StatusPropertyAdapter(this,statusNameArrayList,statusArrayList);
 
@@ -307,14 +297,16 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
 
         progressBar.setVisibility(View.VISIBLE);
+        Log.d("SAN",coachName);
         Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName,token);
         call.enqueue(new Callback<CoachStatusRegister>() {
            @Override
            public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
 
-               int status = response.code();
+               int status =response.body().getStatus();
 
                if(status == 200){
+                   statusArrayList.clear();
                    CoachStatusRegister coachStatusRegister = response.body();
                    String rakeNum = coachStatusRegister.getDatum().getRakeNum();
 
@@ -546,6 +538,9 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    }else {
                        statusArrayList.add(" ");
                    }
+                   for(int i=0 ; i<statusArrayList.size() ; i++){
+                       Log.e("SAN",statusArrayList.get(i));
+                   }
                    statusPropertyAdapter.notifyDataSetChanged();
                    rakeNameTv.setText("Rake Number : " + rakeNum);
                    b.show();
@@ -583,16 +578,11 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        rakeNum = adapterView.getItemAtPosition(position).toString();
-        rakeNum = rakeNum.substring(rakeNum.length() - 7);
+        //rakeNum = adapterView.getItemAtPosition(position).toString();
+        rakeNum = rakeNumbersList.get(position);
+        //rakeNum = rakeNum.substring(rakeNum.length() - 7);
         coachNamesArrayList.clear();
-        for (int i=0 ; i<rakeNum.length() ; i++){
-            if(rakeNum.charAt(i) =='/'){
 
-                rakeNum = rakeNum.substring(0,i)+'_'+rakeNum.substring(i+1);
-            }
-
-        }
         fetchCoaches(rakeNum);
     }
 
