@@ -1,8 +1,8 @@
 package com.example.application.iricf;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
@@ -93,9 +92,6 @@ public class EditStatusActivity extends AppCompatActivity {
     @BindView(R.id.edit_coach_stage_tv)
     TextView editCoachStageTv;
 
-    @BindView(R.id.edit_status_progress)
-    ProgressBar progressBar;
-
     @BindView(R.id.edit_coach_status_card)
     CardView cardView;
 
@@ -114,6 +110,7 @@ public class EditStatusActivity extends AppCompatActivity {
     Spinner editCoachPosSpinner;
     Button dialogCancelButton,dialogAddButton,coachPositionCancelButton,coachPositionUpdateButton;
     Integer line,stage;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +118,21 @@ public class EditStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_status);
         ButterKnife.bind(this);
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new android.support.v7.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+        loadingDialog.show();
+
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = preferences.getString(TOKEN,"");
 
         Bundle bundle = getIntent().getExtras();
         coachNum = bundle.getString(COACH_NUM);
 
-        coachNameTv.setText("Coach Number : " + coachNum);
+        coachNameTv.setText(String.format("Coach Number : %s", coachNum));
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         editedValuesList = new ArrayList<>();
@@ -174,9 +179,6 @@ public class EditStatusActivity extends AppCompatActivity {
         statusNameArrayList.add(RAKE_FORMATION);
         statusNameArrayList.add(REMARKS);
 
-
-
-
         coachStatusEditAdapter = new CoachStatusEditAdapter(this,statusNameArrayList,statusArrayList);
         editCoachStatusRv.setLayoutManager(new LinearLayoutManager(this));
         editCoachStatusRv.setAdapter(coachStatusEditAdapter);
@@ -184,7 +186,7 @@ public class EditStatusActivity extends AppCompatActivity {
         coachStatusEditAdapter.setOnClickListener(new CoachStatusEditAdapter.OnClickListener() {
             @Override
             public void itemClicked(View view, int position) {
-                openDialog(view,position);
+                openDialog(position);
             }
         });
 
@@ -270,7 +272,7 @@ public class EditStatusActivity extends AppCompatActivity {
             stage = 0;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,positionName,line,stage);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -293,13 +295,13 @@ public class EditStatusActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
     }
@@ -340,7 +342,7 @@ public class EditStatusActivity extends AppCompatActivity {
         });
     }
 
-    private void openDialog(View view, final int position) {
+    private void openDialog(final int position) {
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -352,7 +354,7 @@ public class EditStatusActivity extends AppCompatActivity {
         addDialogTv = dialogView.findViewById(R.id.add_dialog_tv);
         addDialogEt = dialogView.findViewById(R.id.add_dialog_et);
         dialogAddButton = dialogView.findViewById(R.id.add_dialog_button);
-        dialogAddButton.setText("Update");
+        dialogAddButton.setText(R.string.update);
         dialogCancelButton = dialogView.findViewById(R.id.add_dialog_cancel_button);
 
         addDialogTv.setText(statusNameArrayList.get(position));
@@ -493,7 +495,7 @@ public class EditStatusActivity extends AppCompatActivity {
                 break;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
                 roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
                 tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear,buForm,
@@ -510,13 +512,13 @@ public class EditStatusActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 
@@ -774,13 +776,13 @@ public class EditStatusActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 

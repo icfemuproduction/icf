@@ -2,14 +2,16 @@ package com.example.application.iricf;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,21 +35,27 @@ public class PaintActivity extends AppCompatActivity {
     @BindView(R.id.paint_shop_card)
     CardView cardView;
 
-    @BindView(R.id.paint_shop_progress)
-    ProgressBar progressBar;
-
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
     List<Position> positionArrayList,paintList;
     LineAdapters paintAdapter;
     List<StagePosition> stagePositionList;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint);
         ButterKnife.bind(this);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+        loadingDialog.show();
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -95,14 +103,14 @@ public class PaintActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                         ,Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 
@@ -112,8 +120,8 @@ public class PaintActivity extends AppCompatActivity {
         Collections.sort(list, new Comparator<StagePosition>() {
             public int compare(StagePosition ideaVal1, StagePosition ideaVal2) {
 
-                Integer idea1 = new Integer(ideaVal1.getStage());
-                Integer idea2 = new Integer(ideaVal2.getStage());
+                Integer idea1 = ideaVal1.getStage();
+                Integer idea2 = ideaVal2.getStage();
                 return idea1.compareTo(idea2);
             }
         });

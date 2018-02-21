@@ -1,9 +1,9 @@
 package com.example.application.iricf;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
@@ -50,21 +49,19 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
     @BindView(R.id.create_coach_button)
     Button createCoachButton;
 
-    @BindView(R.id.edit_coach_progress)
-    ProgressBar progressBar;
-
     ApiInterface apiInterface;
     SharedPreferences preferences;
     CoachStatusAdapter coachesAdapter;
     List<CoachPerRake> coachPerRakesList;
-    ArrayList<String> coachNumList,coachTypeList;
+    ArrayList<String> coachNumList, coachTypeList;
     ArrayAdapter<String> coachTypeAdapter;
-    String token,rakeNum,editCoachType,oldCoachNum,newCoachNum,newRakeNum;
-    AlertDialog coachesDeleteDialog,coachesEditDialog;
-    EditText deleteCoachDialogEt,coachesEditOldEt,coachesEditNewEt,coachesEditNewRAkeEt;
+    String token, rakeNum, editCoachType, oldCoachNum, newCoachNum, newRakeNum;
+    AlertDialog coachesDeleteDialog, coachesEditDialog;
+    EditText deleteCoachDialogEt, coachesEditOldEt, coachesEditNewEt, coachesEditNewRAkeEt;
     Spinner coachesEditSpinner;
-    Button deleteCoachDialogButton,deleteCoachDialogCancelButton,coachesEditDialogCancelButton,
-                coachesEditDialogButton;
+    Button deleteCoachDialogButton, deleteCoachDialogCancelButton, coachesEditDialogCancelButton,
+            coachesEditDialogButton;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +69,28 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_coaches_edit);
         ButterKnife.bind(this);
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new android.support.v7.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         coachTypeList = new ArrayList<>();
         coachTypeList.add("trailer");
         coachTypeList.add("driving");
         coachTypeList.add("motor");
         coachTypeList.add("handicapped");
-        
+
         Bundle bundle = getIntent().getExtras();
-        rakeNum = bundle.getString(RAKE_NUM);
-        for (int i=0 ; i<rakeNum.length() ; i++){
-            if(rakeNum.charAt(i) =='/'){
-                rakeNum = rakeNum.substring(0,i)+'_'+rakeNum.substring(i+1);
+        rakeNum = bundle != null ? bundle.getString(RAKE_NUM) : null;
+        for (int i = 0; i < (rakeNum != null ? rakeNum.length() : 0); i++) {
+            if (rakeNum.charAt(i) == '/') {
+                rakeNum = rakeNum.substring(0, i) + '_' + rakeNum.substring(i + 1);
             }
 
         }
@@ -97,7 +101,7 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
 
 
         createCoachButton.setOnClickListener(this);
-        coachesAdapter = new CoachStatusAdapter(this,coachNumList);
+        coachesAdapter = new CoachStatusAdapter(this, coachNumList);
         coachPerRakeRv.setLayoutManager(new LinearLayoutManager(this));
         coachPerRakeRv.setAdapter(coachesAdapter);
 
@@ -105,7 +109,7 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
             @Override
             public void itemClicked(View view, int position) {
 
-                editStatus(view,position);
+                editStatus(position);
             }
         });
     }
@@ -115,59 +119,59 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
         super.onResume();
         coachNumList.clear();
         coachesAdapter.notifyDataSetChanged();
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         coachPerRakeCard.setVisibility(View.INVISIBLE);
         getCoaches(rakeNum);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.create_coach_button:
-                Intent intent = new Intent(getApplicationContext(),AddCoachActivity.class);
-                intent.putExtra(RAKE_NUM,rakeNum);
+                Intent intent = new Intent(getApplicationContext(), AddCoachActivity.class);
+                intent.putExtra(RAKE_NUM, rakeNum);
                 startActivity(intent);
                 break;
         }
     }
 
 
-    private void editStatus(View view,int position) {
-        Intent intent = new Intent(getApplicationContext(),EditStatusActivity.class);
-        intent.putExtra(COACH_NUM,coachNumList.get(position));
+    private void editStatus(int position) {
+        Intent intent = new Intent(getApplicationContext(), EditStatusActivity.class);
+        intent.putExtra(COACH_NUM, coachNumList.get(position));
         startActivity(intent);
     }
 
     private void getCoaches(String rakeNum) {
 
-        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum,token);
+        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum, token);
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
 
 
-                int status =response.body().getStatus();
-                if(status == 200){
+                int status = response.body().getStatus();
+                if (status == 200) {
                     CoachPerRakeRegister coachPerRakeRegister = response.body();
                     coachPerRakesList = coachPerRakeRegister.getCoaches();
 
-                    for(int i=0; i<coachPerRakesList.size() ; i++){
+                    for (int i = 0; i < coachPerRakesList.size(); i++) {
                         coachNumList.add(coachPerRakesList.get(i).getCoachNum());
                     }
 
                     coachesAdapter.notifyDataSetChanged();
                     coachPerRakeCard.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<CoachPerRakeRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
@@ -192,7 +196,7 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
                 coachesDeleteDialog.dismiss();
             }
         });
-        
+
         deleteCoachDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,45 +210,45 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
 
         String coachNum = deleteCoachDialogEt.getText().toString().toLowerCase().trim();
 
-        if(coachNum.isEmpty()){
+        if (coachNum.isEmpty()) {
             deleteCoachDialogEt.setError("Enter a coach number");
             deleteCoachDialogEt.requestFocus();
             return;
         }
 
         final String coachnum = coachNum;
-        for (int i=0 ; i<coachNum.length() ; i++){
-            if(coachNum.charAt(i) =='/'){
-                coachNum = coachNum.substring(0,i)+'_'+coachNum.substring(i+1);
+        for (int i = 0; i < coachNum.length(); i++) {
+            if (coachNum.charAt(i) == '/') {
+                coachNum = coachNum.substring(0, i) + '_' + coachNum.substring(i + 1);
             }
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-        Call<PostResponse> call = apiInterface.deleteCoach(coachNum,token);
+        loadingDialog.show();
+        Call<PostResponse> call = apiInterface.deleteCoach(coachNum, token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
-                if(status == 200) {
+                if (status == 200) {
                     Toast.makeText(getApplicationContext(), "Successfully Deleted.", Toast.LENGTH_SHORT).show();
 
-                    for(int i=0; i<coachNumList.size(); i++){
-                        if(coachNumList.get(i).equalsIgnoreCase(coachnum)){
+                    for (int i = 0; i < coachNumList.size(); i++) {
+                        if (coachNumList.get(i).equalsIgnoreCase(coachnum)) {
                             coachNumList.remove(i);
                             coachesAdapter.notifyDataSetChanged();
 
                         }
                     }
                     coachesDeleteDialog.dismiss();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Deleting Coach. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Deleting Coach. Try Again", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Deleting Coach. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Deleting Coach. Try Again", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -280,14 +284,14 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-        
+
         coachesEditDialogCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 coachesEditDialog.dismiss();
             }
         });
-        
+
         coachesEditDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,76 +311,73 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
         newRakeNum = coachesEditNewRAkeEt.getText().toString().trim();
         newCoachNum = coachesEditNewEt.getText().toString().trim();
 
-        if(oldCoachNum.isEmpty()){
+        if (oldCoachNum.isEmpty()) {
             coachesEditOldEt.setError("Enter old coach number");
             coachesEditOldEt.requestFocus();
             return;
         }
 
-        if(newRakeNum.isEmpty()){
+        if (newRakeNum.isEmpty()) {
             newRakeNum = null;
         }
-        if(newCoachNum.isEmpty()){
+        if (newCoachNum.isEmpty()) {
             newCoachNum = null;
         }
 
-
-        Log.d("SAN",oldCoachNum + "  " + newCoachNum + "  " + rakeNum + "  " + editCoachType);
-        progressBar.setVisibility(View.VISIBLE);
-        Call<PostResponse> call = apiInterface.editCoach(token,oldCoachNum,newCoachNum,newRakeNum,editCoachType);
+        loadingDialog.show();
+        Call<PostResponse> call = apiInterface.editCoach(token, oldCoachNum, newCoachNum, newRakeNum, editCoachType);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
-                Log.e("SAN","status" +  status);
-                if(status == 200){
+                Log.e("SAN", "status" + status);
+                if (status == 200) {
                     coachesEditDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Edited successfully.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Edited successfully.", Toast.LENGTH_SHORT).show();
 
-                    for(int i=0; i<coachNumList.size(); i++){
-                        if(coachNumList.get(i).equalsIgnoreCase(oldCoachNum)){
-                            if(newCoachNum != null){
-                                coachNumList.set(i,newCoachNum);
+                    for (int i = 0; i < coachNumList.size(); i++) {
+                        if (coachNumList.get(i).equalsIgnoreCase(oldCoachNum)) {
+                            if (newCoachNum != null) {
+                                coachNumList.set(i, newCoachNum);
                                 coachesAdapter.notifyDataSetChanged();
                             }
                         }
                     }
 
-                    if(newRakeNum != null && !newRakeNum.equalsIgnoreCase(rakeNum)){
-                        for(int i=0; i<coachNumList.size(); i++){
-                            if(coachNumList.get(i).equalsIgnoreCase(oldCoachNum)
-                                    || coachNumList.get(i).equalsIgnoreCase(newCoachNum) ){
+                    if (newRakeNum != null && !newRakeNum.equalsIgnoreCase(rakeNum)) {
+                        for (int i = 0; i < coachNumList.size(); i++) {
+                            if (coachNumList.get(i).equalsIgnoreCase(oldCoachNum)
+                                    || coachNumList.get(i).equalsIgnoreCase(newCoachNum)) {
                                 coachNumList.remove(i);
                                 coachesAdapter.notifyDataSetChanged();
                             }
                         }
                     }
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error editing. Try again later.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error editing. Try again later.", Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error editing. Try again later.",Toast.LENGTH_SHORT).show();
-                Log.e("SAN",t.toString());
+                Toast.makeText(getApplicationContext(), "Error editing. Try again later.", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.coach_edit_menu,menu);
-        return  true;
+        getMenuInflater().inflate(R.menu.coach_edit_menu, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.del_coach_menu:
                 deleteCoachDialog();
                 break;

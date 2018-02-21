@@ -34,7 +34,6 @@
             android:background="@drawable/et_gradient"
             android:hint="@string/enter_the_username"
             android:padding="10dp"
-
             android:layout_marginBottom="20dp"/>
 <!--
         android:clickable="true"
@@ -63,12 +62,5 @@
             android:text="Sign In"/>
 
     </LinearLayout>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/login_progress_bar"
-        android:visibility="invisible"/>
     
 </RelativeLayout>

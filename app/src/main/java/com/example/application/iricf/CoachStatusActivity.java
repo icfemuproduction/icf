@@ -1,9 +1,8 @@
 package com.example.application.iricf;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,9 +88,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     @BindView(R.id.rake_search_layout)
     LinearLayout rakeSearchLayout;
 
-    @BindView(R.id.coach_status_progress)
-    ProgressBar progressBar;
-
     @BindView(R.id.rake_search_spinner)
     Spinner rakeSearchSpinner;
 
@@ -107,14 +102,22 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     StatusPropertyAdapter statusPropertyAdapter;
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,rakeNum,rakeNumber;
-    AlertDialog b;
+    String token,rakeNum;
+    AlertDialog b,loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_status);
         ButterKnife.bind(this);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new android.support.v7.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+        loadingDialog.show();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = preferences.getString(TOKEN,"");
@@ -192,7 +195,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
             }
 
         }
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakenum,token);
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
@@ -213,14 +216,14 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                     Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
                 }
 
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<CoachPerRakeRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
     }
@@ -250,14 +253,14 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
                 rakeSearchLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
                 rakeSearchLayout.setVisibility(View.VISIBLE);
             }
         });
@@ -295,9 +298,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         statusPropertyRv.setLayoutManager(new LinearLayoutManager(this));
         statusPropertyRv.setAdapter(statusPropertyAdapter);
 
-
-        progressBar.setVisibility(View.VISIBLE);
-        Log.d("SAN",coachName);
+        loadingDialog.show();
         Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName,token);
         call.enqueue(new Callback<CoachStatusRegister>() {
            @Override
@@ -547,13 +548,13 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                }else {
                    Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
                }
-               progressBar.setVisibility(View.INVISIBLE);
+               loadingDialog.dismiss();
            }
 
            @Override
            public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
                Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
-               progressBar.setVisibility(View.INVISIBLE);
+               loadingDialog.dismiss();
            }
        });
     }
@@ -578,9 +579,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        //rakeNum = adapterView.getItemAtPosition(position).toString();
         rakeNum = rakeNumbersList.get(position);
-        //rakeNum = rakeNum.substring(rakeNum.length() - 7);
         coachNamesArrayList.clear();
 
         fetchCoaches(rakeNum);

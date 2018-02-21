@@ -3,14 +3,15 @@ package com.example.application.iricf;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -30,13 +31,11 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.line_position_button)
     Button buttonLinePosition;
 
-    @BindView(R.id.home_progress)
-    ProgressBar progressBar;
-
     ApiInterface apiInterface;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     String role= null,token;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +43,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = preferences.edit();
         role = preferences.getString(ROLE,null);
         token = preferences.getString(TOKEN,"");
-        Log.e("SAN",token);
         if(role == null){
             getRole();
         }
@@ -147,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void logUserOut() {
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.logOut(token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -163,13 +168,13 @@ public class HomeActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 

@@ -1,9 +1,9 @@
 package com.example.application.iricf;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -18,8 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,9 +45,6 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.rakes_edit_card)
     CardView rakesEditCard;
 
-    @BindView(R.id.user_profile_progress)
-    ProgressBar progressBar;
-
     SharedPreferences preferences;
     CoachStatusAdapter rakesAdapter;
     ArrayList<String> rakeNames,zonesArrayList;
@@ -60,12 +57,21 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
     Button dialogAddButton,dialogCancelButton,rakesDeleteDialogButton,
             rakesDeleteDialogCancelButton,rakesEditDialogCancelButton,rakesEditDialogButton;
     ArrayAdapter<String> zoneAdapter;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rakes_edit);
         ButterKnife.bind(this);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new android.support.v7.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+        loadingDialog.show();
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         buttonCreateRake.setOnClickListener(this);
@@ -103,7 +109,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         rakesAdapter.setOnClickListener(new CoachStatusAdapter.OnClickListener() {
             @Override
             public void itemClicked(View view, int position) {
-                openCoaches(view,position);
+                openCoaches(position);
             }
         });
 
@@ -135,7 +141,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         addDialogSpinner = dialogView.findViewById(R.id.add_rake_dialog_spinner);
 
 
-        zoneAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, zonesArrayList);
+        zoneAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, zonesArrayList);
         zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addDialogSpinner.setAdapter(zoneAdapter);
         addDialogSpinner.setOnItemSelectedListener(this);
@@ -166,7 +172,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.createRake(token,railwayName,rakeNum);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -182,18 +188,18 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
                 }
 
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
     }
 
-    private void openCoaches(View view,int position) {
+    private void openCoaches(int position) {
 
         Intent coachesIntent = new Intent(getApplicationContext(),CoachesEdit.class);
         coachesIntent.putExtra(RAKE_NUM,rakeList.get(position).getRakeNum());
@@ -226,14 +232,14 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                 }else {
                     Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 
@@ -286,7 +292,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.deleteRake(rakeNum,token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -308,13 +314,13 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                 }else {
                     Toast.makeText(getApplicationContext(),"Error Deleting Rake. Try Again",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error Deleting Rake. Try Again",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
     }
@@ -335,7 +341,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         rakesEditDialogCancelButton = dialogView.findViewById(R.id.edit_rake_dialog_cancel_button);
         rakesEditDialogButton = dialogView.findViewById(R.id.edit_rake_dialog_edit_button);
 
-        zoneAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, zonesArrayList);
+        zoneAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, zonesArrayList);
         zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         rakesEditSpinner.setAdapter(zoneAdapter);
         rakesEditSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -382,7 +388,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<PostResponse> call = apiInterface.editRake(token,oldRakeNum,newRailway,newRakeNum);
         call.enqueue(new Callback<PostResponse>() {
             @Override
@@ -405,14 +411,14 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                 }else {
                     Toast.makeText(getApplicationContext(),"Error editing rake. Try again later.",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error editing rake. Try again later.",Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 

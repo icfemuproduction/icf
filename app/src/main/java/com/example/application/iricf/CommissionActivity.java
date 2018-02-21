@@ -2,14 +2,15 @@ package com.example.application.iricf;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,21 +34,26 @@ public class CommissionActivity extends AppCompatActivity {
     @BindView(R.id.commission_shed_card)
     CardView cardView;
 
-    @BindView(R.id.commission_shed_progress)
-    ProgressBar progressBar;
-
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
     List<Position> positionArrayList,commissionList;
     LineAdapters commissionAdapter;
     List<StagePosition> stagePositionList;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commission);
         ButterKnife.bind(this);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -66,6 +72,7 @@ public class CommissionActivity extends AppCompatActivity {
 
     private void fetchPositionData() {
 
+        loadingDialog.show();
         Call<PositionRegister> call = apiInterface.getAllPosition(token);
         call.enqueue(new Callback<PositionRegister>() {
             @Override
@@ -75,7 +82,6 @@ public class CommissionActivity extends AppCompatActivity {
                 if(status == 200){
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
-                    Log.e("SAN","total size : "+ positionArrayList.size());
                     for (int i=0 ; i<positionArrayList.size() ; i++){
                         if(positionArrayList.get(i).getLineName().equalsIgnoreCase("commission")){
                             commissionList.add(positionArrayList.get(i));
@@ -97,7 +103,7 @@ public class CommissionActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
@@ -105,7 +111,7 @@ public class CommissionActivity extends AppCompatActivity {
             public void onFailure(Call<PositionRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                         ,Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 
@@ -115,8 +121,8 @@ public class CommissionActivity extends AppCompatActivity {
         Collections.sort(list, new Comparator<StagePosition>() {
             public int compare(StagePosition ideaVal1, StagePosition ideaVal2) {
 
-                Integer idea1 = new Integer(ideaVal1.getStage());
-                Integer idea2 = new Integer(ideaVal2.getStage());
+                Integer idea1 = ideaVal1.getStage();
+                Integer idea2 = ideaVal2.getStage();
                 return idea1.compareTo(idea2);
             }
         });

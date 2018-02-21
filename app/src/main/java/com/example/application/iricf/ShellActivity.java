@@ -2,20 +2,19 @@ package com.example.application.iricf;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,9 +33,6 @@ public class ShellActivity extends AppCompatActivity {
     @BindView(R.id.shell_received_card)
     CardView cardView;
 
-    @BindView(R.id.shell_received_progress)
-    ProgressBar progressBar;
-
     @BindView(R.id.no_of_shells_tv)
     TextView noOfShellsTv ;
 
@@ -47,12 +43,20 @@ public class ShellActivity extends AppCompatActivity {
     CoachStatusAdapter shellAdapter;
     ArrayList<String> shellNamesList;
     Integer noOfShells=0;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shell);
         ButterKnife.bind(this);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -75,6 +79,7 @@ public class ShellActivity extends AppCompatActivity {
 
     private void fetchPositionData() {
 
+        loadingDialog.show();
         Call<PositionRegister> call = apiInterface.getAllPosition(token);
         call.enqueue(new Callback<PositionRegister>() {
             @Override
@@ -101,14 +106,14 @@ public class ShellActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                             ,Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                         ,Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 

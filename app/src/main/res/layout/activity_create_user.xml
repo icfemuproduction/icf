@@ -80,8 +80,6 @@
 
         </LinearLayout>
 
-
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,12 +90,5 @@
             android:text="Create"/>
 
     </LinearLayout>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/create_user_progress"
-        android:visibility="invisible"/>
 
 </RelativeLayout>

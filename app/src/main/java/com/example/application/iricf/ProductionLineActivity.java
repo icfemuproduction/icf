@@ -1,16 +1,16 @@
 package com.example.application.iricf;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -72,20 +72,16 @@ public class ProductionLineActivity extends AppCompatActivity {
     @BindView(R.id.production_line_layout)
     LinearLayout productionLineLayout;
 
-    @BindView(R.id.production_line_progress)
-    ProgressBar progressBar;
-
-    ProdLineAdapter prodOneAdapter,prodTwoAdapter,prodThreeAdapter,prodFourAdapter,prodFiveAdapter
-            ,prodSixAdapter,prodSevenAdapter,prodEightAdapter,prodNineAdapter,prodTenAdapter,
-            prodElevenAdapter,prodTwelveAdapter,prodThirteenAdapter;
+    ProdLineAdapter prodOneAdapter, prodTwoAdapter, prodThreeAdapter, prodFourAdapter, prodFiveAdapter, prodSixAdapter, prodSevenAdapter, prodEightAdapter, prodNineAdapter, prodTenAdapter,
+            prodElevenAdapter, prodTwelveAdapter, prodThirteenAdapter;
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
-    List<Position> positionArrayList,productionList;
-    List<StagePosition> stagePositionListOne,stagePositionListTwo,stagePositionListThree,stagePositionListFour,
-            stagePositionListFive,stagePositionListSix,stagePositionListSeven,stagePositionListEight,stagePositionListNine,
-            stagePositionListTen,stagePositionListEleven,stagePositionListTwelve,stagePositionListThirteen;
-
+    List<Position> positionArrayList, productionList;
+    List<StagePosition> stagePositionListOne, stagePositionListTwo, stagePositionListThree, stagePositionListFour,
+            stagePositionListFive, stagePositionListSix, stagePositionListSeven, stagePositionListEight, stagePositionListNine,
+            stagePositionListTen, stagePositionListEleven, stagePositionListTwelve, stagePositionListThirteen;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +89,16 @@ public class ProductionLineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_production_line);
         ButterKnife.bind(this);
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.loading);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
         stagePositionListOne = new ArrayList<>();
         stagePositionListTwo = new ArrayList<>();
         stagePositionListThree = new ArrayList<>();
@@ -111,134 +114,134 @@ public class ProductionLineActivity extends AppCompatActivity {
         stagePositionListThirteen = new ArrayList<>();
         fetchPositionData();
 
-        prodOneAdapter = new ProdLineAdapter(this,stagePositionListOne);
+        prodOneAdapter = new ProdLineAdapter(this, stagePositionListOne);
         productionOneRv.setLayoutManager(new LinearLayoutManager(this));
         productionOneRv.setAdapter(prodOneAdapter);
 
-        prodTwoAdapter = new ProdLineAdapter(this,stagePositionListTwo);
+        prodTwoAdapter = new ProdLineAdapter(this, stagePositionListTwo);
         productionTwoRv.setLayoutManager(new LinearLayoutManager(this));
         productionTwoRv.setAdapter(prodTwoAdapter);
 
-        prodThreeAdapter = new ProdLineAdapter(this,stagePositionListThree);
+        prodThreeAdapter = new ProdLineAdapter(this, stagePositionListThree);
         productionThreeRv.setLayoutManager(new LinearLayoutManager(this));
         productionThreeRv.setAdapter(prodThreeAdapter);
 
-        prodFourAdapter = new ProdLineAdapter(this,stagePositionListFour);
+        prodFourAdapter = new ProdLineAdapter(this, stagePositionListFour);
         productionFourRv.setLayoutManager(new LinearLayoutManager(this));
         productionFourRv.setAdapter(prodFourAdapter);
 
-        prodFiveAdapter = new ProdLineAdapter(this,stagePositionListFive);
+        prodFiveAdapter = new ProdLineAdapter(this, stagePositionListFive);
         productionFiveRv.setLayoutManager(new LinearLayoutManager(this));
         productionFiveRv.setAdapter(prodFiveAdapter);
 
-        prodSixAdapter = new ProdLineAdapter(this,stagePositionListSix);
+        prodSixAdapter = new ProdLineAdapter(this, stagePositionListSix);
         productionSixRv.setLayoutManager(new LinearLayoutManager(this));
         productionSixRv.setAdapter(prodSixAdapter);
 
-        prodSevenAdapter = new ProdLineAdapter(this,stagePositionListSeven);
+        prodSevenAdapter = new ProdLineAdapter(this, stagePositionListSeven);
         productionSevenRv.setLayoutManager(new LinearLayoutManager(this));
         productionSevenRv.setAdapter(prodSevenAdapter);
 
-        prodEightAdapter = new ProdLineAdapter(this,stagePositionListEight);
+        prodEightAdapter = new ProdLineAdapter(this, stagePositionListEight);
         productionEightRv.setLayoutManager(new LinearLayoutManager(this));
         productionEightRv.setAdapter(prodEightAdapter);
 
-        prodNineAdapter = new ProdLineAdapter(this,stagePositionListNine);
+        prodNineAdapter = new ProdLineAdapter(this, stagePositionListNine);
         productionNineRv.setLayoutManager(new LinearLayoutManager(this));
         productionNineRv.setAdapter(prodNineAdapter);
 
-        prodTenAdapter = new ProdLineAdapter(this,stagePositionListTen);
+        prodTenAdapter = new ProdLineAdapter(this, stagePositionListTen);
         productionTenRv.setLayoutManager(new LinearLayoutManager(this));
         productionTenRv.setAdapter(prodTenAdapter);
 
-        prodElevenAdapter = new ProdLineAdapter(this,stagePositionListEleven);
+        prodElevenAdapter = new ProdLineAdapter(this, stagePositionListEleven);
         productionElevenRv.setLayoutManager(new LinearLayoutManager(this));
         productionElevenRv.setAdapter(prodElevenAdapter);
 
-        prodTwelveAdapter = new ProdLineAdapter(this,stagePositionListTwelve);
+        prodTwelveAdapter = new ProdLineAdapter(this, stagePositionListTwelve);
         productionTwelveRv.setLayoutManager(new LinearLayoutManager(this));
         productionTwelveRv.setAdapter(prodTwelveAdapter);
 
-        prodThirteenAdapter = new ProdLineAdapter(this,stagePositionListThirteen);
+        prodThirteenAdapter = new ProdLineAdapter(this, stagePositionListThirteen);
         productionThirteenRv.setLayoutManager(new LinearLayoutManager(this));
         productionThirteenRv.setAdapter(prodThirteenAdapter);
     }
 
     private void fetchPositionData() {
 
+        loadingDialog.show();
         Call<PositionRegister> call = apiInterface.getAllPosition(token);
         call.enqueue(new Callback<PositionRegister>() {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
                 int status = response.body().getStatus();
-                if(status == 200){
+                if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
                     productionList = new ArrayList<>();
-                    Log.e("SAN","total size : "+ positionArrayList.size());
-                    for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("production")){
+                    for (int i = 0; i < positionArrayList.size(); i++) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("production")) {
                             productionList.add(positionArrayList.get(i));
                         }
                     }
-                    for(int j=0 ; j<productionList.size() ; j++){
+                    for (int j = 0; j < productionList.size(); j++) {
                         Integer lineNum = productionList.get(j).getLineNo();
-                        if(lineNum != null){
-                            switch (productionList.get(j).getLineNo()){
+                        if (lineNum != null) {
+                            switch (productionList.get(j).getLineNo()) {
                                 case 1:
                                     stagePositionListOne.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 2:
                                     stagePositionListTwo.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 3:
                                     stagePositionListThree.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 4:
                                     stagePositionListFour.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 5:
                                     stagePositionListFive.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 6:
                                     stagePositionListSix.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 7:
                                     stagePositionListSeven.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 8:
                                     stagePositionListEight.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 9:
                                     stagePositionListNine.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 10:
                                     stagePositionListTen.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 11:
                                     stagePositionListEleven.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 12:
                                     stagePositionListTwelve.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
                                 case 13:
                                     stagePositionListThirteen.add(new StagePosition(productionList.get(j).getStage()
-                                            ,productionList.get(j).getCoachNum()));
+                                            , productionList.get(j).getCoachNum()));
                                     break;
-                        }
+                            }
 
 
                         }
@@ -272,19 +275,19 @@ public class ProductionLineActivity extends AppCompatActivity {
                     prodThirteenAdapter.notifyDataSetChanged();
                     productionLineLayout.setVisibility(View.VISIBLE);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                            ,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                            , Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                        ,Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                        , Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
 
@@ -294,8 +297,8 @@ public class ProductionLineActivity extends AppCompatActivity {
         Collections.sort(list, new Comparator<StagePosition>() {
             public int compare(StagePosition ideaVal1, StagePosition ideaVal2) {
 
-                Integer idea1 = new Integer(ideaVal1.getStage());
-                Integer idea2 = new Integer(ideaVal2.getStage());
+                Integer idea1 = ideaVal1.getStage();
+                Integer idea2 = ideaVal2.getStage();
                 return idea1.compareTo(idea2);
             }
         });

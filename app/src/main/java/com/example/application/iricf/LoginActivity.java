@@ -1,24 +1,23 @@
 package com.example.application.iricf;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +30,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public static final String LOGGED_IN = "logged_in";
     public static final String TOKEN = "token";
     public static final String USERNAME = "username";
-    public static final String ROLE = "role";
 
     @BindView(R.id.sign_in_username)
     EditText signInUsernameEt;
@@ -42,9 +40,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.sign_in_button)
     Button signInButton;
 
-    @BindView(R.id.login_progress_bar)
-    ProgressBar progressBar;
-
     ApiInterface apiInterface;
     String token;
     SharedPreferences preferences;
@@ -53,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
+    AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +56,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.progressDialog_textView)).setText(R.string.signing_in);
+        loadingDialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        editor = preferences.edit();
         signInButton.setOnClickListener(this);
 
          /*myCalendar = Calendar.getInstance();
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
         signInUsernameEt.setText(sdf.format(myCalendar.getTime()));
     }
@@ -135,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(signInPasswordEt.getWindowToken(), 0);
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingDialog.show();
         Call<LoginRegister> call = apiInterface.login(username,password);
         call.enqueue(new Callback<LoginRegister>() {
             @Override
@@ -154,11 +155,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             .apply();
 
                     validSignIn();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    loadingDialog.dismiss();
 
                 } else {
                     Toast.makeText(getApplicationContext(),"Error SignIn",Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    loadingDialog.dismiss();
                 }
 
 
@@ -167,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFailure(Call<LoginRegister> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Failed : " + t.toString(),Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
             }
         });
 

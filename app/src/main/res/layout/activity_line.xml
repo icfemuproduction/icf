@@ -8,39 +8,39 @@
     tools:context="com.example.application.iricf.LinePositionActivity">
 
     <LinearLayout
+        android:id="@+id/search_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/search_bar_layout"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/transbg">
+        android:background="@drawable/transbg"
+        android:orientation="horizontal">
 
         <AutoCompleteTextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
             android:id="@+id/coach_search_bar"
-            android:hint="Search for a coach"
-            android:textCursorDrawable="@null"
-            android:inputType="textPhonetic"
-            android:completionThreshold="1"
-            android:imeOptions="actionSearch"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="15dp"
-            android:padding="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/et_border"
+            android:completionThreshold="1"
             android:dropDownAnchor="@+id/search_bar"
-            android:background="@drawable/et_border"/>
+            android:hint="Search for a coach"
+            android:imeOptions="actionSearch"
+            android:inputType="textPhonetic"
+            android:padding="12dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".15"
-            android:layout_height="50dp"
             android:id="@+id/get_coach_position_button"
-            android:layout_marginTop="15dp"
-            android:padding="8dp"
-            android:background="@drawable/transbg"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight=".15"
+            android:background="@drawable/transbg"
+            android:padding="8dp"
             android:src="@drawable/ic_search" />
 
     </LinearLayout>
@@ -63,51 +63,51 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="2.5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/production_line_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:fontFamily="sans-serif-condensed"
                         android:background="@android:color/transparent"
-                        android:text="Production line"/>
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="Production line"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="2.5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/commission_shed_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-condensed"
-                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="@string/commission_shed"/>
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="@string/commission_shed"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -120,51 +120,51 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/despatch_shed_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-condensed"
-                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="Dispatch shed"/>
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="Dispatch shed"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginRight="2.5dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
+                        android:id="@+id/paint_shop_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/paint_shop_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-condensed"
-                        android:background="@android:color/transparent"
                         android:layout_centerInParent="true"
-                        android:text="Paint shop"/>
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="Paint shop"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -177,73 +177,65 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
+                        android:id="@+id/outshed_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/outshed_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-condensed"
-                        android:background="@android:color/transparent"
                         android:layout_centerInParent="true"
-                        android:text="Out shed"/>
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="Out shed"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="2.5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/transbg">
 
                     <Button
+                        android:id="@+id/shell_recieved_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/shell_recieved_button"
-                        android:textSize="20sp"
-                        android:padding="20dp"
-                        android:textColor="@color/buttonTextColor"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-condensed"
-                        android:background="@android:color/transparent"
                         android:layout_centerInParent="true"
-                        android:text="Shell Received"/>
+                        android:background="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed"
+                        android:padding="20dp"
+                        android:text="Shell Received"
+                        android:textColor="@color/buttonTextColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
             </LinearLayout>
 
             <Button
+                android:id="@+id/update_position_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/update_position_button"
-                android:text="Update Position"/>
+                android:text="Update Position" />
 
         </LinearLayout>
 
     </ScrollView>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/line_position_progress"
-        android:visibility="invisible"/>
-
 
 </RelativeLayout>
