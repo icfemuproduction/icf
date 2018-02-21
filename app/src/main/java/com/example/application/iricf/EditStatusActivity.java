@@ -67,7 +67,7 @@ public class EditStatusActivity extends AppCompatActivity {
     public static final String LOAD_TEST = "Load Test";
     public static final String RMVU_TESTING = "RMVU Testing";
     public static final String PANTOGRAPH = "Pantograph";
-    public static final String PCP_CLEARANCE = "PCP Clearance";
+    public static final String PCP_CLEARANCE = "PreCommission Points Clearance";
     public static final String BASIC_UNIT_FORMATION = "Basic Unit Formation";
     public static final String RAKE_FORMATION = "Rake Formation";
     public static final String REMARKS = "Remarks";

@@ -11,10 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,7 @@ import retrofit2.Response;
 public class LinePositionActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TOKEN = "token";
+    public static final String ROLE = "role";
 
     @BindView(R.id.production_line_button)
     Button productionLineButton;
@@ -58,11 +63,19 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.line_position_progress)
     ProgressBar progressBar;
 
+    @BindView(R.id.update_position_button)
+    Button updatePositionButton;
+
     SharedPreferences preferences;
-    String token;
+    String token,role,editCoachPosition;
+    Integer line,stage;
     ApiInterface apiInterface;
-    List<Position> positionArrayList,productionList,commissionList,despatchList,paintList,outList,shellList;
-    AlertDialog positionDialog;
+    ArrayList<String> coachPositionList;
+    ArrayAdapter<String> coachPositionAdapter;
+    AlertDialog positionDialog,editPositionDialog;
+    Spinner editCoachPosSpinner;
+    EditText editCoachLineNoEt,editCoachStageNoEt,editCoachNameEt;
+    Button coachPositionCancelButton,coachPositionUpdateButton;
     TextView showCoachLineName,showCoachLineNo,showCoachLineStage;
     Button okButton;
 
@@ -72,17 +85,21 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_line);
         ButterKnife.bind(this);
 
-        positionArrayList = new ArrayList<>();
-        productionList = new ArrayList<>();
-        commissionList = new ArrayList<>();
-        despatchList = new ArrayList<>();
-        paintList = new ArrayList<>();
-        outList = new ArrayList<>();
-        shellList = new ArrayList<>();
+        coachPositionList = new ArrayList<>();
+        coachPositionList.add("Shell");
+        coachPositionList.add("Production");
+        coachPositionList.add("Commission");
+        coachPositionList.add("Despatch");
+        coachPositionList.add("Paint");
+        coachPositionList.add("Out");
+
+        coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
+        coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = preferences.getString(TOKEN,"");
+        role = preferences.getString(ROLE,null);
 
 
         productionLineButton.setOnClickListener(this);
@@ -92,6 +109,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         commissionShedButton.setOnClickListener(this);
         shellReceivedButton.setOnClickListener(this);
         getCoachPositionButton.setOnClickListener(this);
+        updatePositionButton.setOnClickListener(this);
     }
 
     @Override
@@ -119,7 +137,113 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
             case R.id.get_coach_position_button:
                 getCoachPosition();
                 break;
+            case R.id.update_position_button:
+                if(role.equals("admin") || role.equals("write")){
+                    updatePositionDialog();
+                }else {
+                    Toast.makeText(getApplicationContext(),"You don't have editing privileges",Toast.LENGTH_SHORT).show();
+                }
+
+
+                break;
         }
+    }
+
+    private void updatePositionDialog() {
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.edit_coach_position_dialog, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+        editPositionDialog = dialogBuilder.create();
+        editPositionDialog.show();
+
+
+
+        editCoachPosSpinner = dialogView.findViewById(R.id.edit_coach_position_line_spinner_line);
+        editCoachPosSpinner.setAdapter(coachPositionAdapter);
+        editCoachPosSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editCoachPosition = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        editCoachNameEt = dialogView.findViewById(R.id.edit_coach_position_name_et_line);
+        editCoachLineNoEt = dialogView.findViewById(R.id.edit_coach_position_line_et_line);
+        editCoachStageNoEt = dialogView.findViewById(R.id.edit_coach_position_stage_et_line);
+        coachPositionCancelButton = dialogView.findViewById(R.id.edit_coach_position_cancel_button_line);
+        coachPositionUpdateButton = dialogView.findViewById(R.id.edit_coach_position_button_line);
+        
+        coachPositionCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editPositionDialog.dismiss();
+            }
+        });
+        
+        
+        coachPositionUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editPosition();
+            }
+        });
+        
+
+    }
+
+    private void editPosition() {
+
+        String coachNum = editCoachNameEt.getText().toString().trim();
+        String lineString = editCoachLineNoEt.getText().toString().trim();
+        String stageString = editCoachStageNoEt.getText().toString().trim();
+
+        if(coachNum.isEmpty()){
+            editCoachNameEt.setError("Enter coach number");
+            editCoachNameEt.requestFocus();
+            return;
+        }
+
+        if(!lineString.isEmpty()){
+            line = Integer.parseInt(lineString);
+        }else {
+            line = 0;
+        }
+        if(!stageString.isEmpty()){
+            stage = Integer.parseInt(stageString);
+        }else {
+            stage = 0;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,editCoachPosition,line,stage);
+        call.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                int status = response.body().getStatus();
+                if(status == 200){
+                    Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+
+                    editPositionDialog.dismiss();
+                }else {
+                    Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     private void getCoachPosition() {

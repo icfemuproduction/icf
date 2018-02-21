@@ -6,24 +6,13 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -74,12 +63,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private void validateToken() {
 
-        retrofit2.Call<ProfileRegister> call = apiInterface.getUserProfile(token);
-        call.enqueue(new Callback<ProfileRegister>() {
+        retrofit2.Call<SingleProfileRegister> call = apiInterface.getUserProfile(token);
+        call.enqueue(new Callback<SingleProfileRegister>() {
             @Override
-            public void onResponse(retrofit2.Call<ProfileRegister> call, Response<ProfileRegister> response) {
+            public void onResponse(retrofit2.Call<SingleProfileRegister> call, Response<SingleProfileRegister> response) {
 
-                ProfileRegister profileRegister = response.body();
+                SingleProfileRegister profileRegister = response.body();
                 int statusCode = response.body().getStatus();
                 Log.d("SAN","code: " + statusCode);
 
@@ -102,7 +91,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<ProfileRegister> call, Throwable t) {
+            public void onFailure(retrofit2.Call<SingleProfileRegister> call, Throwable t) {
               Toast.makeText(getApplicationContext(),"Error : Check Connection. Try Again." ,Toast.LENGTH_SHORT).show();
               progressBar.setVisibility(View.INVISIBLE);
             }

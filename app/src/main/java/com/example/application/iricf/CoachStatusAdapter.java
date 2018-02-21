@@ -14,9 +14,9 @@ import butterknife.ButterKnife;
 
 public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.ViewHolder>{
 
-    Context context;
-    ArrayList<String> coaches;
-    OnClickListener onClickListener;
+    private Context context;
+    private ArrayList<String> coaches;
+    private OnClickListener onClickListener;
 
     public void setOnClickListener(OnClickListener onClickListener){
         this.onClickListener = onClickListener;
@@ -30,8 +30,7 @@ public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.single_coach,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return  viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override

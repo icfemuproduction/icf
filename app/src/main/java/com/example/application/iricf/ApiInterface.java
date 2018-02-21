@@ -1,7 +1,5 @@
 package com.example.application.iricf;
 
-import android.support.v7.widget.CardView;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -40,7 +38,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/user/profile")
-    Call<ProfileRegister> getUserProfile(@Field("token") String token);
+    Call<SingleProfileRegister> getUserProfile(@Field("token") String token);
 
     @FormUrlEncoded
     @POST("/api/admin/newuser")
@@ -122,5 +120,32 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/logout")
     Call<PostResponse> logOut(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/admin/getall")
+    Call<AllProfileRegister> getAllUsers(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/rakes/{rake_num}/delete")
+    Call<PostResponse> deleteRake(@Path("rake_num") String rakeNum,@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/coaches/{coach_num}/delete")
+    Call<PostResponse> deleteCoach(@Path("coach_num") String coachNum,@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/rakes/edit")
+    Call<PostResponse> editRake(@Field("token") String token,
+                                    @Field("old_rakenum") String oldRakeNum,
+                                    @Field("railway") String railway,
+                                    @Field("rake_num") String rakeNum);
+
+    @FormUrlEncoded
+    @POST("/api/coaches/edit")
+    Call<PostResponse> editCoach(@Field("token") String token,
+                                 @Field("old_coachnum") String oldCoachNum,
+                                 @Field("coach_num") String coachNum,
+                                 @Field("rake_num") String rakeNum,
+                                 @Field("type") String type);
 
 }

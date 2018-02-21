@@ -75,17 +75,17 @@ public class HomeActivity extends AppCompatActivity {
 
     private void getRole() {
 
-        Call<ProfileRegister> call = apiInterface.getUserProfile(token);
-        call.enqueue(new Callback<ProfileRegister>() {
+        Call<SingleProfileRegister> call = apiInterface.getUserProfile(token);
+        call.enqueue(new Callback<SingleProfileRegister>() {
             @Override
-            public void onResponse(Call<ProfileRegister> call, Response<ProfileRegister> response) {
+            public void onResponse(Call<SingleProfileRegister> call, Response<SingleProfileRegister> response) {
 
 
                 int statusCode = response.body().getStatus();
 
                 if(statusCode == 200){
-                    ProfileRegister profileRegister = response.body();
-                    role = profileRegister.getDatum().getRole();
+                    SingleProfileRegister profileRegister = response.body();
+                    role = profileRegister.getProfile().getRole();
                     editor.putString(ROLE,role)
                             .apply();
                 }
@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ProfileRegister> call, Throwable t) {
+            public void onFailure(Call<SingleProfileRegister> call, Throwable t) {
             }
         });
 
@@ -114,7 +114,6 @@ public class HomeActivity extends AppCompatActivity {
                     editActivity();
                 }else {
                     getRole();
-
                 }
                 break;
             case R.id.create_user_menu:
@@ -122,7 +121,13 @@ public class HomeActivity extends AppCompatActivity {
                     createUserActivity();
                 }else {
                     getRole();
-
+                }
+                break;
+            case R.id.get_all_users_menu:
+                if(role!=null){
+                    getAllUsers();
+                }else {
+                    getRole();
                 }
                 break;
             case R.id.log_out:
@@ -131,6 +136,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getAllUsers() {
+        if(role.equals("admin")){
+            startActivity(new Intent(getApplicationContext(),AllUsersActivity.class));
+        }else {
+            Toast.makeText(getApplicationContext(),"You don't have privileges to view users",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void logUserOut() {
@@ -170,11 +183,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void editActivity(){
         if(role.equals("admin") || role.equals("write")){
-            startActivity(new Intent(getApplicationContext(),UserProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(),RakesEditActivity.class));
         }else {
             Toast.makeText(getApplicationContext(),"You don't have editing privileges",Toast.LENGTH_SHORT).show();
         }
