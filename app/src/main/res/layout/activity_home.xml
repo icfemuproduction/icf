@@ -22,8 +22,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-
+            android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/transbg">
@@ -44,10 +43,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/centre"
             android:background="@drawable/transbg">
 
             <Button
@@ -61,6 +59,27 @@
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
                 android:text="Line Position" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/transbg">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/despatch_rakes_button"
+                android:textSize="20sp"
+                android:textColor="@color/buttonTextColor"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:text="Despatch Rakes" />
 
         </RelativeLayout>
 

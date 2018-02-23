@@ -31,6 +31,9 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.line_position_button)
     Button buttonLinePosition;
 
+    @BindView(R.id.despatch_rakes_button)
+    Button buttonDespatchRakes;
+
     ApiInterface apiInterface;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -75,6 +78,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        buttonDespatchRakes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this,DespatchRakesActivity.class));
+            }
+        });
+
 
     }
 
@@ -84,7 +94,6 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<SingleProfileRegister>() {
             @Override
             public void onResponse(Call<SingleProfileRegister> call, Response<SingleProfileRegister> response) {
-
 
                 int statusCode = response.body().getStatus();
 

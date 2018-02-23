@@ -40,9 +40,6 @@ public class CoachStatusRegister {
         @SerializedName("agency")
         String agency;
 
-        @SerializedName("conduit")
-        Date conduitLoad;
-
         @SerializedName("coupler")
         Date ivCoupleLoad;
 
@@ -121,12 +118,6 @@ public class CoachStatusRegister {
         @SerializedName("load_test")
         Date loadTest;
 
-        @SerializedName("rmvu")
-        Date rmvuTest;
-
-        @SerializedName("panto")
-        Date pantograph;
-
         @SerializedName("pcp_clear")
         Date pcpClear;
 
@@ -167,14 +158,6 @@ public class CoachStatusRegister {
 
         public void setAgency(String agency) {
             this.agency = agency;
-        }
-
-        public Date getConduitLoad() {
-            return conduitLoad;
-        }
-
-        public void setConduitLoad(Date conduitLoad) {
-            this.conduitLoad = conduitLoad;
         }
 
         public Date getIvCoupleLoad() {
@@ -383,22 +366,6 @@ public class CoachStatusRegister {
 
         public void setLoadTest(Date loadTest) {
             this.loadTest = loadTest;
-        }
-
-        public Date getRmvuTest() {
-            return rmvuTest;
-        }
-
-        public void setRmvuTest(Date rmvuTest) {
-            this.rmvuTest = rmvuTest;
-        }
-
-        public Date getPantograph() {
-            return pantograph;
-        }
-
-        public void setPantograph(Date pantograph) {
-            this.pantograph = pantograph;
         }
 
         public Date getPcpClear() {

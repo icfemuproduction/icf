@@ -43,9 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ApiInterface apiInterface;
     String token;
     SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-
-
+    
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
     AlertDialog loadingDialog;
@@ -149,7 +147,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-                    editor.putBoolean(LOGGED_IN,true)
+                    preferences.edit()
+                            .putBoolean(LOGGED_IN,true)
                             .putString(USERNAME,username)
                             .putString(TOKEN,token)
                             .apply();

@@ -39,7 +39,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     public static final String SHELL_RECEIVED = "Shell Received";
     public static final String INTAKE = "Intake";
     public static final String AGENCY = "Agency";
-    public static final String CONDUIT_LOADING = "Conduit Loading";
     public static final String IV_COUPLER_LOADING = "IV Coupler Loading";
     public static final String EW_PANEL_LOADING = "EW Panel Loading";
     public static final String ROOF_PASSENGER_TRAY_LOADING = "Roof Passenger Tray Loading";
@@ -66,8 +65,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     public static final String OFFERING_CONTROL_CONTINUITY = "Offering Control Continuity";
     public static final String CONTROL_HV = "Control HV";
     public static final String LOAD_TEST = "Load Test";
-    public static final String RMVU_TESTING = "RMVU Testing";
-    public static final String PANTOGRAPH = "Pantograph";
     public static final String PCP_CLEARANCE = "PreCommission Points Clearance";
     public static final String BASIC_UNIT_FORMATION = "Basic Unit Formation";
     public static final String RAKE_FORMATION = "Rake Formation";
@@ -131,7 +128,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         statusNameArrayList.add(SHELL_RECEIVED);
         statusNameArrayList.add(INTAKE);
         statusNameArrayList.add(AGENCY);
-        statusNameArrayList.add(CONDUIT_LOADING);
         statusNameArrayList.add(IV_COUPLER_LOADING);
         statusNameArrayList.add(EW_PANEL_LOADING);
         statusNameArrayList.add(ROOF_PASSENGER_TRAY_LOADING);
@@ -158,8 +154,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         statusNameArrayList.add(OFFERING_CONTROL_CONTINUITY);
         statusNameArrayList.add(CONTROL_HV);
         statusNameArrayList.add(LOAD_TEST);
-        statusNameArrayList.add(RMVU_TESTING);
-        statusNameArrayList.add(PANTOGRAPH);
         statusNameArrayList.add(PCP_CLEARANCE);
         statusNameArrayList.add(BASIC_UNIT_FORMATION);
         statusNameArrayList.add(RAKE_FORMATION);
@@ -329,12 +323,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                        statusArrayList.add(" ");
                    }
 
-                   if(coachStatusRegister.getDatum().getConduitLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getConduitLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
                    if(coachStatusRegister.getDatum().getIvCoupleLoad() != null){
                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
                    }else {
@@ -500,20 +488,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                        statusArrayList.add(" ");
                    }
 
-
-                   if(coachStatusRegister.getDatum().getRmvuTest() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRmvuTest().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-
-                   if(coachStatusRegister.getDatum().getPantograph() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPantograph().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
                    if(coachStatusRegister.getDatum().getPcpClear() != null){
                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPcpClear().toString()));
                    }else {
@@ -539,9 +513,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    }else {
                        statusArrayList.add(" ");
                    }
-                   for(int i=0 ; i<statusArrayList.size() ; i++){
-                       Log.e("SAN",statusArrayList.get(i));
-                   }
+
                    statusPropertyAdapter.notifyDataSetChanged();
                    rakeNameTv.setText("Rake Number : " + rakeNum);
                    b.show();

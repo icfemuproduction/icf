@@ -27,8 +27,6 @@ import retrofit2.Response;
 public class ProductionLineActivity extends AppCompatActivity {
 
     public static final String TOKEN = "token";
-    public static final String PRODUCTION_LIST = "production_list";
-    public static final String BUNDLE = "bundle";
 
     @BindView(R.id.production_one_rv)
     RecyclerView productionOneRv;
@@ -190,56 +188,84 @@ public class ProductionLineActivity extends AppCompatActivity {
                         if (lineNum != null) {
                             switch (productionList.get(j).getLineNo()) {
                                 case 1:
-                                    stagePositionListOne.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListOne.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 2:
-                                    stagePositionListTwo.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListTwo.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 3:
-                                    stagePositionListThree.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListThree.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 4:
-                                    stagePositionListFour.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListFour.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 5:
-                                    stagePositionListFive.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListFive.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 6:
-                                    stagePositionListSix.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListSix.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 7:
-                                    stagePositionListSeven.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListSeven.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 8:
-                                    stagePositionListEight.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListEight.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 9:
-                                    stagePositionListNine.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListNine.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 10:
-                                    stagePositionListTen.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListTen.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
                                     break;
                                 case 11:
-                                    stagePositionListEleven.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListEleven.add(new StagePosition(productionList.get(j).getStage()
+                                            , productionList.get(j).getCoachNum()));}
                                     break;
                                 case 12:
-                                    stagePositionListTwelve.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListTwelve.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
+
                                     break;
                                 case 13:
-                                    stagePositionListThirteen.add(new StagePosition(productionList.get(j).getStage()
-                                            , productionList.get(j).getCoachNum()));
+                                    if(productionList.get(j).getStage() != null){
+                                        stagePositionListThirteen.add(new StagePosition(productionList.get(j).getStage()
+                                                , productionList.get(j).getCoachNum()));
+                                    }
+                                    break;
+                                default:
                                     break;
                             }
 

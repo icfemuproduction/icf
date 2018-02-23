@@ -6,7 +6,7 @@
     <string name="create_coach">Create Coach</string>
     <string name="commission_shed">Commission shed</string>
     <string name="enter_name">Enter your name</string>
-    <string name="note_date_should_be_of_format_yyyy_mm_dd">NOTE: DATE SHOULD BE OF FORMAT : YYYY-MM-DD</string>
+    <string name="note_date_should_be_of_format_yyyy_mm_dd">NOTE: DATE SHOULD BE OF FORMAT : \nYYYY-MM-DD</string>
     <string name="line">Line No:</string>
     <string name="stage_no">Stage No:</string>
     <string name="enter_line_no_optional">Enter Line No. (Optional)</string>

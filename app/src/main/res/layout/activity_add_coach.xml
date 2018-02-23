@@ -277,32 +277,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight=".9"
                         android:gravity="center"
-                        android:text="Conduit Loading"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"/>
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/conduit_et"
-                        android:layout_marginLeft="3dp"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/et_gradient"
-                        android:padding="7dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".9"
-                        android:gravity="center"
                         android:text="IV Coupler Loading"
                         android:textSize="16sp"
                         android:textColor="@color/black"/>
@@ -962,58 +936,6 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:id="@+id/load_test_et"
-                        android:layout_marginLeft="3dp"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/et_gradient"
-                        android:padding="7dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".9"
-                        android:gravity="center"
-                        android:text="RMVU Testing"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"/>
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/rmvu_et"
-                        android:layout_marginLeft="3dp"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/et_gradient"
-                        android:padding="7dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".9"
-                        android:gravity="center"
-                        android:text="Pantograph"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"/>
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/panto_et"
                         android:layout_marginLeft="3dp"
                         android:layout_gravity="bottom"
                         android:background="@drawable/et_gradient"

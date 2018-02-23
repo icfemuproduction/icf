@@ -51,6 +51,9 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.shell_recieved_button)
     Button shellReceivedButton;
 
+    @BindView(R.id.shop36_button)
+    Button shop36Button;
+
     @BindView(R.id.coach_search_bar)
     AutoCompleteTextView coachSearchBar;
 
@@ -112,6 +115,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         shellReceivedButton.setOnClickListener(this);
         getCoachPositionButton.setOnClickListener(this);
         updatePositionButton.setOnClickListener(this);
+        shop36Button.setOnClickListener(this);
     }
 
     @Override
@@ -138,6 +142,9 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.get_coach_position_button:
                 getCoachPosition();
+                break;
+            case R.id.shop36_button:
+                startActivity(new Intent(LinePositionActivity.this,Shop36Activity.class));
                 break;
             case R.id.update_position_button:
                 if (role.equals("admin") || role.equals("write")) {

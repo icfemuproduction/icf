@@ -5,6 +5,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -27,6 +28,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/rakes/getall")
     Call<RakeRegister> getRakes(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/rakes/despatched")
+    Call<RakeRegister> getDespatchRakes(@Field("token") String token);
 
 
     @FormUrlEncoded
@@ -55,7 +60,6 @@ public interface ApiInterface {
                                     @Field("shell_rec") String shellReceived,
                                     @Field("intake") String intake,
                                     @Field("agency") String agency,
-                                    @Field("conduit") String conduit,
                                     @Field("coupler") String coupler,
                                     @Field("ew_panel") String ewPanel,
                                     @Field("roof_tray") String roofTray,
@@ -82,8 +86,6 @@ public interface ApiInterface {
                                     @Field("off_cont") String offCont,
                                     @Field("cont_hv") String contHv,
                                     @Field("load_test") String loadTest,
-                                    @Field("rmvu") String rmvu,
-                                    @Field("panto") String panto,
                                     @Field("pcp_clear") String pcpClear,
                                     @Field("bu_form") String buForm,
                                     @Field("rake_form") String rakeForm,
@@ -93,7 +95,8 @@ public interface ApiInterface {
     @POST("/api/rakes/new")
     Call<PostResponse> createRake(@Field("token") String token,
                                   @Field("railway") String railway,
-                                  @Field("rake_num") String rakeNum);
+                                  @Field("rake_num") String rakeNum,
+                                  @Field("despatch") String despatch);
 
     @FormUrlEncoded
     @POST("/api/coaches/new")
@@ -138,7 +141,8 @@ public interface ApiInterface {
     Call<PostResponse> editRake(@Field("token") String token,
                                     @Field("old_rakenum") String oldRakeNum,
                                     @Field("railway") String railway,
-                                    @Field("rake_num") String rakeNum);
+                                    @Field("rake_num") String rakeNum,
+                                    @Field("despatch") String despatch);
 
     @FormUrlEncoded
     @POST("/api/coaches/edit")

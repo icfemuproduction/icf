@@ -56,7 +56,7 @@
             android:parentActivityName=".LinePositionActivity" />
         <activity
             android:name=".DispatchActivity"
-            android:label="Dispatch Shed"
+            android:label="Despatch Shed"
             android:parentActivityName=".LinePositionActivity" />
         <activity
             android:name=".CommissionActivity"
@@ -64,7 +64,7 @@
             android:parentActivityName=".LinePositionActivity" />
         <activity
             android:name=".OutShedActivity"
-            android:label="Out Shed"
+            android:label="Shop-32 OutShed"
             android:parentActivityName=".LinePositionActivity" />
         <activity
             android:name=".PaintActivity"
@@ -78,9 +78,17 @@
             android:name=".CoachStatusActivity"
             android:label="Coach Status"
             android:parentActivityName=".HomeActivity" />
-        <activity android:name=".AllUsersActivity"
+        <activity
+            android:name=".AllUsersActivity"
             android:label="All Users"
-            android:parentActivityName=".HomeActivity"/>
+            android:parentActivityName=".HomeActivity" />
+        <activity
+            android:name=".DespatchRakesActivity"
+            android:label="Despatched Rakes"
+            android:parentActivityName=".HomeActivity" />
+        <activity android:name=".Shop36Activity"
+            android:label="Shop-36"
+            android:parentActivityName=".LinePositionActivity"/>
     </application>
 
 </manifest>

@@ -37,7 +37,6 @@ public class EditStatusActivity extends AppCompatActivity {
     public static final String SHELL_RECEIVED = "Shell Received";
     public static final String INTAKE = "Intake";
     public static final String AGENCY = "Agency";
-    public static final String CONDUIT_LOADING = "Conduit Loading";
     public static final String IV_COUPLER_LOADING = "IV Coupler Loading";
     public static final String EW_PANEL_LOADING = "EW Panel Loading";
     public static final String ROOF_PASSENGER_TRAY_LOADING = "Roof Passenger Tray Loading";
@@ -64,8 +63,6 @@ public class EditStatusActivity extends AppCompatActivity {
     public static final String OFFERING_CONTROL_CONTINUITY = "Offering Control Continuity";
     public static final String CONTROL_HV = "Control HV";
     public static final String LOAD_TEST = "Load Test";
-    public static final String RMVU_TESTING = "RMVU Testing";
-    public static final String PANTOGRAPH = "Pantograph";
     public static final String PCP_CLEARANCE = "PreCommission Points Clearance";
     public static final String BASIC_UNIT_FORMATION = "Basic Unit Formation";
     public static final String RAKE_FORMATION = "Rake Formation";
@@ -97,9 +94,9 @@ public class EditStatusActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,roofTray,htTray,htEquip
+    String token,coachNum,shellRec,intake,agency,coupler,ewPanel,roofTray,htTray,htEquip
             ,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear
-            ,tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear
+            ,tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,pcpClear
             ,buForm,rakeForm,remarks,positionName;
     ArrayList<String> statusArrayList,statusNameArrayList,statusKeyArrayList,editedValuesList,coachPositionList;
     ArrayAdapter<String> coachPositionAdapter;
@@ -145,7 +142,6 @@ public class EditStatusActivity extends AppCompatActivity {
         statusNameArrayList.add(SHELL_RECEIVED);
         statusNameArrayList.add(INTAKE);
         statusNameArrayList.add(AGENCY);
-        statusNameArrayList.add(CONDUIT_LOADING);
         statusNameArrayList.add(IV_COUPLER_LOADING);
         statusNameArrayList.add(EW_PANEL_LOADING);
         statusNameArrayList.add(ROOF_PASSENGER_TRAY_LOADING);
@@ -172,8 +168,6 @@ public class EditStatusActivity extends AppCompatActivity {
         statusNameArrayList.add(OFFERING_CONTROL_CONTINUITY);
         statusNameArrayList.add(CONTROL_HV);
         statusNameArrayList.add(LOAD_TEST);
-        statusNameArrayList.add(RMVU_TESTING);
-        statusNameArrayList.add(PANTOGRAPH);
         statusNameArrayList.add(PCP_CLEARANCE);
         statusNameArrayList.add(BASIC_UNIT_FORMATION);
         statusNameArrayList.add(RAKE_FORMATION);
@@ -196,13 +190,9 @@ public class EditStatusActivity extends AppCompatActivity {
                 coachPositionEditDialog();
             }
         });
-
-
-
     }
 
     private void coachPositionEditDialog() {
-
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -239,6 +229,7 @@ public class EditStatusActivity extends AppCompatActivity {
         coachPositionList.add("Despatch");
         coachPositionList.add("Paint");
         coachPositionList.add("Out");
+        coachPositionList.add("Shop36");
 
         coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
         coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -394,111 +385,102 @@ public class EditStatusActivity extends AppCompatActivity {
             case 2: agency = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 3: conduit = editedValue;
+            case 3: coupler = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 4: coupler = editedValue;
+            case 4: ewPanel = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 5: ewPanel = editedValue;
+            case 5: roofTray = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 6: roofTray = editedValue;
+            case 6: htTray = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 7: htTray = editedValue;
+            case 7: htEquip = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 8: htEquip = editedValue;
+            case 8: highDip = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 9: highDip = editedValue;
+            case 9: ufTray = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 10: ufTray = editedValue;
+            case 10: ufTrans = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 11: ufTrans = editedValue;
+            case 11: ufWire = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 12: ufWire = editedValue;
+            case 12: offRoof = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 13: offRoof = editedValue;
+            case 13: roofClear = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 14: roofClear = editedValue;
+            case 14: offEw = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 15: offEw = editedValue;
+            case 15: ewClear = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 16: ewClear = editedValue;
+            case 16: mechPan = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 17: mechPan = editedValue;
+            case 17: offTf = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 18: offTf = editedValue;
+            case 18: tfClear = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 19: tfClear = editedValue;
+            case 19: tfProv = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 20: tfProv = editedValue;
+            case 20: lfLoad = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 21: lfLoad = editedValue;
+            case 21: offPow = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 22: offPow = editedValue;
+            case 22: powerHv = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 23: powerHv = editedValue;
+            case 23: offDip = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 24: offDip = editedValue;
+            case 24: dipClear = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 25: dipClear = editedValue;
+            case 25: lower = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 26: lower = editedValue;
+            case 26: offCont = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 27: offCont = editedValue;
+            case 27: contHv = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 28: contHv = editedValue;
+            case 28: loadTest = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 29: loadTest = editedValue;
+            case 29: pcpClear = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 30: rmvu = editedValue;
+            case 30: buForm = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 31: panto = editedValue;
+            case 31: rakeForm = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
-            case 32: pcpClear = editedValue;
-                statusArrayList.set(position,editedValue);
-                break;
-            case 33: buForm = editedValue;
-                statusArrayList.set(position,editedValue);
-                break;
-            case 34: rakeForm = editedValue;
-                statusArrayList.set(position,editedValue);
-                break;
-            case 35: remarks = editedValue;
+            case 32: remarks = editedValue;
                 statusArrayList.set(position,editedValue);
                 break;
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
+        Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,coupler,ewPanel,
                 roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
-                tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear,buForm,
+                tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,pcpClear,buForm,
                 rakeForm,remarks);
 
         call.enqueue(new Callback<PostResponse>() {
@@ -556,12 +538,6 @@ public class EditStatusActivity extends AppCompatActivity {
 
                     if(coachStatusRegister.getDatum().getAgency() != null){
                         statusArrayList.add(coachStatusRegister.getDatum().getAgency());
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-                    if(coachStatusRegister.getDatum().getConduitLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getConduitLoad().toString()));
                     }else {
                         statusArrayList.add(" ");
                     }
@@ -731,20 +707,6 @@ public class EditStatusActivity extends AppCompatActivity {
                         statusArrayList.add(" ");
                     }
 
-
-                    if(coachStatusRegister.getDatum().getRmvuTest() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRmvuTest().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-
-                    if(coachStatusRegister.getDatum().getPantograph() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPantograph().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
                     if(coachStatusRegister.getDatum().getPcpClear() != null){
                         statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPcpClear().toString()));
                     }else {
@@ -764,12 +726,12 @@ public class EditStatusActivity extends AppCompatActivity {
                         statusArrayList.add(" ");
                     }
 
-
                     if(coachStatusRegister.getDatum().getRemarks() != null){
                         statusArrayList.add(coachStatusRegister.getDatum().getRemarks());
                     }else {
                         statusArrayList.add(" ");
                     }
+
                     coachStatusEditAdapter.notifyDataSetChanged();
                     rakeNameTv.setText("Rake Number : "+ rakeNum);
                     cardView.setVisibility(View.VISIBLE);

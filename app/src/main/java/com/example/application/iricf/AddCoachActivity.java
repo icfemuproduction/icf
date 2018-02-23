@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddCoachActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddCoachActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TOKEN = "token";
     public static final String RAKE_NUM = "rakeNum";
@@ -67,9 +68,6 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
     @BindView(R.id.agency_et)
     EditText agencyEt;
-
-    @BindView(R.id.conduit_et)
-    EditText conduitEt;
 
     @BindView(R.id.coupler_et)
     EditText couplerEt;
@@ -149,12 +147,6 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.load_test_et)
     EditText loadTestEt;
 
-    @BindView(R.id.rmvu_et)
-    EditText rmvuEt;
-
-    @BindView(R.id.panto_et)
-    EditText pantoEt;
-
     @BindView(R.id.pcp_clear_et)
     EditText pcpClearEt;
 
@@ -172,13 +164,10 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,rakeNum,coachNum,coachType,coachPosition,shellRec,intake,agency,conduit,coupler,ewPanel,roofTray
-            ,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear
-            ,mechPan,offTf,tfClear,tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont
-            ,contHv,loadTest,rmvu,panto,pcpClear,buForm,rakeForm,remarks;
-    ArrayAdapter<String> coachTypeAdapter,coachPositionAdapter;
-    ArrayList<String> coachTypeList,coachPositionList;
-    Integer stage,line;
+    String token, rakeNum, coachNum, coachType, coachPosition, shellRec, intake, agency, coupler, ewPanel, roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear, tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm, rakeForm, remarks;
+    ArrayAdapter<String> coachTypeAdapter, coachPositionAdapter;
+    ArrayList<String> coachTypeList, coachPositionList;
+    Integer stage, line;
     AlertDialog loadingDialog;
 
     @Override
@@ -199,7 +188,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         updateStatusButton.setOnClickListener(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         coachTypeList = new ArrayList<>();
         coachTypeList.add("trailer");
@@ -229,6 +218,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         coachPositionList.add("Despatch");
         coachPositionList.add("Paint");
         coachPositionList.add("Out");
+        coachPositionList.add("Shop36");
 
         coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
         coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -252,7 +242,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.add_coach_button:
                 addCoach();
                 break;
@@ -270,7 +260,6 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         shellRec = shellRecEt.getText().toString().trim();
         intake = intakeEt.getText().toString().trim();
         agency = agencyEt.getText().toString().trim();
-        conduit = conduitEt.getText().toString().trim();
         coupler = couplerEt.getText().toString().trim();
         ewPanel = ewPanelEt.getText().toString().trim();
         roofTray = roofTrayEt.getText().toString().trim();
@@ -297,157 +286,149 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         offCont = offContEt.getText().toString().trim();
         contHv = contHvEt.getText().toString().trim();
         loadTest = loadTestEt.getText().toString().trim();
-        rmvu = rmvuEt.getText().toString().trim();
-        panto = pantoEt.getText().toString().trim();
         pcpClear = pcpClearEt.getText().toString().trim();
         buForm = buFormEt.getText().toString().trim();
         rakeForm = rakeFormEt.getText().toString().trim();
         remarks = remarksEt.getText().toString().trim();
 
-        if(shellRec.isEmpty() && remarks.isEmpty() &&rakeForm.isEmpty() &&buForm.isEmpty() &&pcpClear.isEmpty()
-                &&panto.isEmpty() &&rmvu.isEmpty() &&loadTest.isEmpty() &&contHv.isEmpty() &&offCont.isEmpty()
-                &&lower.isEmpty() &&dipClear.isEmpty() &&offDip.isEmpty() &&powerHv.isEmpty() &&offPow.isEmpty() &&lfLoad.isEmpty()
-                &&tfProv.isEmpty() &&tfClear.isEmpty() &&offTf.isEmpty() &&mechPan.isEmpty() &&ewClear.isEmpty() &&offEw.isEmpty()
-                &&roofClear.isEmpty() &&offRoof.isEmpty() &&ufWire.isEmpty() &&ufTrans.isEmpty() &&ufTray.isEmpty() &&roofTray.isEmpty()
-                &&ewPanel.isEmpty() &&coupler.isEmpty() &&conduit.isEmpty() &&agency.isEmpty() &&intake.isEmpty()){
+        if (shellRec.isEmpty() && remarks.isEmpty() && rakeForm.isEmpty() && buForm.isEmpty()
+                && pcpClear.isEmpty() && loadTest.isEmpty() && contHv.isEmpty() && offCont.isEmpty() && lower.isEmpty()
+                && dipClear.isEmpty() && offDip.isEmpty() && powerHv.isEmpty() && offPow.isEmpty() && lfLoad.isEmpty()
+                && tfProv.isEmpty() && tfClear.isEmpty() && offTf.isEmpty() && mechPan.isEmpty() && ewClear.isEmpty()
+                && offEw.isEmpty() && roofClear.isEmpty() && offRoof.isEmpty() && ufWire.isEmpty() && ufTrans.isEmpty()
+                && ufTray.isEmpty() && roofTray.isEmpty() && ewPanel.isEmpty() && coupler.isEmpty() && agency.isEmpty()
+                && intake.isEmpty()) {
 
-            Toast.makeText(getApplicationContext(),"Enter some status",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Enter some status", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(shellRec.isEmpty()){
+        if (shellRec.isEmpty()) {
             shellRec = null;
         }
-        if(intake.isEmpty()){
+        if (intake.isEmpty()) {
             intake = null;
         }
-        if(agency.isEmpty()){
+        if (agency.isEmpty()) {
             agency = null;
         }
-        if(conduit.isEmpty()){
-            conduit = null;
-        }
-        if(coupler.isEmpty()){
+        if (coupler.isEmpty()) {
             coupler = null;
         }
-        if(ewPanel.isEmpty()){
+        if (ewPanel.isEmpty()) {
             ewPanel = null;
         }
-        if(roofTray.isEmpty()){
+        if (roofTray.isEmpty()) {
             roofTray = null;
         }
-        if(htTray.isEmpty()){
+        if (htTray.isEmpty()) {
             htTray = null;
         }
-        if(htEquip.isEmpty()){
+        if (htEquip.isEmpty()) {
             htEquip = null;
         }
-        if(highDip.isEmpty()){
+        if (highDip.isEmpty()) {
             highDip = null;
         }
-        if(ufTray.isEmpty()){
+        if (ufTray.isEmpty()) {
             ufTray = null;
         }
-        if(ufTrans.isEmpty()){
+        if (ufTrans.isEmpty()) {
             ufTrans = null;
         }
-        if(ufWire.isEmpty()){
+        if (ufWire.isEmpty()) {
             ufWire = null;
         }
-        if(offRoof.isEmpty()){
+        if (offRoof.isEmpty()) {
             offRoof = null;
         }
-        if(roofClear.isEmpty()){
+        if (roofClear.isEmpty()) {
             roofClear = null;
         }
-        if(offEw.isEmpty()){
+        if (offEw.isEmpty()) {
             offEw = null;
         }
-        if(ewClear.isEmpty()){
+        if (ewClear.isEmpty()) {
             ewClear = null;
         }
-        if(mechPan.isEmpty()){
+        if (mechPan.isEmpty()) {
             mechPan = null;
         }
-        if(offTf.isEmpty()){
+        if (offTf.isEmpty()) {
             offTf = null;
         }
-        if(tfClear.isEmpty()){
+        if (tfClear.isEmpty()) {
             tfClear = null;
         }
-        if(tfProv.isEmpty()){
+        if (tfProv.isEmpty()) {
             tfProv = null;
         }
-        if(lfLoad.isEmpty()){
+        if (lfLoad.isEmpty()) {
             lfLoad = null;
         }
-        if(offPow.isEmpty()){
+        if (offPow.isEmpty()) {
             offPow = null;
         }
-        if(powerHv.isEmpty()){
+        if (powerHv.isEmpty()) {
             powerHv = null;
         }
-        if(offDip.isEmpty()){
+        if (offDip.isEmpty()) {
             offDip = null;
         }
-        if(dipClear.isEmpty()){
+        if (dipClear.isEmpty()) {
             dipClear = null;
         }
-        if(lower.isEmpty()){
+        if (lower.isEmpty()) {
             lower = null;
         }
-        if(offCont.isEmpty()){
+        if (offCont.isEmpty()) {
             offCont = null;
         }
-        if(contHv.isEmpty()){
+        if (contHv.isEmpty()) {
             contHv = null;
         }
-        if(loadTest.isEmpty()){
+        if (loadTest.isEmpty()) {
             loadTest = null;
         }
-        if(rmvu.isEmpty()){
-            rmvu = null;
-        }
-        if(panto.isEmpty()){
-            panto = null;
-        }
-        if(pcpClear.isEmpty()){
+        if (pcpClear.isEmpty()) {
             pcpClear = null;
         }
-        if(buForm.isEmpty()){
+        if (buForm.isEmpty()) {
             buForm = null;
         }
-        if(rakeForm.isEmpty()){
+        if (rakeForm.isEmpty()) {
             rakeForm = null;
         }
-        if(remarks.isEmpty()){
+        if (remarks.isEmpty()) {
             remarks = null;
         }
 
+
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,conduit,coupler,ewPanel,
-                roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
-                tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,rmvu,panto,pcpClear,buForm,
-                rakeForm,remarks);
+        Call<PostResponse> call = apiInterface.updateStatus(token, coachNum, shellRec, intake, agency, coupler, ewPanel,
+                roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear,
+                tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm,
+                rakeForm, remarks);
 
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status =response.body().getStatus();
+                int status = response.body().getStatus();
 
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                     finish();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Updating Status. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("SAN",response.body().getDatum().getMessage());
+                    Toast.makeText(getApplicationContext(), "Error Updating Status. Try Again", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Updating Status. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Updating Status. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -458,27 +439,27 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
         String stageString = coachStageEt.getText().toString();
         String lineString = coachLineEt.getText().toString();
-        if(!stageString.isEmpty()){
+        if (!stageString.isEmpty()) {
             stage = Integer.parseInt(stageString);
         }
 
-        if(!lineString.isEmpty()){
+        if (!lineString.isEmpty()) {
             line = Integer.parseInt(lineString);
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,coachPosition,line,stage);
+        Call<PostResponse> call = apiInterface.updatePosition(token, coachNum, coachPosition, line, stage);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
                 int status = response.body().getStatus();
-                if(status == 200){
+                if (status == 200) {
 
                     addCoachPositionCard.setVisibility(View.INVISIBLE);
                     addCoachStatusCard.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Updating Position. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Updating Position. Try Again", Toast.LENGTH_SHORT).show();
                 }
 
                 loadingDialog.dismiss();
@@ -486,7 +467,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Updating Position. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Updating Position. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -496,32 +477,32 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
     private void addCoach() {
 
         coachNum = coachNumberEt.getText().toString().trim();
-        if(coachNum.isEmpty()){
+        if (coachNum.isEmpty()) {
             coachNumberEt.setError("Enter coach number");
             coachNumberEt.requestFocus();
             return;
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.createCoach(token,coachNum,rakeNum,coachType);
+        Call<PostResponse> call = apiInterface.createCoach(token, coachNum, rakeNum, coachType);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
-                int status =response.body().getStatus();
-                if(status == 200){
+                int status = response.body().getStatus();
+                if (status == 200) {
                     addCoachCard.setVisibility(View.INVISIBLE);
                     addCoachPositionCard.setVisibility(View.VISIBLE);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Creating Coach. Try Again", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Creating Coach. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Creating Coach. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

@@ -56,6 +56,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/update_position_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Update Position" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -136,7 +143,7 @@
                         android:background="@android:color/transparent"
                         android:fontFamily="sans-serif-condensed"
                         android:padding="20dp"
-                        android:text="Dispatch shed"
+                        android:text="Despatch shed"
                         android:textColor="@color/buttonTextColor"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -193,7 +200,7 @@
                         android:background="@android:color/transparent"
                         android:fontFamily="sans-serif-condensed"
                         android:padding="20dp"
-                        android:text="Out shed"
+                        android:text="Shop-32 OutShed"
                         android:textColor="@color/buttonTextColor"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -227,12 +234,31 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/update_position_button"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Update Position" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/transbg">
+
+                <Button
+                    android:id="@+id/shop36_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed"
+                    android:padding="20dp"
+                    android:text="Shop 36"
+                    android:textColor="@color/buttonTextColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
 
         </LinearLayout>
 

@@ -2,6 +2,8 @@ package com.example.application.iricf;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class RakeName {
 
     @SerializedName("railway")
@@ -10,9 +12,21 @@ public class RakeName {
     @SerializedName("rake_num")
     private String rakeNum;
 
-    public RakeName(String railway, String rakeNum) {
+    @SerializedName("despatch")
+    private Date despatchDate;
+
+    public RakeName(String railway, String rakeNum,Date despatchDate) {
         this.railway = railway;
         this.rakeNum = rakeNum;
+        this.despatchDate = despatchDate;
+    }
+
+    public Date getDespatchDate() {
+        return despatchDate;
+    }
+
+    public void setDespatchDate(Date despatchDate) {
+        this.despatchDate = despatchDate;
     }
 
     public String getRailway() {

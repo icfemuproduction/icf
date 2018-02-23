@@ -117,6 +117,8 @@ public class DispatchActivity extends AppCompatActivity {
                                     stagePositionListThree.add(new StagePosition(dispatchList.get(j).getStage()
                                             ,dispatchList.get(j).getCoachNum()));
                                     break;
+                                default:
+                                    break;
                             }
                         }
 
