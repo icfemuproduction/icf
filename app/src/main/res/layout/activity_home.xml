@@ -10,76 +10,76 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
             android:layout_marginBottom="40dp"
-            android:src="@drawable/icf"/>
+            android:src="@drawable/icf" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/transbg">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/coach_status_button"
-                android:textSize="20sp"
-                android:textColor="@color/buttonTextColor"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
-                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:text="Coach Status"/>
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Coach Status"
+                android:textColor="@color/buttonTextColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/transbg">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/line_position_button"
-                android:textSize="20sp"
-                android:textColor="@color/buttonTextColor"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
-                android:text="Line Position" />
+                android:fontFamily="sans-serif-condensed"
+                android:text="Line Position"
+                android:textColor="@color/buttonTextColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/transbg">
 
             <Button
+                android:id="@+id/despatch_rakes_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/despatch_rakes_button"
-                android:textSize="20sp"
-                android:textColor="@color/buttonTextColor"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
-                android:text="Despatch Rakes" />
+                android:fontFamily="sans-serif-condensed"
+                android:text="Despatch Rakes"
+                android:textColor="@color/buttonTextColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

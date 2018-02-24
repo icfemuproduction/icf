@@ -4,63 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:background="@drawable/bg"
+    android:padding="10dp"
     tools:context="com.example.application.iricf.LoginActivity">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_centerInParent="true"
         android:background="@drawable/transbg"
+        android:orientation="vertical"
         android:padding="20dp">
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="User SignIn"
             android:layout_gravity="center"
-            android:textSize="24sp"
+            android:layout_marginBottom="40dp"
             android:fontFamily="sans-serif-condensed"
-            android:layout_marginBottom="40dp"/>
-
+            android:text="User SignIn"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
         <EditText
+            android:id="@+id/sign_in_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sign_in_username"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/et_gradient"
             android:hint="@string/enter_the_username"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"/>
-<!--
-        android:clickable="true"
-        android:inputType="none"
-        android:focusable="false"-->
-
+            android:padding="10dp" />
 
         <EditText
+            android:id="@+id/sign_in_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sign_in_password"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/et_gradient"
             android:hint="Enter the password"
-            android:padding="10dp"
             android:inputType="textPassword"
-            android:layout_marginBottom="30dp"/>
-
+            android:padding="10dp" />
 
         <Button
+            android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sign_in_button"
             android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:text="Sign In"/>
+            android:text="Sign In" />
 
     </LinearLayout>
-    
+
 </RelativeLayout>

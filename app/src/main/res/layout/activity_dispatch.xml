@@ -13,11 +13,11 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/dispatch_shed_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dispatch_shed_layout"
-            android:visibility="invisible"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -38,21 +38,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
                         android:text="Line One"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dispatch_line_one_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/dispatch_line_one_rv">
+                        android:layout_height="wrap_content">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -74,21 +75,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
                         android:text="Line Two"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dispatch_line_two_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/dispatch_line_two_rv">
+                        android:layout_height="wrap_content">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -110,21 +112,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Line Three"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"
+                        android:text="Line Three"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dispatch_line_three_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/dispatch_line_three_rv">
+                        android:layout_height="wrap_content">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
         </LinearLayout>

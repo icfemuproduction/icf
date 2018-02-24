@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,62 +16,32 @@
         tools:context="com.example.application.iricf.CoachStatusActivity">
 
         <LinearLayout
+            android:id="@+id/rake_search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rake_search_layout"
             android:layout_marginBottom="10dp"
-            android:visibility="visible"
-            android:padding="5dp"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:background="@color/white">
+            android:padding="5dp"
+            android:visibility="visible">
 
             <Spinner
+                android:id="@+id/rake_search_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/rake_search_spinner"
                 android:layout_gravity="center" />
-
-            <!--<AutoCompleteTextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/rake_search_bar"
-                android:textColor="@color/black"
-                android:hint="Search for a rake"
-                android:textCursorDrawable="@null"
-                android:inputType="textPhonetic"
-                android:completionThreshold="1"
-                android:imeOptions="actionSearch"
-                android:padding="12dp"
-                android:dropDownAnchor="@+id/rake_search_bar"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/et_border" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight=".15"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:id="@+id/rake_search_button"
-                android:padding="8dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/transbg"
-                android:src="@drawable/ic_search" />-->
 
         </LinearLayout>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/coach_status_coaches_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rake_search_layout"
-            android:id="@+id/coach_status_coaches_card"
-            android:visibility="invisible"
             android:layout_margin="5dp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="invisible"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp">
 
@@ -87,17 +55,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/coaches"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:textSize="20sp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/coaches"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/coach_status_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/coach_status_rv">
+                    android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
 

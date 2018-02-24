@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -8,105 +7,104 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:text="EDIT RAKE"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/transbg"
+        android:gravity="center"
         android:padding="10dp"
-        android:textStyle="bold"
-        android:layout_marginBottom="15dp"/>
+        android:text="EDIT RAKE"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_date_should_be_of_format_yyyy_mm_dd"
         android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:text="@string/note_date_should_be_of_format_yyyy_mm_dd"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:textStyle="italic"
-        android:layout_marginBottom="15dp"/>
+        android:textStyle="italic" />
 
     <EditText
+        android:id="@+id/edit_rake_dialog_old_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_rake_dialog_old_et"
-        android:hint="Enter old rake number"
-        android:background="@drawable/et_gradient"
-        android:padding="7dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"/>
+        android:background="@drawable/et_gradient"
+        android:hint="Enter old rake number"
+        android:padding="7dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Rake Details : "
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp" />
+        android:text="New Rake Details : "
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginRight="15dp">
 
         <Spinner
+            android:id="@+id/edit_rake_dialog_new_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".6"
-            android:id="@+id/edit_rake_dialog_new_spinner"/>
+            android:layout_weight=".6" />
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             android:id="@+id/edit_rake_dialog_new_et"
-            android:hint="Enter new rake no."
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/et_gradient"
+            android:hint="Enter new rake no."
             android:padding="7dp" />
 
     </LinearLayout>
 
     <EditText
+        android:id="@+id/edit_rake_dialog_despatch_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_rake_dialog_despatch_et"
-        android:hint="Enter despatch date"
-        android:background="@drawable/et_gradient"
-        android:padding="7dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"/>
-
+        android:background="@drawable/et_gradient"
+        android:hint="Enter despatch date"
+        android:padding="7dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginRight="15dp">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="wrap_content"
             android:id="@+id/edit_rake_dialog_cancel_button"
-            android:text="Cancel"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Cancel" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="wrap_content"
             android:id="@+id/edit_rake_dialog_edit_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="edit" />
 
     </LinearLayout>
