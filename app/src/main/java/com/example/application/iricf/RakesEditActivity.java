@@ -31,6 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.application.iricf.Utils.parseDateSend;
+
 public class RakesEditActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener{
 
     public static final String TOKEN = "token";
@@ -402,6 +404,8 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
         if(despatchDate.isEmpty()){
             despatchDate = null;
+        }else{
+            despatchDate = parseDateSend(despatchDate);
         }
 
         loadingDialog.show();

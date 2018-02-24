@@ -14,10 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,7 +23,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DespatchRakesActivity extends AppCompatActivity {
+import static com.example.application.iricf.Utils.parseDateReceive;
+
+public class DespatchedRakesActivity extends AppCompatActivity {
 
     public static final String TOKEN = "token";
 
@@ -49,7 +48,7 @@ public class DespatchRakesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_despatch_rakes);
+        setContentView(R.layout.activity_despatched_rakes);
         ButterKnife.bind(this);
 
         View dialogView = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null);
@@ -99,7 +98,7 @@ public class DespatchRakesActivity extends AppCompatActivity {
         TextView rakeNumTv = dialogView.findViewById(R.id.despatch_coaches_dialog_rake);
         TextView dateTv = dialogView.findViewById(R.id.despatch_coaches_dialog_date);
         rakeNumTv.setText(rakenum);
-        String temp = "Despatch Date: " + parseDate(rakedate);
+        String temp = "Despatched on " + parseDateReceive(rakedate);
         dateTv.setText(temp);
 
         ImageView closeDialogButton = dialogView.findViewById(R.id.dialog_close_button);
@@ -202,23 +201,5 @@ public class DespatchRakesActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public String parseDate(String time) {
-        String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
-        String outputPattern = "yyyy-MM-dd";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-        Date date;
-        String str = null;
-
-        try {
-            date = inputFormat.parse(time);
-            str = outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return str;
     }
 }

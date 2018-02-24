@@ -83,7 +83,7 @@
             android:label="All Users"
             android:parentActivityName=".HomeActivity" />
         <activity
-            android:name=".DespatchRakesActivity"
+            android:name=".DespatchedRakesActivity"
             android:label="Despatched Rakes"
             android:parentActivityName=".HomeActivity" />
         <activity android:name=".Shop36Activity"

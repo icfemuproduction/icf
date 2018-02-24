@@ -6,7 +6,7 @@
     <string name="create_coach">Create Coach</string>
     <string name="commission_shed">Commission shed</string>
     <string name="enter_name">Enter your name</string>
-    <string name="note_date_should_be_of_format_yyyy_mm_dd">NOTE: DATE SHOULD BE OF FORMAT : \nYYYY-MM-DD</string>
+    <string name="note_date_should_be_of_format_yyyy_mm_dd">NOTE: DATE SHOULD BE OF FORMAT : \nDD-MM-YYYY</string>
     <string name="line">Line No:</string>
     <string name="stage_no">Stage No:</string>
     <string name="enter_line_no_optional">Enter Line No. (Optional)</string>
@@ -18,7 +18,7 @@
     <string name="update">Update</string>
     <string name="coaches">Coaches</string>
     <string name="production_line">Production Line</string>
-    <string name="out_shed">Out Shed</string>
+    <string name="out_shed">Shop-32 OutShed</string>
     <string name="paint_shop">Paint Shop</string>
     <string name="dispatch_shed">Dispatch Shed</string>
     <string name="in_shells_rec">In Shells Received</string>

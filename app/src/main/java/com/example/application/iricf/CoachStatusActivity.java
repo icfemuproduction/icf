@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,10 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,7 +26,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Path;
+
+import static com.example.application.iricf.Utils.parseDateReceive;
 
 public class CoachStatusActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -306,13 +303,13 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    String rakeNum = coachStatusRegister.getDatum().getRakeNum();
 
                    if(coachStatusRegister.getDatum().getShellReceived() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getShellReceived().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getShellReceived().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getIntake() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getIntake().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIntake().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
@@ -324,49 +321,49 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    }
 
                    if(coachStatusRegister.getDatum().getIvCoupleLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getEwPanelLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getRoofPassTrayLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getHtRoomTrayLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getHtEquipLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getHighDip() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHighDip().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHighDip().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getUfTrayLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getUfTransLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getUfTransLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTransLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
@@ -378,25 +375,25 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    }
 
                    if(coachStatusRegister.getDatum().getOffRoofClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffRoofClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffRoofClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getRoofClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRoofClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getOffEwClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffEwClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffEwClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getEwClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getEwClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
@@ -409,100 +406,100 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                    }
 
                    if(coachStatusRegister.getDatum().getOffTfClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffTfClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffTfClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getTfClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getTfClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getTfProv() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getTfProv().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfProv().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getLfLoad() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLfLoad().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLfLoad().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getOffPowerCont() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffPowerCont().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffPowerCont().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getPowerHv() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPowerHv().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPowerHv().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getOffHiDipClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getHiDipClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHiDipClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHiDipClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getLower() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLower().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLower().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getOffControlCont() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffControlCont().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffControlCont().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getControlHv() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getControlHv().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getControlHv().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getLoadTest() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLoadTest().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLoadTest().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getPcpClear() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPcpClear().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPcpClear().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
                    if(coachStatusRegister.getDatum().getBuFormation() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getBuFormation().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getBuFormation().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
 
 
                    if(coachStatusRegister.getDatum().getRakeFormation() != null){
-                       statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRakeFormation().toString()));
+                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRakeFormation().toString()));
                    }else {
                        statusArrayList.add(" ");
                    }
@@ -529,24 +526,6 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                loadingDialog.dismiss();
            }
        });
-    }
-
-    public String parseDate(String time) {
-        String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
-        String outputPattern = "yyyy-MM-dd";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-        Date date;
-        String str = null;
-
-        try {
-            date = inputFormat.parse(time);
-            str = outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return str;
     }
 
     @Override

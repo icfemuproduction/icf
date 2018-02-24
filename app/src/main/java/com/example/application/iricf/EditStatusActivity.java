@@ -19,16 +19,16 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.application.iricf.Utils.parseDateReceive;
+import static com.example.application.iricf.Utils.parseDateSend;
 
 public class EditStatusActivity extends AppCompatActivity {
 
@@ -51,7 +51,7 @@ public class EditStatusActivity extends AppCompatActivity {
     public static final String OFFERING_END_WALL_CLEARANCE = "Offering EndWall Clearance";
     public static final String END_WALL_CLEARANCE = "EndWall Clearance";
     public static final String MECHANICAL_PANELING = "Mechanical Paneling";
-    public static final String OFFERING_TROUGH_FLOOR_CLEARANCE= "Offering TroughFloor Clearance";
+    public static final String OFFERING_TROUGH_FLOOR_CLEARANCE = "Offering TroughFloor Clearance";
     public static final String TROUGH_FLOOR_CLEARANCE = "TroughFloor Clearance";
     public static final String TROUGH_FLOOR_PROVISION = "TroughFloor Provision";
     public static final String LF_LOADING = "LF Loading";
@@ -94,19 +94,16 @@ public class EditStatusActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,coachNum,shellRec,intake,agency,coupler,ewPanel,roofTray,htTray,htEquip
-            ,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear
-            ,tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,pcpClear
-            ,buForm,rakeForm,remarks,positionName;
-    ArrayList<String> statusArrayList,statusNameArrayList,statusKeyArrayList,editedValuesList,coachPositionList;
+    String token, coachNum, shellRec, intake, agency, coupler, ewPanel, roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear, tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm, rakeForm, remarks, positionName;
+    ArrayList<String> statusArrayList, statusNameArrayList, statusKeyArrayList, editedValuesList, coachPositionList;
     ArrayAdapter<String> coachPositionAdapter;
     CoachStatusEditAdapter coachStatusEditAdapter;
-    AlertDialog b,a;
-    TextView  addDialogTv;
-    EditText  addDialogEt,coachStageNoEt,coachLineNoEt;
+    AlertDialog b, a;
+    TextView addDialogTv;
+    EditText addDialogEt, coachStageNoEt, coachLineNoEt;
     Spinner editCoachPosSpinner;
-    Button dialogCancelButton,dialogAddButton,coachPositionCancelButton,coachPositionUpdateButton;
-    Integer line,stage;
+    Button dialogCancelButton, dialogAddButton, coachPositionCancelButton, coachPositionUpdateButton;
+    Integer line, stage;
     AlertDialog loadingDialog;
 
     @Override
@@ -124,7 +121,7 @@ public class EditStatusActivity extends AppCompatActivity {
         loadingDialog.show();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         Bundle bundle = getIntent().getExtras();
         coachNum = bundle.getString(COACH_NUM);
@@ -173,7 +170,7 @@ public class EditStatusActivity extends AppCompatActivity {
         statusNameArrayList.add(RAKE_FORMATION);
         statusNameArrayList.add(REMARKS);
 
-        coachStatusEditAdapter = new CoachStatusEditAdapter(this,statusNameArrayList,statusArrayList);
+        coachStatusEditAdapter = new CoachStatusEditAdapter(this, statusNameArrayList, statusArrayList);
         editCoachStatusRv.setLayoutManager(new LinearLayoutManager(this));
         editCoachStatusRv.setAdapter(coachStatusEditAdapter);
 
@@ -252,74 +249,74 @@ public class EditStatusActivity extends AppCompatActivity {
         final String lineString = coachLineNoEt.getText().toString();
         final String stageString = coachStageNoEt.getText().toString();
 
-        if(!lineString.isEmpty()){
+        if (!lineString.isEmpty()) {
             line = Integer.parseInt(lineString);
-        }else {
+        } else {
             line = 0;
         }
-        if(!stageString.isEmpty()){
+        if (!stageString.isEmpty()) {
             stage = Integer.parseInt(stageString);
-        }else {
+        } else {
             stage = 0;
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updatePosition(token,coachNum,positionName,line,stage);
+        Call<PostResponse> call = apiInterface.updatePosition(token, coachNum, positionName, line, stage);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                     editCoachPositionTv.setText(positionName);
-                    if(!lineString.isEmpty()){
+                    if (!lineString.isEmpty()) {
                         editCoachLineTv.setText(lineString);
-                    }else {
+                    } else {
                         editCoachLineTv.setText(String.valueOf(0));
                     }
-                    if(!stageString.isEmpty()){
+                    if (!stageString.isEmpty()) {
                         editCoachStageTv.setText(stageString);
-                    }else {
+                    } else {
                         editCoachStageTv.setText(String.valueOf(0));
                     }
                     a.dismiss();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error updating. Try Again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error updating. Try Again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
     }
 
     private void getPosition(String coachnum) {
-        for (int i=0 ; i<coachnum.length() ; i++){
-            if(coachnum.charAt(i) =='/'){
-                coachnum = coachnum.substring(0,i)+'_'+coachnum.substring(i+1);
+        for (int i = 0; i < coachnum.length(); i++) {
+            if (coachnum.charAt(i) == '/') {
+                coachnum = coachnum.substring(0, i) + '_' + coachnum.substring(i + 1);
             }
         }
 
-        Call<CoachPositionRegister> call = apiInterface.getCoachPosition(coachnum,token);
+        Call<CoachPositionRegister> call = apiInterface.getCoachPosition(coachnum, token);
         call.enqueue(new Callback<CoachPositionRegister>() {
             @Override
             public void onResponse(Call<CoachPositionRegister> call, Response<CoachPositionRegister> response) {
-                int status =response.body().getStatus();
+                int status = response.body().getStatus();
 
-                if(status == 200){
+                if (status == 200) {
                     CoachPositionRegister positionRegister = response.body();
                     Position position = positionRegister.getPosition();
-                    if(position.getLineName() != null){
+                    if (position.getLineName() != null) {
                         editCoachPositionTv.setText(position.getLineName());
                     }
-                    if(position.getLineNo() != null){
+                    if (position.getLineNo() != null) {
                         editCoachLineTv.setText(String.valueOf(position.getLineNo()));
                     }
-                    if(position.getStage() != null){
+                    if (position.getStage() != null) {
                         editCoachStageTv.setText(String.valueOf(position.getStage()));
                     }
 
@@ -360,146 +357,179 @@ public class EditStatusActivity extends AppCompatActivity {
         dialogAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateStatus(position,coachNum);
+                updateStatus(position, coachNum);
             }
         });
 
     }
 
-    private void updateStatus(int position,String coachnum) {
+    private void updateStatus(int position, String coachnum) {
 
         String editedValue = addDialogEt.getText().toString().trim();
-        if(editedValue.isEmpty()){
+        if (editedValue.isEmpty()) {
             addDialogEt.setError("Value required");
             addDialogEt.requestFocus();
             return;
         }
 
-        switch (position){
-            case 0: shellRec = editedValue;
-                statusArrayList.set(position,editedValue);
+        switch (position) {
+            case 0:
+                shellRec = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 1: intake = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 1:
+                intake = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 2: agency = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 2:
+                agency = editedValue;
+                statusArrayList.set(position, editedValue);
                 break;
-            case 3: coupler = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 3:
+                coupler = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 4: ewPanel = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 4:
+                ewPanel = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 5: roofTray = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 5:
+                roofTray = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 6: htTray = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 6:
+                htTray = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 7: htEquip = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 7:
+                htEquip = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 8: highDip = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 8:
+                highDip = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 9: ufTray = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 9:
+                ufTray = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 10: ufTrans = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 10:
+                ufTrans = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 11: ufWire = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 11:
+                ufWire = editedValue;
+                statusArrayList.set(position, editedValue);
                 break;
-            case 12: offRoof = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 12:
+                offRoof = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 13: roofClear = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 13:
+                roofClear = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 14: offEw = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 14:
+                offEw = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 15: ewClear = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 15:
+                ewClear = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 16: mechPan = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 16:
+                mechPan = editedValue;
+                statusArrayList.set(position, editedValue);
                 break;
-            case 17: offTf = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 17:
+                offTf = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 18: tfClear = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 18:
+                tfClear = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 19: tfProv = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 19:
+                tfProv = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 20: lfLoad = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 20:
+                lfLoad = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 21: offPow = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 21:
+                offPow = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 22: powerHv = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 22:
+                powerHv = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 23: offDip = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 23:
+                offDip = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 24: dipClear = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 24:
+                dipClear = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 25: lower = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 25:
+                lower = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 26: offCont = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 26:
+                offCont = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 27: contHv = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 27:
+                contHv = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 28: loadTest = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 28:
+                loadTest = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 29: pcpClear = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 29:
+                pcpClear = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 30: buForm = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 30:
+                buForm = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 31: rakeForm = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 31:
+                rakeForm = parseDateSend(editedValue);
+                statusArrayList.set(position, editedValue);
                 break;
-            case 32: remarks = editedValue;
-                statusArrayList.set(position,editedValue);
+            case 32:
+                remarks = editedValue;
+                statusArrayList.set(position, editedValue);
                 break;
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updateStatus(token,coachNum,shellRec,intake,agency,coupler,ewPanel,
-                roofTray,htTray,htEquip,highDip,ufTray,ufTrans,ufWire,offRoof,roofClear,offEw,ewClear,mechPan,offTf,tfClear,
-                tfProv,lfLoad,offPow,powerHv,offDip,dipClear,lower,offCont,contHv,loadTest,pcpClear,buForm,
-                rakeForm,remarks);
+        Call<PostResponse> call = apiInterface.updateStatus(token, coachNum, shellRec, intake, agency, coupler, ewPanel,
+                roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear,
+                tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm,
+                rakeForm, remarks);
 
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                     coachStatusEditAdapter.notifyDataSetChanged();
                     b.dismiss();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error updating. Try Again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error updating. Try Again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error updating. Try Again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -509,262 +539,246 @@ public class EditStatusActivity extends AppCompatActivity {
 
     private void getStatus(String coachnum) {
 
-        for (int i=0 ; i<coachnum.length() ; i++){
-            if(coachnum.charAt(i) =='/'){
-                coachnum = coachnum.substring(0,i)+'_'+coachnum.substring(i+1);
+        for (int i = 0; i < coachnum.length(); i++) {
+            if (coachnum.charAt(i) == '/') {
+                coachnum = coachnum.substring(0, i) + '_' + coachnum.substring(i + 1);
             }
         }
-        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachnum,token);
+        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachnum, token);
         call.enqueue(new Callback<CoachStatusRegister>() {
             @Override
             public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
                 int status = response.body().getStatus();
 
-                if(status == 200){
+                if (status == 200) {
                     CoachStatusRegister coachStatusRegister = response.body();
                     String rakeNum = coachStatusRegister.getDatum().getRakeNum();
 
-                    if(coachStatusRegister.getDatum().getShellReceived() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getShellReceived().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getShellReceived() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getShellReceived().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getIntake() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getIntake().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getIntake() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIntake().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getAgency() != null){
+                    if (coachStatusRegister.getDatum().getAgency() != null) {
                         statusArrayList.add(coachStatusRegister.getDatum().getAgency());
-                    }else {
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getIvCoupleLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getIvCoupleLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getEwPanelLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getEwPanelLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getRoofPassTrayLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getRoofPassTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getHtRoomTrayLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getHtRoomTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getHtEquipLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getHtEquipLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getHighDip() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHighDip().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getHighDip() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHighDip().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getUfTrayLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getUfTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getUfTransLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getUfTransLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getUfTransLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTransLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getUfWire() != null){
+                    if (coachStatusRegister.getDatum().getUfWire() != null) {
                         statusArrayList.add(coachStatusRegister.getDatum().getUfWire());
-                    }else {
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getOffRoofClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffRoofClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffRoofClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffRoofClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getRoofClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRoofClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getRoofClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getOffEwClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffEwClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffEwClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffEwClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getEwClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getEwClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getEwClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getMechPanel() != null){
+                    if (coachStatusRegister.getDatum().getMechPanel() != null) {
                         statusArrayList.add(coachStatusRegister.getDatum().getMechPanel());
-                    }else {
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getOffTfClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffTfClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffTfClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffTfClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getTfClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getTfClear().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-
-                    if(coachStatusRegister.getDatum().getTfProv() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getTfProv().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getTfClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getLfLoad() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLfLoad().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getTfProv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfProv().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getOffPowerCont() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffPowerCont().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-                    if(coachStatusRegister.getDatum().getPowerHv() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPowerHv().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getLfLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLfLoad().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getOffHiDipClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffPowerCont() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffPowerCont().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getPowerHv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPowerHv().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getHiDipClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getHiDipClear().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffHiDipClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getLower() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLower().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getHiDipClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHiDipClear().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getOffControlCont() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getOffControlCont().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getLower() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLower().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getControlHv() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getControlHv().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-                    if(coachStatusRegister.getDatum().getLoadTest() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getLoadTest().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-                    if(coachStatusRegister.getDatum().getPcpClear() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getPcpClear().toString()));
-                    }else {
-                        statusArrayList.add(" ");
-                    }
-
-                    if(coachStatusRegister.getDatum().getBuFormation() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getBuFormation().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getOffControlCont() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffControlCont().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
 
-                    if(coachStatusRegister.getDatum().getRakeFormation() != null){
-                        statusArrayList.add(parseDate(coachStatusRegister.getDatum().getRakeFormation().toString()));
-                    }else {
+                    if (coachStatusRegister.getDatum().getControlHv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getControlHv().toString()));
+                    } else {
                         statusArrayList.add(" ");
                     }
 
-                    if(coachStatusRegister.getDatum().getRemarks() != null){
+                    if (coachStatusRegister.getDatum().getLoadTest() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLoadTest().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getPcpClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPcpClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getBuFormation() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getBuFormation().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+
+                    if (coachStatusRegister.getDatum().getRakeFormation() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRakeFormation().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getRemarks() != null) {
                         statusArrayList.add(coachStatusRegister.getDatum().getRemarks());
-                    }else {
+                    } else {
                         statusArrayList.add(" ");
                     }
 
                     coachStatusEditAdapter.notifyDataSetChanged();
-                    rakeNameTv.setText("Rake Number : "+ rakeNum);
+                    rakeNameTv.setText(String.format("Rake Number : %s", rakeNum));
                     cardView.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error fetching status. Try Again", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error fetching status. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error fetching status. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
 
     }
 
-    public String parseDate(String time) {
-        String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
-        String outputPattern = "yyyy-MM-dd";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-        Date date;
-        String str = null;
-
-        try {
-            date = inputFormat.parse(time);
-            str = outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return str;
-    }
 }

@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
         buttonDespatchRakes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this,DespatchRakesActivity.class));
+                startActivity(new Intent(HomeActivity.this,DespatchedRakesActivity.class));
             }
         });
 
