@@ -144,7 +144,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
                 getCoachPosition();
                 break;
             case R.id.shop36_button:
-                startActivity(new Intent(LinePositionActivity.this,Shop36Activity.class));
+                startActivity(new Intent(LinePositionActivity.this, Shop36Activity.class));
                 break;
             case R.id.update_position_button:
                 if (role.equals("admin") || role.equals("write")) {

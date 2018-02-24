@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -420,7 +419,6 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Log.e("SAN",response.body().getDatum().getMessage());
                     Toast.makeText(getApplicationContext(), "Error Updating Status. Try Again", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();

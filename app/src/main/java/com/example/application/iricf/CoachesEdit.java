@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -331,7 +330,6 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
-                Log.e("SAN", "status" + status);
                 if (status == 200) {
                     coachesEditDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Edited successfully.", Toast.LENGTH_SHORT).show();

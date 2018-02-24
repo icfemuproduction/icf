@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ public class ShellActivity extends AppCompatActivity {
     CardView cardView;
 
     @BindView(R.id.no_of_shells_tv)
-    TextView noOfShellsTv ;
+    TextView noOfShellsTv;
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
@@ -42,7 +41,7 @@ public class ShellActivity extends AppCompatActivity {
     List<Position> positionArrayList;
     CoachStatusAdapter shellAdapter;
     ArrayList<String> shellNamesList;
-    Integer noOfShells=0;
+    Integer noOfShells = 0;
     AlertDialog loadingDialog;
 
     @Override
@@ -60,13 +59,13 @@ public class ShellActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         positionArrayList = new ArrayList<>();
         shellNamesList = new ArrayList<>();
         fetchPositionData();
 
-        shellAdapter = new CoachStatusAdapter(this,shellNamesList);
+        shellAdapter = new CoachStatusAdapter(this, shellNamesList);
         shellReceivedRv.setLayoutManager(new LinearLayoutManager(this));
         shellReceivedRv.setAdapter(shellAdapter);
         shellAdapter.setOnClickListener(new CoachStatusAdapter.OnClickListener() {
@@ -86,33 +85,31 @@ public class ShellActivity extends AppCompatActivity {
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
                 int status = response.body().getStatus();
-                if(status == 200){
+                if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
-                    Log.e("SAN","total size : "+ positionArrayList.size());
-                    for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("shell")
-                                || positionArrayList.get(i).getLineName().equalsIgnoreCase("paint") ){
+                    for (int i = 0; i < positionArrayList.size(); i++) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("shell")
+                                || positionArrayList.get(i).getLineName().equalsIgnoreCase("paint")) {
                             shellNamesList.add(positionArrayList.get(i).getCoachNum());
                             noOfShells++;
                         }
                     }
                     shellAdapter.notifyDataSetChanged();
-                    noOfShellsTv.setText("No. of Shells : " + String.valueOf(noOfShells));
-                    Log.e("SAN","Size : " + shellNamesList.size());
+                    noOfShellsTv.setText(String.format("No. of Shells : %s", String.valueOf(noOfShells)));
                     cardView.setVisibility(View.VISIBLE);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                            ,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                            , Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                        ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                        , Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

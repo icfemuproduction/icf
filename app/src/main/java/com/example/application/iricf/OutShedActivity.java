@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -83,7 +82,6 @@ public class OutShedActivity extends AppCompatActivity {
                 if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
-                    Log.e("SAN", "total size : " + positionArrayList.size());
                     for (int i = 0; i < positionArrayList.size(); i++) {
                         if (positionArrayList.get(i).getLineName().equalsIgnoreCase("out")) {
                             outShedList.add(positionArrayList.get(i));

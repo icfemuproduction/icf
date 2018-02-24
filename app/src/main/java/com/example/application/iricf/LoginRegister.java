@@ -2,10 +2,6 @@ package com.example.application.iricf;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Santhosh Kumar M on 30-12-2017.
- */
-
 public class LoginRegister {
 
 

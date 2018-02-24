@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -38,7 +37,7 @@ public class PaintActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
-    List<Position> positionArrayList,paintList;
+    List<Position> positionArrayList, paintList;
     LineAdapters paintAdapter;
     List<StagePosition> stagePositionList;
     AlertDialog loadingDialog;
@@ -59,14 +58,14 @@ public class PaintActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         positionArrayList = new ArrayList<>();
         paintList = new ArrayList<>();
         stagePositionList = new ArrayList<>();
         fetchPositionData();
 
-        paintAdapter = new LineAdapters(this,stagePositionList);
+        paintAdapter = new LineAdapters(this, stagePositionList);
         paintShopRv.setLayoutManager(new LinearLayoutManager(this));
         paintShopRv.setAdapter(paintAdapter);
     }
@@ -79,19 +78,18 @@ public class PaintActivity extends AppCompatActivity {
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
                 int status = response.body().getStatus();
-                if(status == 200){
+                if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
-                    Log.e("SAN","total size : "+ positionArrayList.size());
-                    for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("paint")){
+                    for (int i = 0; i < positionArrayList.size(); i++) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("paint")) {
                             paintList.add(positionArrayList.get(i));
                         }
                     }
-                    for(int j=0 ; j<paintList.size() ; j++){
-                        if(paintList.get(j).getLineNo() != null){
+                    for (int j = 0; j < paintList.size(); j++) {
+                        if (paintList.get(j).getLineNo() != null) {
                             stagePositionList.add(new StagePosition(paintList.get(j).getLineNo()
-                                    ,paintList.get(j).getCoachNum()));
+                                    , paintList.get(j).getCoachNum()));
                         }
                     }
                     sortList(stagePositionList);
@@ -99,17 +97,17 @@ public class PaintActivity extends AppCompatActivity {
                     paintAdapter.notifyDataSetChanged();
                     cardView.setVisibility(View.VISIBLE);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                            ,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                            , Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                        ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                        , Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

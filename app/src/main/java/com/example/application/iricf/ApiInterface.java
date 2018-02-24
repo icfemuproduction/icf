@@ -5,24 +5,23 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/rakes/{rake_num}/coaches")
-    Call<CoachPerRakeRegister> getRakeCoaches(@Path(value = "rake_num",encoded = true) String rake_num,
+    Call<CoachPerRakeRegister> getRakeCoaches(@Path(value = "rake_num", encoded = true) String rake_num,
                                               @Field("token") String token);
 
 
     @FormUrlEncoded
     @POST("/api/coaches/{coach_num}/status")
-    Call<CoachStatusRegister> getCoachStatus(@Path(value = "coach_num",encoded = true) String coach_num,
+    Call<CoachStatusRegister> getCoachStatus(@Path(value = "coach_num", encoded = true) String coach_num,
                                              @Field("token") String token);
 
     @FormUrlEncoded
     @POST("api/coaches/{coach_num}/position")
-    Call<CoachPositionRegister> getCoachPosition(@Path(value = "coach_num",encoded = true) String coachNum,
+    Call<CoachPositionRegister> getCoachPosition(@Path(value = "coach_num", encoded = true) String coachNum,
                                                  @Field("token") String token);
 
     @FormUrlEncoded
@@ -38,7 +37,6 @@ public interface ApiInterface {
     @POST("/api/login")
     Call<LoginRegister> login(@Field("username") String username,
                               @Field("password") String password);
-
 
 
     @FormUrlEncoded
@@ -106,8 +104,6 @@ public interface ApiInterface {
                                    @Field("type") String type);
 
 
-
-
     @FormUrlEncoded
     @POST("/api/position/new")
     Call<PostResponse> updatePosition(@Field("token") String token,
@@ -130,19 +126,19 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/api/rakes/{rake_num}/delete")
-    Call<PostResponse> deleteRake(@Path("rake_num") String rakeNum,@Field("token") String token);
+    Call<PostResponse> deleteRake(@Path("rake_num") String rakeNum, @Field("token") String token);
 
     @FormUrlEncoded
     @POST("/api/coaches/{coach_num}/delete")
-    Call<PostResponse> deleteCoach(@Path("coach_num") String coachNum,@Field("token") String token);
+    Call<PostResponse> deleteCoach(@Path("coach_num") String coachNum, @Field("token") String token);
 
     @FormUrlEncoded
     @POST("/api/rakes/edit")
     Call<PostResponse> editRake(@Field("token") String token,
-                                    @Field("old_rakenum") String oldRakeNum,
-                                    @Field("railway") String railway,
-                                    @Field("rake_num") String rakeNum,
-                                    @Field("despatch") String despatch);
+                                @Field("old_rakenum") String oldRakeNum,
+                                @Field("railway") String railway,
+                                @Field("rake_num") String rakeNum,
+                                @Field("despatch") String despatch);
 
     @FormUrlEncoded
     @POST("/api/coaches/edit")

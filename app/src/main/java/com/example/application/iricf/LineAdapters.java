@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +24,7 @@ public class LineAdapters extends RecyclerView.Adapter<LineAdapters.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_line,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_line, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -33,7 +32,7 @@ public class LineAdapters extends RecyclerView.Adapter<LineAdapters.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.lineNumberTv.setText("Line " +  coaches.get(position).getStage() + " : ");
+        holder.lineNumberTv.setText("Line " + coaches.get(position).getStage() + " : ");
         holder.coachNameTv.setText(coaches.get(position).getCoachNum());
     }
 
@@ -52,7 +51,7 @@ public class LineAdapters extends RecyclerView.Adapter<LineAdapters.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

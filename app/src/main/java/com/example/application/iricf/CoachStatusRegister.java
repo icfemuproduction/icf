@@ -29,7 +29,7 @@ public class CoachStatusRegister {
         this.status = status;
     }
 
-    class Datum{
+    class Datum {
 
         @SerializedName("shell_rec")
         Date shellReceived;
@@ -416,9 +416,6 @@ public class CoachStatusRegister {
             this.rakeNum = rakeNum;
         }
     }
-
-
-
 
 
 }

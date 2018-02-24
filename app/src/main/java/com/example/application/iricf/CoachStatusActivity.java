@@ -50,7 +50,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     public static final String OFFERING_END_WALL_CLEARANCE = "Offering EndWall Clearance";
     public static final String END_WALL_CLEARANCE = "EndWall Clearance";
     public static final String MECHANICAL_PANELING = "Mechanical Paneling";
-    public static final String OFFERING_TROUGH_FLOOR_CLEARANCE= "Offering TroughFloor Clearance";
+    public static final String OFFERING_TROUGH_FLOOR_CLEARANCE = "Offering TroughFloor Clearance";
     public static final String TROUGH_FLOOR_CLEARANCE = "TroughFloor Clearance";
     public static final String TROUGH_FLOOR_PROVISION = "TroughFloor Provision";
     public static final String LF_LOADING = "LF Loading";
@@ -90,14 +90,15 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
     CoachStatusAdapter coachStatusAdapter;
 
     ArrayList<Property> propertyArrayList;
-    ArrayList<String> rakeNames,statusArrayList,statusNameArrayList,rakeNumbersList;;
+    ArrayList<String> rakeNames, statusArrayList, statusNameArrayList, rakeNumbersList;
+    ;
     ArrayAdapter<String> predictionAdapter;
     List<RakeName> rakeList;
     StatusPropertyAdapter statusPropertyAdapter;
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token,rakeNum;
-    AlertDialog b,loadingDialog;
+    String token, rakeNum;
+    AlertDialog b, loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         loadingDialog.show();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         rakeNames = new ArrayList<>();
@@ -161,7 +162,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         propertyArrayList = new ArrayList<>();
         coachNamesArrayList = new ArrayList<>();
 
-        coachStatusAdapter = new CoachStatusAdapter(this,coachNamesArrayList);
+        coachStatusAdapter = new CoachStatusAdapter(this, coachNamesArrayList);
         coachesRv.setLayoutManager(new LinearLayoutManager(this));
         coachesRv.setAdapter(coachStatusAdapter);
 
@@ -179,32 +180,32 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
     private void fetchCoaches(String rakenum) {
 
-        for (int i=0 ; i<rakenum.length() ; i++){
-            if(rakenum.charAt(i) =='/'){
+        for (int i = 0; i < rakenum.length(); i++) {
+            if (rakenum.charAt(i) == '/') {
 
-                rakenum = rakenum.substring(0,i)+'_'+rakenum.substring(i+1);
+                rakenum = rakenum.substring(0, i) + '_' + rakenum.substring(i + 1);
             }
 
         }
         loadingDialog.show();
-        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakenum,token);
+        Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakenum, token);
         call.enqueue(new Callback<CoachPerRakeRegister>() {
             @Override
             public void onResponse(Call<CoachPerRakeRegister> call, Response<CoachPerRakeRegister> response) {
                 int status = response.body().getStatus();
 
-                if(status == 200){
+                if (status == 200) {
                     CoachPerRakeRegister coachPerRakeRegister = response.body();
 
                     coachPerRakeArrayList = coachPerRakeRegister.getCoaches();
 
-                    for(int i=0 ; i<coachPerRakeArrayList.size() ; i++){
+                    for (int i = 0; i < coachPerRakeArrayList.size(); i++) {
                         coachNamesArrayList.add(coachPerRakeArrayList.get(i).getCoachNum());
                     }
                     coachStatusAdapter.notifyDataSetChanged();
                     coachesCard.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
                 }
 
                 loadingDialog.dismiss();
@@ -213,7 +214,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
             @Override
             public void onFailure(Call<CoachPerRakeRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -226,11 +227,11 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
 
-                Integer statusCode =response.body().getStatus();
-                if(statusCode == 200){
+                Integer statusCode = response.body().getStatus();
+                if (statusCode == 200) {
                     RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();
-                    for(int i=0 ; i<rakeList.size() ; i++){
+                    for (int i = 0; i < rakeList.size(); i++) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(rakeList.get(i).getRailway());
                         sb.append(rakeList.get(i).getRakeNum());
@@ -238,11 +239,11 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
                         rakeNames.add(rakeName);
                         rakeNumbersList.add(rakeList.get(i).getRakeNum());
                     }
-                    predictionAdapter = new ArrayAdapter<>(CoachStatusActivity.this,android.R.layout.simple_dropdown_item_1line,rakeNames);
+                    predictionAdapter = new ArrayAdapter<>(CoachStatusActivity.this, android.R.layout.simple_dropdown_item_1line, rakeNames);
                     predictionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     rakeSearchSpinner.setAdapter(predictionAdapter);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
                 rakeSearchLayout.setVisibility(View.VISIBLE);
@@ -250,7 +251,7 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
                 rakeSearchLayout.setVisibility(View.VISIBLE);
             }
@@ -259,13 +260,13 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
 
     private void displayStatus(String coachName) {
 
-        for (int i=0 ; i<coachName.length() ; i++){
-            if(coachName.charAt(i) =='/'){
-                coachName = coachName.substring(0,i)+'_'+coachName.substring(i+1);
+        for (int i = 0; i < coachName.length(); i++) {
+            if (coachName.charAt(i) == '/') {
+                coachName = coachName.substring(0, i) + '_' + coachName.substring(i + 1);
             }
         }
 
-        statusPropertyAdapter = new StatusPropertyAdapter(this,statusNameArrayList,statusArrayList);
+        statusPropertyAdapter = new StatusPropertyAdapter(this, statusNameArrayList, statusArrayList);
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -290,242 +291,242 @@ public class CoachStatusActivity extends AppCompatActivity implements AdapterVie
         statusPropertyRv.setAdapter(statusPropertyAdapter);
 
         loadingDialog.show();
-        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName,token);
+        Call<CoachStatusRegister> call = apiInterface.getCoachStatus(coachName, token);
         call.enqueue(new Callback<CoachStatusRegister>() {
-           @Override
-           public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
+            @Override
+            public void onResponse(Call<CoachStatusRegister> call, Response<CoachStatusRegister> response) {
 
-               int status =response.body().getStatus();
+                int status = response.body().getStatus();
 
-               if(status == 200){
-                   statusArrayList.clear();
-                   CoachStatusRegister coachStatusRegister = response.body();
-                   String rakeNum = coachStatusRegister.getDatum().getRakeNum();
+                if (status == 200) {
+                    statusArrayList.clear();
+                    CoachStatusRegister coachStatusRegister = response.body();
+                    String rakeNum = coachStatusRegister.getDatum().getRakeNum();
 
-                   if(coachStatusRegister.getDatum().getShellReceived() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getShellReceived().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getShellReceived() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getShellReceived().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getIntake() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIntake().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getIntake() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIntake().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getAgency() != null){
-                       statusArrayList.add(coachStatusRegister.getDatum().getAgency());
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getAgency() != null) {
+                        statusArrayList.add(coachStatusRegister.getDatum().getAgency());
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getIvCoupleLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getIvCoupleLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getIvCoupleLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getEwPanelLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getEwPanelLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwPanelLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getRoofPassTrayLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getRoofPassTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofPassTrayLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getHtRoomTrayLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getHtRoomTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtRoomTrayLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getHtEquipLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getHtEquipLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHtEquipLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getHighDip() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHighDip().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getHighDip() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHighDip().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getUfTrayLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getUfTrayLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTrayLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getUfTransLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTransLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getUfTransLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getUfTransLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getUfWire() != null){
-                       statusArrayList.add(coachStatusRegister.getDatum().getUfWire());
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getUfWire() != null) {
+                        statusArrayList.add(coachStatusRegister.getDatum().getUfWire());
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getOffRoofClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffRoofClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getOffRoofClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffRoofClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getRoofClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getRoofClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRoofClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getOffEwClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffEwClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getOffEwClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffEwClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   if(coachStatusRegister.getDatum().getEwClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-
-                   if(coachStatusRegister.getDatum().getMechPanel() != null){
-                       statusArrayList.add(coachStatusRegister.getDatum().getMechPanel());
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getOffTfClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffTfClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getTfClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getEwClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getEwClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getTfProv() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfProv().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getMechPanel() != null) {
+                        statusArrayList.add(coachStatusRegister.getDatum().getMechPanel());
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getOffTfClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffTfClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getTfClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getLfLoad() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLfLoad().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getTfProv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getTfProv().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getOffPowerCont() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffPowerCont().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getPowerHv() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPowerHv().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getLfLoad() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLfLoad().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getOffHiDipClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getOffPowerCont() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffPowerCont().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getPowerHv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPowerHv().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getHiDipClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHiDipClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getOffHiDipClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffHiDipClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getLower() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLower().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getHiDipClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getHiDipClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getOffControlCont() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffControlCont().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getLower() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLower().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getControlHv() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getControlHv().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getLoadTest() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLoadTest().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getPcpClear() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPcpClear().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
-
-                   if(coachStatusRegister.getDatum().getBuFormation() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getBuFormation().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getOffControlCont() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getOffControlCont().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getRakeFormation() != null){
-                       statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRakeFormation().toString()));
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getControlHv() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getControlHv().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getLoadTest() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getLoadTest().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getPcpClear() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getPcpClear().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    if (coachStatusRegister.getDatum().getBuFormation() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getBuFormation().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
 
-                   if(coachStatusRegister.getDatum().getRemarks() != null){
-                       statusArrayList.add(coachStatusRegister.getDatum().getRemarks());
-                   }else {
-                       statusArrayList.add(" ");
-                   }
+                    if (coachStatusRegister.getDatum().getRakeFormation() != null) {
+                        statusArrayList.add(parseDateReceive(coachStatusRegister.getDatum().getRakeFormation().toString()));
+                    } else {
+                        statusArrayList.add(" ");
+                    }
 
-                   statusPropertyAdapter.notifyDataSetChanged();
-                   rakeNameTv.setText("Rake Number : " + rakeNum);
-                   b.show();
-               }else {
-                   Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
-               }
-               loadingDialog.dismiss();
-           }
 
-           @Override
-           public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
-               Toast.makeText(getApplicationContext(),"Error Fetching Data. Try Again.",Toast.LENGTH_SHORT).show();
-               loadingDialog.dismiss();
-           }
-       });
+                    if (coachStatusRegister.getDatum().getRemarks() != null) {
+                        statusArrayList.add(coachStatusRegister.getDatum().getRemarks());
+                    } else {
+                        statusArrayList.add(" ");
+                    }
+
+                    statusPropertyAdapter.notifyDataSetChanged();
+                    rakeNameTv.setText("Rake Number : " + rakeNum);
+                    b.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<CoachStatusRegister> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error Fetching Data. Try Again.", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
     }
 
     @Override

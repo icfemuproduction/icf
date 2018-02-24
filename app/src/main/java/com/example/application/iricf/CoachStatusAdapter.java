@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.ViewHolder>{
+public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<String> coaches;
     private OnClickListener onClickListener;
 
-    public void setOnClickListener(OnClickListener onClickListener){
+    public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
@@ -29,7 +29,7 @@ public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_coach,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_coach, parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,7 +40,7 @@ public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.
         holder.singleCoachTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickListener.itemClicked(view,position);
+                onClickListener.itemClicked(view, position);
             }
         });
     }
@@ -58,12 +58,12 @@ public class CoachStatusAdapter extends RecyclerView.Adapter<CoachStatusAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public interface OnClickListener{
-        void itemClicked(View view,int position);
+    public interface OnClickListener {
+        void itemClicked(View view, int position);
     }
 
 

@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String LOGGED_IN = "logged_in";
     public static final String TOKEN = "token";
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ApiInterface apiInterface;
     String token;
     SharedPreferences preferences;
-    
+
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
     AlertDialog loadingDialog;
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.sign_in_button:
                 signInUser();
                 break;
@@ -112,52 +112,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final String username = signInUsernameEt.getText().toString().trim();
         String password = signInPasswordEt.getText().toString().trim();
 
-        if(username.isEmpty() && !password.isEmpty()){
+        if (username.isEmpty() && !password.isEmpty()) {
             signInUsernameEt.setError("Username is required");
             signInUsernameEt.requestFocus();
             return;
         }
 
-        if(!username.isEmpty() && password.isEmpty()){
+        if (!username.isEmpty() && password.isEmpty()) {
             signInPasswordEt.setError("Password is required");
             signInPasswordEt.requestFocus();
             return;
         }
 
-        if(username.isEmpty() && password.isEmpty()){
+        if (username.isEmpty() && password.isEmpty()) {
             signInPasswordEt.setError("Password is required");
             signInUsernameEt.setError("Username is required");
             signInUsernameEt.requestFocus();
             return;
         }
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(signInPasswordEt.getWindowToken(), 0);
 
         loadingDialog.show();
-        Call<LoginRegister> call = apiInterface.login(username,password);
+        Call<LoginRegister> call = apiInterface.login(username, password);
         call.enqueue(new Callback<LoginRegister>() {
             @Override
             public void onResponse(Call<LoginRegister> call, Response<LoginRegister> response) {
                 LoginRegister loginRegister = response.body();
 
                 int status = response.body().getStatus();
-                if(status == 200){
-                     token = loginRegister.getDatum().getToken();
-
+                if (status == 200) {
+                    token = loginRegister.getDatum().getToken();
 
 
                     preferences.edit()
-                            .putBoolean(LOGGED_IN,true)
-                            .putString(USERNAME,username)
-                            .putString(TOKEN,token)
+                            .putBoolean(LOGGED_IN, true)
+                            .putString(USERNAME, username)
+                            .putString(TOKEN, token)
                             .apply();
 
                     validSignIn();
                     loadingDialog.dismiss();
 
                 } else {
-                    Toast.makeText(getApplicationContext(),"Error SignIn",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error SignIn", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
                 }
 
@@ -166,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<LoginRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Failed : " + t.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed : " + t.toString(), Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -176,10 +175,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void validSignIn() {
 
-            Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
 
     }
 }

@@ -37,24 +37,24 @@ public class SplashActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        isLoggedIn = preferences.getBoolean(LOGGED_IN,false);
-        token = preferences.getString(TOKEN,null);
+        isLoggedIn = preferences.getBoolean(LOGGED_IN, false);
+        token = preferences.getString(TOKEN, null);
 
-        if(token != null){
+        if (token != null) {
             validateToken();
-        }else {
+        } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(isLoggedIn){
-                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                    if (isLoggedIn) {
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         finish();
-                    }else {
-                        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
                     }
                 }
-            },500);
+            }, 500);
         }
 
     }
@@ -68,21 +68,21 @@ public class SplashActivity extends AppCompatActivity {
 
                 SingleProfileRegister profileRegister = response.body();
                 int statusCode = response.body().getStatus();
-                Log.d("SAN","code: " + statusCode);
+                Log.d("SAN", "code: " + statusCode);
 
-                if(statusCode == 200){
-                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                if (statusCode == 200) {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     finish();
-                }else if(statusCode == 401){
+                } else if (statusCode == 401) {
                     preferences.edit().clear().apply();
-                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
-                }else {
-                    if(isLoggedIn){
-                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                } else {
+                    if (isLoggedIn) {
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         finish();
-                    }else {
-                        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
                     }
                 }
@@ -90,8 +90,8 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<SingleProfileRegister> call, Throwable t) {
-              Toast.makeText(getApplicationContext(),"Error : Check Connection. Try Again." ,Toast.LENGTH_SHORT).show();
-              progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Error : Check Connection. Try Again.", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }

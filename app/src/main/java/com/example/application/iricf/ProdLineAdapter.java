@@ -1,6 +1,5 @@
 package com.example.application.iricf;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProdLineAdapter extends RecyclerView.Adapter<ProdLineAdapter.ViewHolder> {
@@ -23,7 +21,7 @@ public class ProdLineAdapter extends RecyclerView.Adapter<ProdLineAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_line,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_line, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -31,7 +29,7 @@ public class ProdLineAdapter extends RecyclerView.Adapter<ProdLineAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.singleSection.setText("Stage " + positionArrayList.get(position).getStage()+ " : ");
+        holder.singleSection.setText("Stage " + positionArrayList.get(position).getStage() + " : ");
         holder.singleText.setText(positionArrayList.get(position).getCoachNum());
     }
 
@@ -41,7 +39,7 @@ public class ProdLineAdapter extends RecyclerView.Adapter<ProdLineAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView singleText,singleSection;
+        TextView singleText, singleSection;
 
         public ViewHolder(View itemView) {
             super(itemView);

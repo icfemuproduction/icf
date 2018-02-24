@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -169,64 +168,64 @@ public class Shop36Activity extends AppCompatActivity {
                     for (int j = 0; j < productionList.size(); j++) {
                         Integer lineNum = productionList.get(j).getLineNo();
                         if (lineNum != null) {
-                            try{
+                            try {
                                 switch (productionList.get(j).getLineNo()) {
                                     case 1:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListOne.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 2:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListTwo.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 3:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListThree.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 4:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListFour.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 5:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListFive.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 6:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListSix.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 7:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListSeven.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 8:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListEight.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 9:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListNine.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
                                     case 10:
-                                        if(productionList.get(j).getStage() != null){
+                                        if (productionList.get(j).getStage() != null) {
                                             stagePositionListTen.add(new StagePosition(productionList.get(j).getStage()
                                                     , productionList.get(j).getCoachNum()));
                                         }
@@ -235,10 +234,9 @@ public class Shop36Activity extends AppCompatActivity {
                                         break;
 
                                 }
-                            }catch (NullPointerException e){
-                                Log.e("SAN","Nulllllll daaa");
-                            }
+                            } catch (NullPointerException e) {
 
+                            }
 
 
                         }

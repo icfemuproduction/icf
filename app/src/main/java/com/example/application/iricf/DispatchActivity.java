@@ -43,9 +43,9 @@ public class DispatchActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
-    List<Position> positionArrayList,dispatchList;
-    ProdLineAdapter disOneAdapter,disTwoAdapter,disThreeAdapter;
-    List<StagePosition> stagePositionListOne,stagePositionListTwo,stagePositionListThree;
+    List<Position> positionArrayList, dispatchList;
+    ProdLineAdapter disOneAdapter, disTwoAdapter, disThreeAdapter;
+    List<StagePosition> stagePositionListOne, stagePositionListTwo, stagePositionListThree;
     AlertDialog loadingDialog;
 
     @Override
@@ -63,22 +63,22 @@ public class DispatchActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
         stagePositionListOne = new ArrayList<>();
         stagePositionListTwo = new ArrayList<>();
         stagePositionListThree = new ArrayList<>();
         positionArrayList = new ArrayList<>();
         fetchPositionData();
 
-        disOneAdapter = new ProdLineAdapter(this,stagePositionListOne);
+        disOneAdapter = new ProdLineAdapter(this, stagePositionListOne);
         dispatchLineOneRv.setLayoutManager(new LinearLayoutManager(this));
         dispatchLineOneRv.setAdapter(disOneAdapter);
 
-        disTwoAdapter = new ProdLineAdapter(this,stagePositionListTwo);
+        disTwoAdapter = new ProdLineAdapter(this, stagePositionListTwo);
         dispatchLineTwoRv.setLayoutManager(new LinearLayoutManager(this));
         dispatchLineTwoRv.setAdapter(disTwoAdapter);
 
-        disThreeAdapter = new ProdLineAdapter(this,stagePositionListThree);
+        disThreeAdapter = new ProdLineAdapter(this, stagePositionListThree);
         dispatchLineThreeRv.setLayoutManager(new LinearLayoutManager(this));
         dispatchLineThreeRv.setAdapter(disThreeAdapter);
 
@@ -92,30 +92,30 @@ public class DispatchActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
-                int status =response.body().getStatus();
-                if(status == 200){
+                int status = response.body().getStatus();
+                if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
                     dispatchList = new ArrayList<>();
-                    for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("despatch")){
+                    for (int i = 0; i < positionArrayList.size(); i++) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("despatch")) {
                             dispatchList.add(positionArrayList.get(i));
                         }
                     }
-                    for(int j=0 ; j<dispatchList.size() ; j++){
-                        if(dispatchList.get(j).getLineNo() != null){
-                            switch (dispatchList.get(j).getLineNo()){
+                    for (int j = 0; j < dispatchList.size(); j++) {
+                        if (dispatchList.get(j).getLineNo() != null) {
+                            switch (dispatchList.get(j).getLineNo()) {
                                 case 1:
                                     stagePositionListOne.add(new StagePosition(dispatchList.get(j).getStage()
-                                            ,dispatchList.get(j).getCoachNum()));
+                                            , dispatchList.get(j).getCoachNum()));
                                     break;
                                 case 2:
                                     stagePositionListTwo.add(new StagePosition(dispatchList.get(j).getStage()
-                                            ,dispatchList.get(j).getCoachNum()));
+                                            , dispatchList.get(j).getCoachNum()));
                                     break;
                                 case 3:
                                     stagePositionListThree.add(new StagePosition(dispatchList.get(j).getStage()
-                                            ,dispatchList.get(j).getCoachNum()));
+                                            , dispatchList.get(j).getCoachNum()));
                                     break;
                                 default:
                                     break;
@@ -133,9 +133,9 @@ public class DispatchActivity extends AppCompatActivity {
 
                     dispatchShedLayout.setVisibility(View.VISIBLE);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                            ,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                            , Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
@@ -143,8 +143,8 @@ public class DispatchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
 
-                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                        ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                        , Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

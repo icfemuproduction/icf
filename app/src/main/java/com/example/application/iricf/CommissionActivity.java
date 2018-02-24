@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,9 +43,9 @@ public class CommissionActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
-    List<Position> positionArrayList,commissionList;
-    ProdLineAdapter disOneAdapter,disTwoAdapter,disThreeAdapter;
-    List<StagePosition> stagePositionListOne,stagePositionListTwo,stagePositionListThree;
+    List<Position> positionArrayList, commissionList;
+    ProdLineAdapter disOneAdapter, disTwoAdapter, disThreeAdapter;
+    List<StagePosition> stagePositionListOne, stagePositionListTwo, stagePositionListThree;
     AlertDialog loadingDialog;
 
     @Override
@@ -65,7 +63,7 @@ public class CommissionActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         stagePositionListOne = new ArrayList<>();
         stagePositionListTwo = new ArrayList<>();
@@ -73,15 +71,15 @@ public class CommissionActivity extends AppCompatActivity {
         positionArrayList = new ArrayList<>();
         fetchPositionData();
 
-        disOneAdapter = new ProdLineAdapter(this,stagePositionListOne);
+        disOneAdapter = new ProdLineAdapter(this, stagePositionListOne);
         commissionLineOneRv.setLayoutManager(new LinearLayoutManager(this));
         commissionLineOneRv.setAdapter(disOneAdapter);
 
-        disTwoAdapter = new ProdLineAdapter(this,stagePositionListTwo);
+        disTwoAdapter = new ProdLineAdapter(this, stagePositionListTwo);
         commissionLineTwoRv.setLayoutManager(new LinearLayoutManager(this));
         commissionLineTwoRv.setAdapter(disTwoAdapter);
 
-        disThreeAdapter = new ProdLineAdapter(this,stagePositionListThree);
+        disThreeAdapter = new ProdLineAdapter(this, stagePositionListThree);
         commissionLineThreeRv.setLayoutManager(new LinearLayoutManager(this));
         commissionLineThreeRv.setAdapter(disThreeAdapter);
 
@@ -96,29 +94,29 @@ public class CommissionActivity extends AppCompatActivity {
             public void onResponse(Call<PositionRegister> call, Response<PositionRegister> response) {
 
                 int status = response.body().getStatus();
-                if(status == 200){
+                if (status == 200) {
                     PositionRegister positionRegister = response.body();
                     positionArrayList = positionRegister.getPositionList();
                     commissionList = new ArrayList<>();
-                    for (int i=0 ; i<positionArrayList.size() ; i++){
-                        if(positionArrayList.get(i).getLineName().equalsIgnoreCase("despatch")){
+                    for (int i = 0; i < positionArrayList.size(); i++) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("despatch")) {
                             commissionList.add(positionArrayList.get(i));
                         }
                     }
-                    for(int j=0 ; j<commissionList.size() ; j++){
-                        if(commissionList.get(j).getLineNo() != null){
-                            switch (commissionList.get(j).getLineNo()){
+                    for (int j = 0; j < commissionList.size(); j++) {
+                        if (commissionList.get(j).getLineNo() != null) {
+                            switch (commissionList.get(j).getLineNo()) {
                                 case 1:
                                     stagePositionListOne.add(new StagePosition(commissionList.get(j).getStage()
-                                            ,commissionList.get(j).getCoachNum()));
+                                            , commissionList.get(j).getCoachNum()));
                                     break;
                                 case 2:
                                     stagePositionListTwo.add(new StagePosition(commissionList.get(j).getStage()
-                                            ,commissionList.get(j).getCoachNum()));
+                                            , commissionList.get(j).getCoachNum()));
                                     break;
                                 case 3:
                                     stagePositionListThree.add(new StagePosition(commissionList.get(j).getStage()
-                                            ,commissionList.get(j).getCoachNum()));
+                                            , commissionList.get(j).getCoachNum()));
                                     break;
                                 default:
                                     break;
@@ -136,9 +134,9 @@ public class CommissionActivity extends AppCompatActivity {
 
                     commissionShedLayout.setVisibility(View.VISIBLE);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                            ,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                            , Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
 
@@ -146,8 +144,8 @@ public class CommissionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PositionRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
-                        ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error getting positions. Try again later"
+                        , Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

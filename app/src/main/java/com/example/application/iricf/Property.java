@@ -2,7 +2,7 @@ package com.example.application.iricf;
 
 public class Property {
 
-    String property,value;
+    String property, value;
 
     public Property(String property, String value) {
         this.property = property;

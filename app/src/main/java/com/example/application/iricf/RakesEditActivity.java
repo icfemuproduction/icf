@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +32,7 @@ import retrofit2.Response;
 
 import static com.example.application.iricf.Utils.parseDateSend;
 
-public class RakesEditActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener{
+public class RakesEditActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String TOKEN = "token";
     public static final String RAKE_NUM = "rakeNum";
@@ -49,18 +48,18 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     SharedPreferences preferences;
     CoachStatusAdapter rakesAdapter;
-    ArrayList<String> rakeNames,zonesArrayList;
+    ArrayList<String> rakeNames, zonesArrayList;
     List<RakeName> rakeList;
     ApiInterface apiInterface;
-    String token,railwayName,rakeNum,newRailway,despatchDate;
-    AlertDialog b,rakesDeleteDialog,editRakesDialog;
-    EditText addDialogEt,rakesDeleteEt,rakesEditOldEt,rakesEditNewEt,rakesEditDespatchDateEt;
-    Spinner addDialogSpinner,rakesEditSpinner;
-    Button dialogAddButton,dialogCancelButton,rakesDeleteDialogButton,
-            rakesDeleteDialogCancelButton,rakesEditDialogCancelButton,rakesEditDialogButton;
+    String token, railwayName, rakeNum, newRailway, despatchDate;
+    AlertDialog b, rakesDeleteDialog, editRakesDialog;
+    EditText addDialogEt, rakesDeleteEt, rakesEditOldEt, rakesEditNewEt, rakesEditDespatchDateEt;
+    Spinner addDialogSpinner, rakesEditSpinner;
+    Button dialogAddButton, dialogCancelButton, rakesDeleteDialogButton,
+            rakesDeleteDialogCancelButton, rakesEditDialogCancelButton, rakesEditDialogButton;
     ArrayAdapter<String> zoneAdapter;
     AlertDialog loadingDialog;
-    boolean newRakeChanged  = false;
+    boolean newRakeChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         buttonCreateRake.setOnClickListener(this);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
         rakeNames = new ArrayList<>();
         rakeList = new ArrayList<>();
@@ -104,7 +103,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         zonesArrayList.add("KR");
         getRakes();
 
-        rakesAdapter = new CoachStatusAdapter(this,rakeNames);
+        rakesAdapter = new CoachStatusAdapter(this, rakeNames);
 
         rakesEditRv.setLayoutManager(new LinearLayoutManager(this));
         rakesEditRv.setAdapter(rakesAdapter);
@@ -121,7 +120,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.create_rake_button:
                 createRakeDialog();
                 break;
@@ -170,26 +169,26 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
         despatchDate = null;
         rakeNum = addDialogEt.getText().toString().trim();
-        if(rakeNum.isEmpty()){
+        if (rakeNum.isEmpty()) {
             addDialogEt.setError("Enter a rake number");
             addDialogEt.requestFocus();
             return;
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.createRake(token,railwayName,rakeNum,despatchDate);
+        Call<PostResponse> call = apiInterface.createRake(token, railwayName, rakeNum, despatchDate);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Rake Created Successfully",Toast.LENGTH_SHORT).show();
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "Rake Created Successfully", Toast.LENGTH_SHORT).show();
                     rakeNames.add(railwayName + rakeNum);
-                    rakeList.add(new RakeName(railwayName,rakeNum,null));
+                    rakeList.add(new RakeName(railwayName, rakeNum, null));
                     rakesAdapter.notifyDataSetChanged();
                     b.dismiss();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Creating Rake. Try Again", Toast.LENGTH_SHORT).show();
                 }
 
                 loadingDialog.dismiss();
@@ -197,7 +196,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Creating Rake. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Creating Rake. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -205,8 +204,8 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     private void openCoaches(int position) {
 
-        Intent coachesIntent = new Intent(getApplicationContext(),CoachesEdit.class);
-        coachesIntent.putExtra(RAKE_NUM,rakeList.get(position).getRakeNum());
+        Intent coachesIntent = new Intent(getApplicationContext(), CoachesEdit.class);
+        coachesIntent.putExtra(RAKE_NUM, rakeList.get(position).getRakeNum());
         startActivity(coachesIntent);
 
     }
@@ -218,12 +217,12 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         call.enqueue(new Callback<RakeRegister>() {
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
-                Integer statusCode =response.body().getStatus();
-                if(statusCode == 200){
+                Integer statusCode = response.body().getStatus();
+                if (statusCode == 200) {
                     rakeList.clear();
                     RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();
-                    for(int i=0 ; i<rakeList.size() ; i++){
+                    for (int i = 0; i < rakeList.size(); i++) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(rakeList.get(i).getRailway());
                         sb.append(rakeList.get(i).getRakeNum());
@@ -233,8 +232,8 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                     rakesAdapter.notifyDataSetChanged();
                     rakesEditCard.setVisibility(View.VISIBLE);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
 
@@ -242,7 +241,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -283,31 +282,30 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
         String rakeNum = rakesDeleteEt.getText().toString().toLowerCase().trim();
 
-        if(rakeNum.isEmpty()){
+        if (rakeNum.isEmpty()) {
             rakesDeleteEt.setError("Enter a rake number");
             rakesDeleteEt.requestFocus();
             return;
         }
 
         final String rakenum = rakeNum;
-        for (int i=0 ; i<rakeNum.length() ; i++){
-            if(rakeNum.charAt(i) =='/'){
-                rakeNum = rakeNum.substring(0,i)+'_'+rakeNum.substring(i+1);
+        for (int i = 0; i < rakeNum.length(); i++) {
+            if (rakeNum.charAt(i) == '/') {
+                rakeNum = rakeNum.substring(0, i) + '_' + rakeNum.substring(i + 1);
             }
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.deleteRake(rakeNum,token);
+        Call<PostResponse> call = apiInterface.deleteRake(rakeNum, token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"Successfully Deleted.",Toast.LENGTH_SHORT).show();
-                    for(int i=0; i<rakeNames.size() ; i++){
-                        if(rakeList.get(i).getRakeNum().equalsIgnoreCase(rakenum)){
-                            Log.e("SAN",rakeNames.get(i) + "delte : "+rakenum);
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "Successfully Deleted.", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < rakeNames.size(); i++) {
+                        if (rakeList.get(i).getRakeNum().equalsIgnoreCase(rakenum)) {
                             rakeNames.remove(i);
                             rakeList.remove(i);
 
@@ -315,15 +313,15 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                     rakesDeleteDialog.dismiss();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Deleting Rake. Try Again",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Deleting Rake. Try Again", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Deleting Rake. Try Again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Deleting Rake. Try Again", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -352,7 +350,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         rakesEditSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                    newRailway = adapterView.getItemAtPosition(position).toString();
+                newRailway = adapterView.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -383,49 +381,49 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         String despatchDate = rakesEditDespatchDateEt.getText().toString().trim();
         final String tempRakeNum = rakesEditNewEt.getText().toString().trim();
 
-        if(oldRakeNum.isEmpty()){
+        if (oldRakeNum.isEmpty()) {
             rakesEditOldEt.setError("Enter old rake number");
             rakesEditOldEt.requestFocus();
             return;
         }
 
-        if(newRakeNum.isEmpty() && despatchDate.isEmpty()){
+        if (newRakeNum.isEmpty() && despatchDate.isEmpty()) {
             rakesEditNewEt.setError("Enter new rake number");
             rakesEditNewEt.requestFocus();
             return;
         }
 
-        if(newRakeNum.isEmpty()){
+        if (newRakeNum.isEmpty()) {
             newRakeNum = null;
-        }else {
+        } else {
             newRakeChanged = true;
         }
 
 
-        if(despatchDate.isEmpty()){
+        if (despatchDate.isEmpty()) {
             despatchDate = null;
-        }else{
+        } else {
             despatchDate = parseDateSend(despatchDate);
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.editRake(token,oldRakeNum,newRailway,newRakeNum,despatchDate);
+        Call<PostResponse> call = apiInterface.editRake(token, oldRakeNum, newRailway, newRakeNum, despatchDate);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
-                if(status == 200){
+                if (status == 200) {
                     editRakesDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Edited Successfully.",Toast.LENGTH_SHORT).show();
-                    for(int i=0; i<rakeNames.size() ; i++){
-                        if(rakeList.get(i).getRakeNum().equalsIgnoreCase(oldRakeNum)){
+                    Toast.makeText(getApplicationContext(), "Edited Successfully.", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < rakeNames.size(); i++) {
+                        if (rakeList.get(i).getRakeNum().equalsIgnoreCase(oldRakeNum)) {
 
-                            if(!newRakeChanged){
+                            if (!newRakeChanged) {
 
                             } else {
-                                rakeNames.set(i,newRailway + tempRakeNum);
-                                rakeList.set(i,new RakeName(newRailway,tempRakeNum,null));
+                                rakeNames.set(i, newRailway + tempRakeNum);
+                                rakeList.set(i, new RakeName(newRailway, tempRakeNum, null));
                             }
 
 
@@ -433,9 +431,8 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
 
-                }else {
-                    Log.e("SAN",response.message());
-                    Toast.makeText(getApplicationContext(),"Error editing rake. Try again later.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error editing rake. Try again later.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
 
@@ -443,7 +440,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error editing rake. Try again later.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error editing rake. Try again later.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -452,14 +449,13 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.rake_edit_menu,menu);
-        return  true;
+        getMenuInflater().inflate(R.menu.rake_edit_menu, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.del_rake_menu:
                 deleteRakesDialog();
                 break;

@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateUserActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class CreateUserActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String TOKEN = "token";
 
@@ -46,7 +46,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
     SharedPreferences preferences;
     ArrayAdapter<String> roleAdapter;
     ArrayList<String> rolesArrayList = new ArrayList<>();
-    String role,token;
+    String role, token;
     AlertDialog loadingDialog;
 
     @Override
@@ -63,7 +63,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
                 .create();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
         createUserButton.setOnClickListener(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -80,7 +80,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.create_user_button:
                 createUser();
                 break;
@@ -95,47 +95,46 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         String password = passwordEt.getText().toString().trim();
 
 
-
-        if(name.isEmpty() && !password.isEmpty() && !userName.isEmpty()){
+        if (name.isEmpty() && !password.isEmpty() && !userName.isEmpty()) {
             nameEt.setError("Name is required");
             nameEt.requestFocus();
             return;
         }
 
-        if(!name.isEmpty() && password.isEmpty() && !userName.isEmpty()){
+        if (!name.isEmpty() && password.isEmpty() && !userName.isEmpty()) {
             passwordEt.setError("Password is required");
             passwordEt.requestFocus();
             return;
         }
 
-        if(!name.isEmpty() && !password.isEmpty() && userName.isEmpty()){
+        if (!name.isEmpty() && !password.isEmpty() && userName.isEmpty()) {
             userNameEt.setError("Username is required");
             userNameEt.requestFocus();
             return;
         }
 
-        if(name.isEmpty() && !password.isEmpty() && userName.isEmpty()){
+        if (name.isEmpty() && !password.isEmpty() && userName.isEmpty()) {
             userNameEt.setError("Username is required");
             nameEt.setError("Name is required");
             nameEt.requestFocus();
             return;
         }
 
-        if(name.isEmpty() && password.isEmpty() && !userName.isEmpty()){
+        if (name.isEmpty() && password.isEmpty() && !userName.isEmpty()) {
             passwordEt.setError("Password is required");
             nameEt.setError("Name is required");
             nameEt.requestFocus();
             return;
         }
 
-        if(!name.isEmpty() && password.isEmpty() && userName.isEmpty()){
+        if (!name.isEmpty() && password.isEmpty() && userName.isEmpty()) {
             userNameEt.setError("Username is required");
             passwordEt.setError("Password is required");
             userNameEt.requestFocus();
             return;
         }
 
-        if(name.isEmpty() && password.isEmpty() && userName.isEmpty()){
+        if (name.isEmpty() && password.isEmpty() && userName.isEmpty()) {
             nameEt.setError("Name is required");
             userNameEt.setError("Username is required");
             passwordEt.setError("Password is required");
@@ -144,25 +143,25 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.createUser(name,userName,password,role,token);
+        Call<PostResponse> call = apiInterface.createUser(name, userName, password, role, token);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
 
                 int status = response.code();
 
-                if(status == 200){
-                    Toast.makeText(getApplicationContext(),"User Created Successfully",Toast.LENGTH_SHORT).show();
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), "User Created Successfully", Toast.LENGTH_SHORT).show();
                     finish();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Creating User. Try Again Later.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Creating User. Try Again Later.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Creating User. Try Again Later.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Creating User. Try Again Later.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });

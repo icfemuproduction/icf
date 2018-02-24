@@ -26,7 +26,7 @@ public class PostResponse {
         this.status = status;
     }
 
-    class Datum{
+    class Datum {
 
         @SerializedName("message")
         private String message;

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAdapter.ViewHolder>{
+public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<String> statusName,statusValue;
+    ArrayList<String> statusName, statusValue;
 
-    public StatusPropertyAdapter(Context context, ArrayList<String> statusName,ArrayList<String> statusValue) {
+    public StatusPropertyAdapter(Context context, ArrayList<String> statusName, ArrayList<String> statusValue) {
         this.context = context;
         this.statusName = statusName;
         this.statusValue = statusValue;
@@ -25,7 +25,7 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_line,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_line, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -50,9 +50,10 @@ public class StatusPropertyAdapter extends RecyclerView.Adapter<StatusPropertyAd
 
         @BindView(R.id.single_line_tv)
         TextView valueTv;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
 
         }
     }

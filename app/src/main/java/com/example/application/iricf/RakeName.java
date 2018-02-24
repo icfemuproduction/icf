@@ -15,7 +15,7 @@ public class RakeName {
     @SerializedName("despatch")
     private Date despatchDate;
 
-    public RakeName(String railway, String rakeNum,Date despatchDate) {
+    public RakeName(String railway, String rakeNum, Date despatchDate) {
         this.railway = railway;
         this.rakeNum = rakeNum;
         this.despatchDate = despatchDate;

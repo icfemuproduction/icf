@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    String role= null,token;
+    String role = null, token;
     AlertDialog loadingDialog;
 
     @Override
@@ -56,9 +56,9 @@ public class HomeActivity extends AppCompatActivity {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = preferences.edit();
-        role = preferences.getString(ROLE,null);
-        token = preferences.getString(TOKEN,"");
-        if(role == null){
+        role = preferences.getString(ROLE, null);
+        token = preferences.getString(TOKEN, "");
+        if (role == null) {
             getRole();
         }
 
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         buttonLinePosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this,LinePositionActivity.class));
+                startActivity(new Intent(HomeActivity.this, LinePositionActivity.class));
             }
         });
 
@@ -74,14 +74,14 @@ public class HomeActivity extends AppCompatActivity {
         buttonCoachStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this,CoachStatusActivity.class));
+                startActivity(new Intent(HomeActivity.this, CoachStatusActivity.class));
             }
         });
 
         buttonDespatchRakes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this,DespatchedRakesActivity.class));
+                startActivity(new Intent(HomeActivity.this, DespatchedRakesActivity.class));
             }
         });
 
@@ -97,10 +97,10 @@ public class HomeActivity extends AppCompatActivity {
 
                 int statusCode = response.body().getStatus();
 
-                if(statusCode == 200){
+                if (statusCode == 200) {
                     SingleProfileRegister profileRegister = response.body();
                     role = profileRegister.getProfile().getRole();
-                    editor.putString(ROLE,role)
+                    editor.putString(ROLE, role)
                             .apply();
                 }
 
@@ -115,32 +115,31 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return  true;
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.sign_in_menu:
-                if(role!=null){
+                if (role != null) {
                     editActivity();
-                }else {
+                } else {
                     getRole();
                 }
                 break;
             case R.id.create_user_menu:
-                if(role!=null){
+                if (role != null) {
                     createUserActivity();
-                }else {
+                } else {
                     getRole();
                 }
                 break;
             case R.id.get_all_users_menu:
-                if(role!=null){
+                if (role != null) {
                     getAllUsers();
-                }else {
+                } else {
                     getRole();
                 }
                 break;
@@ -153,10 +152,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getAllUsers() {
-        if(role.equals("admin")){
-            startActivity(new Intent(getApplicationContext(),AllUsersActivity.class));
-        }else {
-            Toast.makeText(getApplicationContext(),"You don't have privileges to view users",Toast.LENGTH_SHORT).show();
+        if (role.equals("admin")) {
+            startActivity(new Intent(getApplicationContext(), AllUsersActivity.class));
+        } else {
+            Toast.makeText(getApplicationContext(), "You don't have privileges to view users", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -166,23 +165,23 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                Integer status =response.body().getStatus();
+                Integer status = response.body().getStatus();
 
-                if(status == 200){
+                if (status == 200) {
                     preferences.edit().clear().apply();
-                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error Connecting. Try Again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
@@ -190,18 +189,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void createUserActivity() {
-        if(role.equals("admin")){
-            startActivity(new Intent(getApplicationContext(),CreateUserActivity.class));
-        }else {
-            Toast.makeText(getApplicationContext(),"You don't have privileges to create user",Toast.LENGTH_SHORT).show();
+        if (role.equals("admin")) {
+            startActivity(new Intent(getApplicationContext(), CreateUserActivity.class));
+        } else {
+            Toast.makeText(getApplicationContext(), "You don't have privileges to create user", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void editActivity(){
-        if(role.equals("admin") || role.equals("write")){
-            startActivity(new Intent(getApplicationContext(),RakesEditActivity.class));
-        }else {
-            Toast.makeText(getApplicationContext(),"You don't have editing privileges",Toast.LENGTH_SHORT).show();
+    private void editActivity() {
+        if (role.equals("admin") || role.equals("write")) {
+            startActivity(new Intent(getApplicationContext(), RakesEditActivity.class));
+        } else {
+            Toast.makeText(getApplicationContext(), "You don't have editing privileges", Toast.LENGTH_SHORT).show();
         }
     }
 }

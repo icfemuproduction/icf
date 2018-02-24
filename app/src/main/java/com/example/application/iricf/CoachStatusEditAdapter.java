@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,21 +17,21 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
 
     OnClickListener onClickListener;
     Context context;
-    ArrayList<String> statusName,statusValue;
+    ArrayList<String> statusName, statusValue;
 
-    public CoachStatusEditAdapter(Context context, ArrayList<String> statusName,ArrayList<String> statusValue) {
+    public CoachStatusEditAdapter(Context context, ArrayList<String> statusName, ArrayList<String> statusValue) {
         this.context = context;
         this.statusName = statusName;
         this.statusValue = statusValue;
     }
 
-    public void setOnClickListener(OnClickListener onClickListener){
+    public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_coach_status_edit,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_coach_status_edit, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -46,7 +45,7 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
         holder.statusEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickListener.itemClicked(view,position);
+                onClickListener.itemClicked(view, position);
             }
         });
 
@@ -70,11 +69,11 @@ public class CoachStatusEditAdapter extends RecyclerView.Adapter<CoachStatusEdit
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public interface OnClickListener{
-        void itemClicked(View view,int position);
+    public interface OnClickListener {
+        void itemClicked(View view, int position);
     }
 }

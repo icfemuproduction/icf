@@ -38,9 +38,9 @@ public class DespatchedRakesActivity extends AppCompatActivity {
     SharedPreferences preferences;
     ApiInterface apiInterface;
     String token;
-    AlertDialog loadingDialog,coachesDialog;
-    CoachStatusAdapter rakesAdapter,coachesAdapter;
-    ArrayList<String> rakesList,coachNumList;
+    AlertDialog loadingDialog, coachesDialog;
+    CoachStatusAdapter rakesAdapter, coachesAdapter;
+    ArrayList<String> rakesList, coachNumList;
     List<RakeName> rakeList;
     List<CoachPerRake> coachPerRakesList;
 
@@ -66,10 +66,10 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = preferences.getString(TOKEN,"");
+        token = preferences.getString(TOKEN, "");
 
 
-        rakesAdapter = new CoachStatusAdapter(this,rakesList);
+        rakesAdapter = new CoachStatusAdapter(this, rakesList);
 
         despatchRv.setLayoutManager(new LinearLayoutManager(this));
         despatchRv.setAdapter(rakesAdapter);
@@ -86,7 +86,7 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
     }
 
-    private void openCoachesDialog(String rakenum,String rakedate){
+    private void openCoachesDialog(String rakenum, String rakedate) {
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -109,7 +109,7 @@ public class DespatchedRakesActivity extends AppCompatActivity {
             }
         });
 
-        coachesAdapter = new CoachStatusAdapter(this,coachNumList);
+        coachesAdapter = new CoachStatusAdapter(this, coachNumList);
         RecyclerView coachesRv = dialogView.findViewById(R.id.despatch_coaches_dialog_rv);
         coachesRv.setLayoutManager(new LinearLayoutManager(this));
         coachesRv.setAdapter(coachesAdapter);
@@ -126,7 +126,7 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
         String rakeNum = rakeList.get(position).getRakeNum();
         String rakeDate = rakeList.get(position).getDespatchDate().toString();
-        openCoachesDialog(rakeNum,rakeDate);
+        openCoachesDialog(rakeNum, rakeDate);
 
         loadingDialog.show();
         Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum, token);
@@ -172,13 +172,13 @@ public class DespatchedRakesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RakeRegister> call, Response<RakeRegister> response) {
 
-                Integer statusCode =response.body().getStatus();
-                if(statusCode == 200){
+                Integer statusCode = response.body().getStatus();
+                if (statusCode == 200) {
                     rakeList.clear();
                     RakeRegister rakeRegister = response.body();
                     rakeList = rakeRegister.getRakes();
 
-                    for(int i=0 ; i<rakeList.size() ; i++){
+                    for (int i = 0; i < rakeList.size(); i++) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(rakeList.get(i).getRailway());
                         sb.append(rakeList.get(i).getRakeNum());
@@ -188,15 +188,15 @@ public class DespatchedRakesActivity extends AppCompatActivity {
                     rakesAdapter.notifyDataSetChanged();
                     despatchCard.setVisibility(View.VISIBLE);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<RakeRegister> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error fetching data. Try again.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error fetching data. Try again.", Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
             }
         });
