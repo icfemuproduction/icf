@@ -86,9 +86,10 @@
             android:name=".DespatchedRakesActivity"
             android:label="Despatched Rakes"
             android:parentActivityName=".HomeActivity" />
-        <activity android:name=".Shop36Activity"
+        <activity
+            android:name=".Shop36Activity"
             android:label="Shop-36"
-            android:parentActivityName=".LinePositionActivity"/>
+            android:parentActivityName=".LinePositionActivity" />
     </application>
 
 </manifest>

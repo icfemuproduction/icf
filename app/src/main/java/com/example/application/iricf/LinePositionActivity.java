@@ -97,6 +97,7 @@ public class LinePositionActivity extends AppCompatActivity implements View.OnCl
         coachPositionList.add("Despatch");
         coachPositionList.add("Paint");
         coachPositionList.add("Out");
+        coachPositionList.add("Shop36");
 
         coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
         coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
