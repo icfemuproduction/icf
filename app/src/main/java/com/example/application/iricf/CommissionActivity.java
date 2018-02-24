@@ -5,7 +5,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +23,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.application.iricf.Utils.sortList;
 
 public class CommissionActivity extends AppCompatActivity {
 
@@ -148,18 +149,6 @@ public class CommissionActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Error getting positions. Try again later"
                         ,Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
-            }
-        });
-
-    }
-
-    private void sortList(List<StagePosition> list) {
-        Collections.sort(list, new Comparator<StagePosition>() {
-            public int compare(StagePosition ideaVal1, StagePosition ideaVal2) {
-
-                Integer idea1 = ideaVal1.getStage();
-                Integer idea2 = ideaVal2.getStage();
-                return idea1.compareTo(idea2);
             }
         });
     }

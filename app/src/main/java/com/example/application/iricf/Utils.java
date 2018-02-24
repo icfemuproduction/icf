@@ -2,7 +2,10 @@ package com.example.application.iricf;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public class Utils {
 
@@ -24,7 +27,6 @@ public class Utils {
         return str;
     }
 
-
     public static String parseDateSend(String time) {
         String inputPattern = "dd-MM-yyyy";
         String outputPattern = "yyyy-MM-dd";
@@ -41,5 +43,16 @@ public class Utils {
             e.printStackTrace();
         }
         return str;
+    }
+
+    public static void sortList(List<StagePosition> list) {
+        Collections.sort(list, new Comparator<StagePosition>() {
+            public int compare(StagePosition val1, StagePosition val2) {
+
+                Integer ret1 = val1.getStage();
+                Integer ret2 = val2.getStage();
+                return ret1.compareTo(ret2);
+            }
+        });
     }
 }

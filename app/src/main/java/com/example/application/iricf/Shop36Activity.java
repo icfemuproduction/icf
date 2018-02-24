@@ -15,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +22,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.application.iricf.Utils.sortList;
 
 public class Shop36Activity extends AppCompatActivity {
 
@@ -282,16 +282,5 @@ public class Shop36Activity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void sortList(List<StagePosition> list) {
-        Collections.sort(list, new Comparator<StagePosition>() {
-            public int compare(StagePosition ideaVal1, StagePosition ideaVal2) {
-
-                Integer idea1 = ideaVal1.getStage();
-                Integer idea2 = ideaVal2.getStage();
-                return idea1.compareTo(idea2);
-            }
-        });
     }
 }
