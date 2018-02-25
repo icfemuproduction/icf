@@ -161,30 +161,39 @@ public class HomeActivity extends AppCompatActivity {
 
     private void logUserOut() {
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.logOut(token);
-        call.enqueue(new Callback<PostResponse>() {
-            @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                Integer status = response.body().getStatus();
+        if(role != null && !role.equalsIgnoreCase("read")){
+            Call<PostResponse> call = apiInterface.logOut(token);
+            call.enqueue(new Callback<PostResponse>() {
+                @Override
+                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                    Integer status = response.body().getStatus();
 
-                if (status == 200) {
-                    preferences.edit().clear().apply();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
+                    if (status == 200) {
+                        preferences.edit().clear().apply();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
+                    }
+                    loadingDialog.dismiss();
                 }
-                loadingDialog.dismiss();
-            }
 
-            @Override
-            public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
-                loadingDialog.dismiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<PostResponse> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error Connecting. Try Again.", Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismiss();
+                }
+            });
+        } else {
+            preferences.edit().clear().apply();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
 
     }
 

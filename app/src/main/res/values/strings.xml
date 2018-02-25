@@ -22,6 +22,7 @@
     <string name="paint_shop">Paint Shop</string>
     <string name="dispatch_shed">Dispatch Shed</string>
     <string name="in_shells_rec">In Shells Received</string>
+    <string name="click_here_for_read_access">Click here for read access</string>
     <string-array name="array_name">
         <item>Array Item One</item>
         <item>Array Item Two</item>

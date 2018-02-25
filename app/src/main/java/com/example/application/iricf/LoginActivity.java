@@ -40,6 +40,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.sign_in_button)
     Button signInButton;
 
+    @BindView(R.id.read_user_tv)
+    TextView readUserTv;
+
     ApiInterface apiInterface;
     String token;
     SharedPreferences preferences;
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         signInButton.setOnClickListener(this);
+        readUserTv.setOnClickListener(this);
 
          /*myCalendar = Calendar.getInstance();
 
@@ -104,7 +108,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.sign_in_button:
                 signInUser();
                 break;
+            case R.id.read_user_tv:
+                signInReadUser();
+                break;
         }
+    }
+
+    private void signInReadUser() {
+
+        validSignIn();
     }
 
     private void signInUser() {
@@ -174,6 +186,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void validSignIn() {
+
+        preferences.edit()
+                .putBoolean(LOGGED_IN, true)
+                .putString(USERNAME, "read")
+                .putString(TOKEN, "")
+                .apply();
 
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
