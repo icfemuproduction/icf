@@ -67,7 +67,6 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         createUserButton.setOnClickListener(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        rolesArrayList.add("read");
         rolesArrayList.add("write");
         rolesArrayList.add("admin");
 

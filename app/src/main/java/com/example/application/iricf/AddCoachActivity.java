@@ -24,6 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.application.iricf.Utils.parseDateSend;
+
 public class AddCoachActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TOKEN = "token";
@@ -304,99 +306,157 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
         if (shellRec.isEmpty()) {
             shellRec = null;
+        }else{
+            shellRec = parseDateSend(shellRec);
         }
         if (intake.isEmpty()) {
             intake = null;
+        }else{
+           intake = parseDateSend(intake);
         }
         if (agency.isEmpty()) {
             agency = null;
         }
         if (coupler.isEmpty()) {
             coupler = null;
+        }else{
+            coupler = parseDateSend(coupler);
         }
         if (ewPanel.isEmpty()) {
             ewPanel = null;
+        }else{
+            ewPanel = parseDateSend(ewPanel);
         }
         if (roofTray.isEmpty()) {
             roofTray = null;
+        }else{
+            roofTray = parseDateSend(roofTray);
         }
         if (htTray.isEmpty()) {
             htTray = null;
+        }else{
+            htTray = parseDateSend(htTray);
         }
         if (htEquip.isEmpty()) {
             htEquip = null;
+        }else{
+            htEquip = parseDateSend(htEquip);
         }
         if (highDip.isEmpty()) {
             highDip = null;
+        }else{
+            highDip = parseDateSend(highDip);
         }
         if (ufTray.isEmpty()) {
             ufTray = null;
+        }else{
+            ufTray = parseDateSend(ufTray);
         }
         if (ufTrans.isEmpty()) {
             ufTrans = null;
+        }else{
+            ufTrans = parseDateSend(ufTrans);
         }
         if (ufWire.isEmpty()) {
             ufWire = null;
         }
         if (offRoof.isEmpty()) {
             offRoof = null;
+        }else{
+            offRoof = parseDateSend(offRoof);
         }
         if (roofClear.isEmpty()) {
             roofClear = null;
+        }else{
+            roofClear = parseDateSend(roofClear);
         }
         if (offEw.isEmpty()) {
             offEw = null;
+        }else{
+            offEw = parseDateSend(offEw);
         }
         if (ewClear.isEmpty()) {
             ewClear = null;
+        }else{
+            ewClear = parseDateSend(ewClear);
         }
         if (mechPan.isEmpty()) {
             mechPan = null;
         }
         if (offTf.isEmpty()) {
             offTf = null;
+        }else{
+            offTf = parseDateSend(offTf);
         }
         if (tfClear.isEmpty()) {
             tfClear = null;
+        }else{
+            tfClear = parseDateSend(tfClear);
         }
         if (tfProv.isEmpty()) {
             tfProv = null;
+        }else{
+            tfProv = parseDateSend(tfProv);
         }
         if (lfLoad.isEmpty()) {
             lfLoad = null;
+        }else{
+            lfLoad = parseDateSend(lfLoad);
         }
         if (offPow.isEmpty()) {
             offPow = null;
+        }else{
+            offPow = parseDateSend(offPow);
         }
         if (powerHv.isEmpty()) {
             powerHv = null;
+        }else{
+            powerHv = parseDateSend(powerHv);
         }
         if (offDip.isEmpty()) {
             offDip = null;
+        }else{
+            offDip = parseDateSend(offDip);
         }
         if (dipClear.isEmpty()) {
             dipClear = null;
+        }else{
+            dipClear = parseDateSend(dipClear);
         }
         if (lower.isEmpty()) {
             lower = null;
+        }else{
+            lower = parseDateSend(lower);
         }
         if (offCont.isEmpty()) {
             offCont = null;
+        }else{
+            offCont = parseDateSend(offCont);
         }
         if (contHv.isEmpty()) {
             contHv = null;
+        }else{
+            contHv = parseDateSend(contHv);
         }
         if (loadTest.isEmpty()) {
             loadTest = null;
+        }else{
+            loadTest = parseDateSend(loadTest);
         }
         if (pcpClear.isEmpty()) {
             pcpClear = null;
+        }else{
+            pcpClear = parseDateSend(pcpClear);
         }
         if (buForm.isEmpty()) {
             buForm = null;
+        }else{
+            buForm = parseDateSend(buForm);
         }
         if (rakeForm.isEmpty()) {
             rakeForm = null;
+        }else{
+            rakeForm = parseDateSend(rakeForm);
         }
         if (remarks.isEmpty()) {
             remarks = null;

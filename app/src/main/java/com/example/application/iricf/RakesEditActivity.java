@@ -168,7 +168,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
     private void createRake() {
 
         despatchDate = null;
-        rakeNum = addDialogEt.getText().toString().trim();
+        rakeNum = addDialogEt.getText().toString().trim().toUpperCase();
         if (rakeNum.isEmpty()) {
             addDialogEt.setError("Enter a rake number");
             addDialogEt.requestFocus();
@@ -280,7 +280,7 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     private void deleteRake() {
 
-        String rakeNum = rakesDeleteEt.getText().toString().toLowerCase().trim();
+        String rakeNum = rakesDeleteEt.getText().toString().toUpperCase().trim();
 
         if (rakeNum.isEmpty()) {
             rakesDeleteEt.setError("Enter a rake number");
@@ -376,10 +376,10 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
     private void editRakes() {
 
-        final String oldRakeNum = rakesEditOldEt.getText().toString().trim();
-        String newRakeNum = rakesEditNewEt.getText().toString().trim();
+        final String oldRakeNum = rakesEditOldEt.getText().toString().trim().toUpperCase();
+        String newRakeNum = rakesEditNewEt.getText().toString().trim().toUpperCase();
         String despatchDate = rakesEditDespatchDateEt.getText().toString().trim();
-        final String tempRakeNum = rakesEditNewEt.getText().toString().trim();
+        final String tempRakeNum = rakesEditNewEt.getText().toString().trim().toUpperCase();
 
         if (oldRakeNum.isEmpty()) {
             rakesEditOldEt.setError("Enter old rake number");

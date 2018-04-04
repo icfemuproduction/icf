@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void getRole() {
 
+        Log.e("SAN","Token : " + token);
         Call<SingleProfileRegister> call = apiInterface.getUserProfile(token);
         call.enqueue(new Callback<SingleProfileRegister>() {
             @Override
@@ -98,6 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                 int statusCode = response.body().getStatus();
 
                 if (statusCode == 200) {
+                    Log.e("SAN","role applied.  ");
                     SingleProfileRegister profileRegister = response.body();
                     role = profileRegister.getProfile().getRole();
                     editor.putString(ROLE, role)
@@ -137,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.get_all_users_menu:
+                Log.e("SAN","roll" + role);
                 if (role != null) {
                     getAllUsers();
                 } else {

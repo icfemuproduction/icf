@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private final static String BASE_URL = "https://icfchennai.000webhostapp.com/";
+    private final static String BASE_URL = "http://icf.gov.in/emuprod2/";
     private static Retrofit retrofit = null;
 
     static Retrofit getClient() {

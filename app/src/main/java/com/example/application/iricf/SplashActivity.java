@@ -67,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(retrofit2.Call<SingleProfileRegister> call, Response<SingleProfileRegister> response) {
 
                 SingleProfileRegister profileRegister = response.body();
+
                 int statusCode = response.body().getStatus();
                 Log.d("SAN", "code: " + statusCode);
 

@@ -116,6 +116,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signInReadUser() {
 
+        preferences.edit()
+                .putBoolean(LOGGED_IN, true)
+                .putString(USERNAME, "read")
+                .putString(TOKEN, "$2y$10$zjdjyR2CqACzT9xUdOHipujApxeqdVQ7ip2NtJ1RfSC1J/hrr8VGS")
+                .apply();
+
         validSignIn();
     }
 
@@ -186,12 +192,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void validSignIn() {
-
-        preferences.edit()
-                .putBoolean(LOGGED_IN, true)
-                .putString(USERNAME, "read")
-                .putString(TOKEN, "")
-                .apply();
 
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

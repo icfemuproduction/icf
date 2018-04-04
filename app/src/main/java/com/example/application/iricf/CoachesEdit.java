@@ -243,11 +243,13 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
                 } else {
                     Toast.makeText(getApplicationContext(), "Error Deleting Coach. Try Again", Toast.LENGTH_SHORT).show();
                 }
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error Deleting Coach. Try Again", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
