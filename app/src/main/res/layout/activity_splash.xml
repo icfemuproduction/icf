@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.application.iricf.SplashActivity">
+    tools:context="com.gov.in.iricf.icf.gov.in.iricf.SplashActivity">
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.application.iricf">
+    package="icf.gov.in.iricf">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name="icf.gov.in.iricf.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,75 +21,75 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="icf.gov.in.iricf.LoginActivity"
             android:label="Login"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".HomeActivity"
+            android:name="icf.gov.in.iricf.HomeActivity"
             android:label="Home" />
         <activity
-            android:name=".RakesEditActivity"
+            android:name="icf.gov.in.iricf.RakesEditActivity"
             android:label="Edit Rakes"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity" />
         <activity
-            android:name=".CoachesEdit"
+            android:name="icf.gov.in.iricf.CoachesEdit"
             android:label="Edit Coaches"
-            android:parentActivityName=".RakesEditActivity" />
+            android:parentActivityName="icf.gov.in.iricf.RakesEditActivity" />
         <activity
-            android:name=".AddCoachActivity"
+            android:name="icf.gov.in.iricf.AddCoachActivity"
             android:label="Add Coach" />
         <activity
-            android:name=".EditStatusActivity"
+            android:name="icf.gov.in.iricf.EditStatusActivity"
             android:label="Edit Status" />
         <activity
-            android:name=".CreateUserActivity"
+            android:name="icf.gov.in.iricf.CreateUserActivity"
             android:label="Create User"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".LinePositionActivity"
+            android:name="icf.gov.in.iricf.LinePositionActivity"
             android:label="Line Position"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity" />
         <activity
-            android:name=".ProductionLineActivity"
+            android:name="icf.gov.in.iricf.ProductionLineActivity"
             android:label="Production Line"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".DispatchActivity"
+            android:name="icf.gov.in.iricf.DispatchActivity"
             android:label="Despatch Shed"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".CommissionActivity"
+            android:name="icf.gov.in.iricf.CommissionActivity"
             android:label="Commission Shed"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".OutShedActivity"
+            android:name="icf.gov.in.iricf.OutShedActivity"
             android:label="Shop-32 OutShed"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".PaintActivity"
+            android:name="icf.gov.in.iricf.PaintActivity"
             android:label="Paint Shop"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".ShellActivity"
+            android:name="icf.gov.in.iricf.ShellActivity"
             android:label="Shells Received"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
         <activity
-            android:name=".CoachStatusActivity"
+            android:name="icf.gov.in.iricf.CoachStatusActivity"
             android:label="Coach Status"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity" />
         <activity
-            android:name=".AllUsersActivity"
+            android:name="icf.gov.in.iricf.AllUsersActivity"
             android:label="All Users"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity" />
         <activity
-            android:name=".DespatchedRakesActivity"
+            android:name="icf.gov.in.iricf.DespatchedRakesActivity"
             android:label="Despatched Rakes"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName="icf.gov.in.iricf.HomeActivity" />
         <activity
-            android:name=".Shop36Activity"
+            android:name="icf.gov.in.iricf.Shop36Activity"
             android:label="Shop-36"
-            android:parentActivityName=".LinePositionActivity" />
+            android:parentActivityName="icf.gov.in.iricf.LinePositionActivity" />
     </application>
 
 </manifest>

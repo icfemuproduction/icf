@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.application.iricf.PaintActivity">
+    tools:context="com.gov.in.iricf.icf.gov.in.iricf.PaintActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/paint_shop_card"

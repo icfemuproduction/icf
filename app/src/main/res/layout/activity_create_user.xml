@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:padding="10dp"
-    tools:context="com.example.application.iricf.CreateUserActivity">
+    tools:context="com.gov.in.iricf.icf.gov.in.iricf.CreateUserActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

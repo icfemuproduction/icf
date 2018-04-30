@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.application.iricf.CommissionActivity">
+    tools:context="com.gov.in.iricf.icf.gov.in.iricf.CommissionActivity">
 
     <ScrollView
         android:layout_width="match_parent"
