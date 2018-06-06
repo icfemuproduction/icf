@@ -464,7 +464,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
 
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updateStatus(token, coachNum, shellRec, intake, agency, coupler, ewPanel,
+        Call<PostResponse> call = apiInterface.addStatus(token, coachNum, shellRec, intake, agency, coupler, ewPanel,
                 roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear,
                 tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm,
                 rakeForm, remarks);

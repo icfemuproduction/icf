@@ -71,7 +71,7 @@ public class ShellActivity extends AppCompatActivity {
         shellAdapter.setOnClickListener(new CoachStatusAdapter.OnClickListener() {
             @Override
             public void itemClicked(View view, int position) {
-
+                //Do Nothing
             }
         });
     }

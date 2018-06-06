@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,7 +96,10 @@ public class EditStatusActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     SharedPreferences preferences;
-    String token, coachNum, shellRec, intake, agency, coupler, ewPanel, roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear, tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm, rakeForm, remarks, positionName;
+    String token, coachNum, shellRec, intake, agency, coupler, ewPanel, roofTray, htTray, htEquip, highDip,
+            ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear, tfProv, lfLoad,
+            offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm, rakeForm, remarks,
+            positionName, fieldName;
     ArrayList<String> statusArrayList, statusNameArrayList, statusKeyArrayList, editedValuesList, coachPositionList;
     ArrayAdapter<String> coachPositionAdapter;
     CoachStatusEditAdapter coachStatusEditAdapter;
@@ -177,7 +182,7 @@ public class EditStatusActivity extends AppCompatActivity {
         coachStatusEditAdapter.setOnClickListener(new CoachStatusEditAdapter.OnClickListener() {
             @Override
             public void itemClicked(View view, int position) {
-                openDialog(position);
+                openStatusEditDialog(position);
             }
         });
 
@@ -330,7 +335,7 @@ public class EditStatusActivity extends AppCompatActivity {
         });
     }
 
-    private void openDialog(final int position) {
+    private void openStatusEditDialog(final int position) {
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -367,151 +372,418 @@ public class EditStatusActivity extends AppCompatActivity {
 
         String editedValue = addDialogEt.getText().toString().trim();
         if (editedValue.isEmpty()) {
-            addDialogEt.setError("Value required");
-            addDialogEt.requestFocus();
-            return;
+            editedValue = null;
         }
 
-        switch (position) {
-            case 0:
-                shellRec = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 1:
-                intake = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 2:
-                agency = editedValue;
-                statusArrayList.set(position, editedValue);
-                break;
-            case 3:
-                coupler = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 4:
-                ewPanel = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 5:
-                roofTray = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 6:
-                htTray = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 7:
-                htEquip = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 8:
-                highDip = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 9:
-                ufTray = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 10:
-                ufTrans = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 11:
-                ufWire = editedValue;
-                statusArrayList.set(position, editedValue);
-                break;
-            case 12:
-                offRoof = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 13:
-                roofClear = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 14:
-                offEw = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 15:
-                ewClear = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 16:
-                mechPan = editedValue;
-                statusArrayList.set(position, editedValue);
-                break;
-            case 17:
-                offTf = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 18:
-                tfClear = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 19:
-                tfProv = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 20:
-                lfLoad = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 21:
-                offPow = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 22:
-                powerHv = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 23:
-                offDip = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 24:
-                dipClear = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 25:
-                lower = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 26:
-                offCont = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 27:
-                contHv = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 28:
-                loadTest = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 29:
-                pcpClear = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 30:
-                buForm = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 31:
-                rakeForm = parseDateSend(editedValue);
-                statusArrayList.set(position, editedValue);
-                break;
-            case 32:
-                remarks = editedValue;
-                statusArrayList.set(position, editedValue);
-                break;
+        Map<String,String> statusMap = new HashMap<>();
+
+        if(editedValue != null){
+            switch (position) {
+                case 0:
+                    fieldName = "shell_rec";
+                    shellRec = parseDateSend(editedValue);
+                    statusMap.put("shell_rec",shellRec);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 1:
+                    fieldName = "intake";
+                    intake = parseDateSend(editedValue);
+                    statusMap.put("intake",intake);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 2:
+                    fieldName = "agency";
+                    agency = editedValue;
+                    statusMap.put("agency",agency);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 3:
+                    fieldName = "coupler";
+                    coupler = parseDateSend(editedValue);
+                    statusMap.put("coupler",coupler);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 4:
+                    fieldName = "ew_panel";
+                    ewPanel = parseDateSend(editedValue);
+                    statusMap.put("ew_panel",ewPanel);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 5:
+                    fieldName = "roof_tray";
+                    roofTray = parseDateSend(editedValue);
+                    statusMap.put("roof_tray",roofTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 6:
+                    fieldName = "ht_tray";
+                    htTray = parseDateSend(editedValue);
+                    statusMap.put("ht_tray",htTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 7:
+                    fieldName = "ht_equip";
+                    htEquip = parseDateSend(editedValue);
+                    statusMap.put("ht_equip",htEquip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 8:
+                    fieldName = "high_dip";
+                    highDip = parseDateSend(editedValue);
+                    statusMap.put("high_dip",highDip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 9:
+                    fieldName = "uf_tray";
+                    ufTray = parseDateSend(editedValue);
+                    statusMap.put("uf_tray",ufTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 10:
+                    fieldName = "uf_trans";
+                    ufTrans = parseDateSend(editedValue);
+                    statusMap.put("uf_trans",ufTrans);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 11:
+                    fieldName = "uf_wire";
+                    ufWire = editedValue;
+                    statusMap.put("uf_wire",ufWire);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 12:
+                    fieldName = "off_roof";
+                    offRoof = parseDateSend(editedValue);
+                    statusMap.put("off_roof",offRoof);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 13:
+                    fieldName = "roof_clear";
+                    roofClear = parseDateSend(editedValue);
+                    statusMap.put("roof_clear",roofClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 14:
+                    fieldName = "off_ew";
+                    offEw = parseDateSend(editedValue);
+                    statusMap.put("off_ew",offEw);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 15:
+                    fieldName = "ew_clear";
+                    ewClear = parseDateSend(editedValue);
+                    statusMap.put("ew_clear",ewClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 16:
+                    fieldName = "mech_pan";
+                    mechPan = editedValue;
+                    statusMap.put("mech_pan",mechPan);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 17:
+                    fieldName = "off_tf";
+                    offTf = parseDateSend(editedValue);
+                    statusMap.put("off_tf",offTf);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 18:
+                    fieldName = "tf_clear";
+                    tfClear = parseDateSend(editedValue);
+                    statusMap.put("tf_clear",tfClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 19:
+                    fieldName = "tf_prov";
+                    tfProv = parseDateSend(editedValue);
+                    statusMap.put("tf_prov",tfProv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 20:
+                    fieldName = "lf_load";
+                    lfLoad = parseDateSend(editedValue);
+                    statusMap.put("lf_load",lfLoad);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 21:
+                    fieldName = "off_pow";
+                    offPow = parseDateSend(editedValue);
+                    statusMap.put("off_pow",offPow);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 22:
+                    fieldName = "power_hv";
+                    powerHv = parseDateSend(editedValue);
+                    statusMap.put("power_hv",powerHv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 23:
+                    fieldName = "off_dip";
+                    offDip = parseDateSend(editedValue);
+                    statusMap.put("off_dip",offDip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 24:
+                    fieldName = "dip_clear";
+                    dipClear = parseDateSend(editedValue);
+                    statusMap.put("dip_clear",dipClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 25:
+                    fieldName = "lower";
+                    lower = parseDateSend(editedValue);
+                    statusMap.put("lower",lower);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 26:
+                    fieldName = "off_cont";
+                    offCont = parseDateSend(editedValue);
+                    statusMap.put("off_cont",offCont);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 27:
+                    fieldName = "cont_hv";
+                    contHv = parseDateSend(editedValue);
+                    statusMap.put("cont_hv",contHv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 28:
+                    fieldName = "load_test";
+                    loadTest = parseDateSend(editedValue);
+                    statusMap.put("load_test",loadTest);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 29:
+                    fieldName = "pcp_clear";
+                    pcpClear = parseDateSend(editedValue);
+                    statusMap.put("pcp_clear",pcpClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 30:
+                    fieldName = "bu_form";
+                    buForm = parseDateSend(editedValue);
+                    statusMap.put("bu_form",buForm);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 31:
+                    fieldName = "rake_form";
+                    rakeForm = parseDateSend(editedValue);
+                    statusMap.put("rake_form",rakeForm);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 32:
+                    fieldName = "remarks";
+                    remarks = editedValue;
+                    statusMap.put("remarks",remarks);
+                    statusArrayList.set(position, editedValue);
+                    break;
+            }
+        } else {
+            switch (position) {
+                case 0:
+                    fieldName = "shell_rec";
+                    shellRec = " ";
+                    statusMap.put("shell_rec",shellRec);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 1:
+                    fieldName = "intake";
+                    intake = " ";
+                    statusMap.put("intake",intake);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 2:
+                    fieldName = "agency";
+                    agency = " ";;
+                    statusMap.put("agency",agency);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 3:
+                    fieldName = "coupler";
+                    coupler = " ";
+                    statusMap.put("coupler",coupler);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 4:
+                    fieldName = "ew_panel";
+                    ewPanel =" ";
+                    statusMap.put("ew_panel",ewPanel);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 5:
+                    fieldName = "roof_tray";
+                    roofTray = " ";
+                    statusMap.put("roof_tray",roofTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 6:
+                    fieldName = "ht_tray";
+                    htTray = " ";
+                    statusMap.put("ht_tray",htTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 7:
+                    fieldName = "ht_equip";
+                    htEquip = " ";
+                    statusMap.put("ht_equip",htEquip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 8:
+                    fieldName = "high_dip";
+                    highDip = " ";
+                    statusMap.put("high_dip",highDip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 9:
+                    fieldName = "uf_tray";
+                    ufTray = " ";
+                    statusMap.put("uf_tray",ufTray);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 10:
+                    fieldName = "uf_trans";
+                    ufTrans = " ";
+                    statusMap.put("uf_trans",ufTrans);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 11:
+                    fieldName = "uf_wire";
+                    ufWire = " ";
+                    statusMap.put("uf_wire",ufWire);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 12:
+                    fieldName = "off_roof";
+                    offRoof = " ";
+                    statusMap.put("off_roof",offRoof);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 13:
+                    fieldName = "roof_clear";
+                    roofClear = " ";
+                    statusMap.put("roof_clear",roofClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 14:
+                    fieldName = "off_ew";
+                    offEw = " ";
+                    statusMap.put("off_ew",offEw);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 15:
+                    fieldName = "ew_clear";
+                    ewClear = " ";
+                    statusMap.put("ew_clear",ewClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 16:
+                    fieldName = "mech_pan";
+                    mechPan = " ";
+                    statusMap.put("mech_pan",mechPan);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 17:
+                    fieldName = "off_tf";
+                    offTf = " ";
+                    statusMap.put("off_tf",offTf);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 18:
+                    fieldName = "tf_clear";
+                    tfClear = " ";
+                    statusMap.put("tf_clear",tfClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 19:
+                    fieldName = "tf_prov";
+                    tfProv = " ";
+                    statusMap.put("tf_prov",tfProv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 20:
+                    fieldName = "lf_load";
+                    lfLoad = " ";
+                    statusMap.put("lf_load",lfLoad);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 21:
+                    fieldName = "off_pow";
+                    offPow = " ";
+                    statusMap.put("off_pow",offPow);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 22:
+                    fieldName = "power_hv";
+                    powerHv = " ";
+                    statusMap.put("power_hv",powerHv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 23:
+                    fieldName = "off_dip";
+                    offDip = " ";
+                    statusMap.put("off_dip",offDip);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 24:
+                    fieldName = "dip_clear";
+                    dipClear = " ";
+                    statusMap.put("dip_clear",dipClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 25:
+                    fieldName = "lower";
+                    lower = " ";
+                    statusMap.put("lower",lower);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 26:
+                    fieldName = "off_cont";
+                    offCont = " ";
+                    statusMap.put("off_cont",offCont);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 27:
+                    fieldName = "cont_hv";
+                    contHv = " ";
+                    statusMap.put("cont_hv",contHv);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 28:
+                    fieldName = "load_test";
+                    loadTest = " ";
+                    statusMap.put("load_test",loadTest);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 29:
+                    fieldName = "pcp_clear";
+                    pcpClear = " ";
+                    statusMap.put("pcp_clear",pcpClear);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 30:
+                    fieldName = "bu_form";
+                    buForm = " ";
+                    statusMap.put("bu_form",buForm);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 31:
+                    fieldName = "rake_form";
+                    rakeForm = " ";
+                    statusMap.put("rake_form",rakeForm);
+                    statusArrayList.set(position, editedValue);
+                    break;
+                case 32:
+                    fieldName = "remarks";
+                    remarks = " ";
+                    statusMap.put("remarks",remarks);
+                    statusArrayList.set(position, editedValue);
+                    break;
+            }
         }
+
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.updateStatus(token, coachNum, shellRec, intake, agency, coupler, ewPanel,
-                roofTray, htTray, htEquip, highDip, ufTray, ufTrans, ufWire, offRoof, roofClear, offEw, ewClear, mechPan, offTf, tfClear,
-                tfProv, lfLoad, offPow, powerHv, offDip, dipClear, lower, offCont, contHv, loadTest, pcpClear, buForm,
-                rakeForm, remarks);
+        Call<PostResponse> call = apiInterface.editStatus(fieldName, token, coachNum, statusMap);
 
         call.enqueue(new Callback<PostResponse>() {
             @Override

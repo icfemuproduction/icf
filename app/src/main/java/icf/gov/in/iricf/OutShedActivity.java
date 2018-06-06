@@ -38,8 +38,11 @@ public class OutShedActivity extends AppCompatActivity {
     SharedPreferences preferences;
     String token;
     List<Position> positionArrayList, outShedList;
-    LineAdapters outShedAdapter;
-    List<StagePosition> stagePositionList;
+    //LineAdapters outShedAdapter;
+    CoachStatusAdapter outShedAdapter;
+    ArrayList<String> stagePositionList;
+
+    //List<StagePosition> stagePositionList;
     AlertDialog loadingDialog;
 
 
@@ -66,9 +69,15 @@ public class OutShedActivity extends AppCompatActivity {
         stagePositionList = new ArrayList<>();
         fetchPositionData();
 
-        outShedAdapter = new LineAdapters(this, stagePositionList);
+        outShedAdapter = new CoachStatusAdapter(this, stagePositionList);
         outShedRv.setLayoutManager(new LinearLayoutManager(this));
         outShedRv.setAdapter(outShedAdapter);
+        outShedAdapter.setOnClickListener(new CoachStatusAdapter.OnClickListener() {
+            @Override
+            public void itemClicked(View view, int position) {
+                //Do Nothing
+            }
+        });
     }
 
     private void fetchPositionData() {
@@ -89,12 +98,13 @@ public class OutShedActivity extends AppCompatActivity {
                     }
                     for (int j = 0; j < outShedList.size(); j++) {
                         if (outShedList.get(j).getLineNo() != null) {
-                            stagePositionList.add(new StagePosition(outShedList.get(j).getLineNo()
-                                    , outShedList.get(j).getCoachNum()));
+                            /*stagePositionList.add(new StagePosition(outShedList.get(j).getLineNo()
+                                    , outShedList.get(j).getCoachNum()));*/
+                            stagePositionList.add(outShedList.get(j).getCoachNum());
                         }
 
                     }
-                    sortList(stagePositionList);
+                    //sortList(stagePositionList);
 
                     outShedAdapter.notifyDataSetChanged();
                     cardView.setVisibility(View.VISIBLE);

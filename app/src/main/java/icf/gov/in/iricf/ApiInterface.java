@@ -1,14 +1,18 @@
 package icf.gov.in.iricf;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ApiInterface {
 
-  /*  @FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("/api/rakes/{rake_num}/coaches")
     Call<CoachPerRakeRegister> getRakeCoaches(@Path(value = "rake_num", encoded = true) String rake_num,
                                               @Field("token") String token);
@@ -194,10 +198,10 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/emuprod2/api/status/new")
-    Call<PostResponse> updateStatus(@Field("token") String token,
+    Call<PostResponse> addStatus(@Field("token") String token,
                                     @Field("coach_num") String coachNum,
-                                    @Field("shell_rec") String shellReceived,
-                                    @Field("intake") String intake,
+                                    @Query("shell_rec") String shellReceived,
+                                    @Query("intake") String intake,
                                     @Field("agency") String agency,
                                     @Field("coupler") String coupler,
                                     @Field("ew_panel") String ewPanel,
@@ -229,6 +233,13 @@ public interface ApiInterface {
                                     @Field("bu_form") String buForm,
                                     @Field("rake_form") String rakeForm,
                                     @Field("remarks") String remarks);
+
+    @FormUrlEncoded
+    @POST("/emuprod2/api/status/edit/{field_name}")
+    Call<PostResponse> editStatus(@Path("field_name") String fieldName,
+                                  @Field("token") String token,
+                                  @Field("coach_num")String coachNum,
+                                  @QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("/emuprod2/api/rakes/new")
@@ -288,5 +299,4 @@ public interface ApiInterface {
                                  @Field("coach_num") String coachNum,
                                  @Field("rake_num") String rakeNum,
                                  @Field("type") String type);
-
 }
