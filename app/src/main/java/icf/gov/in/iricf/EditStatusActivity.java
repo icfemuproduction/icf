@@ -376,7 +376,6 @@ public class EditStatusActivity extends AppCompatActivity {
         }
 
         Map<String,String> statusMap = new HashMap<>();
-
         if(editedValue != null){
             switch (position) {
                 case 0:
