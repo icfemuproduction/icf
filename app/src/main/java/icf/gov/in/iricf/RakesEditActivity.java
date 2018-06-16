@@ -17,18 +17,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static icf.gov.in.iricf.Utils.parseDateSend;
 
 public class RakesEditActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -49,15 +54,17 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
     ArrayList<String> rakeNames, zonesArrayList;
     List<RakeName> rakeList;
     ApiInterface apiInterface;
-    String token, railwayName, rakeNum, newRailway, despatchDate;
-    AlertDialog b, rakesDeleteDialog, editRakesDialog;
-    EditText addDialogEt, rakesDeleteEt, rakesEditOldEt, rakesEditNewEt, rakesEditDespatchDateEt;
-    Spinner addDialogSpinner, rakesEditSpinner;
+    String token, railwayName, rakeNum, newRailway, despatchDate, fieldName;
+    AlertDialog b, rakesDeleteDialog, editRakesDialog, editRakesValueDialog;
+    EditText addDialogEt, rakesDeleteEt, oldRakeNumEt, rakeEditValueEt;
+    Spinner addDialogSpinner;
     Button dialogAddButton, dialogCancelButton, rakesDeleteDialogButton,
             rakesDeleteDialogCancelButton, rakesEditDialogCancelButton, rakesEditDialogButton;
+    ImageView railwayNameEdit, rakeNumberEdit, despatchDateEdit;
+    TextView rakeEditValueTv;
     ArrayAdapter<String> zoneAdapter;
     AlertDialog loadingDialog;
-    boolean newRakeChanged = false;
+    boolean newRakeChanged = false , newRailwayChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,100 +338,126 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_rakes_dialog, null);
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setCancelable(false);
+        dialogBuilder.setCancelable(true);
         editRakesDialog = dialogBuilder.create();
         editRakesDialog.show();
 
-        rakesEditOldEt = dialogView.findViewById(R.id.edit_rake_dialog_old_et);
-        rakesEditNewEt = dialogView.findViewById(R.id.edit_rake_dialog_new_et);
-        rakesEditDespatchDateEt = dialogView.findViewById(R.id.edit_rake_dialog_despatch_et);
-        rakesEditSpinner = dialogView.findViewById(R.id.edit_rake_dialog_new_spinner);
-        rakesEditDialogCancelButton = dialogView.findViewById(R.id.edit_rake_dialog_cancel_button);
-        rakesEditDialogButton = dialogView.findViewById(R.id.edit_rake_dialog_edit_button);
 
-        zoneAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, zonesArrayList);
-        zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rakesEditSpinner.setAdapter(zoneAdapter);
-        rakesEditSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        railwayNameEdit = dialogView.findViewById(R.id.railway_name_edit);
+        railwayNameEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                newRailway = adapterView.getItemAtPosition(position).toString();
+            public void onClick(View view) {
+                editRakesValueDialog("Railway Name");
             }
-
+        });
+        rakeNumberEdit = dialogView.findViewById(R.id.rake_number_edit);
+        rakeNumberEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onClick(View view) {
+                editRakesValueDialog("New Rake Number");
+            }
+        });
+        despatchDateEdit = dialogView.findViewById(R.id.despatch_date_edit);
+        despatchDateEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  editRakesValueDialog("Despatch Date");
+            }
+        });
 
+
+    }
+
+    private void editRakesValueDialog(final String name){
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.edit_rake_value_dialog, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+        editRakesValueDialog = dialogBuilder.create();
+        editRakesValueDialog.show();
+        editRakesDialog.dismiss();
+
+        rakeEditValueTv = dialogView.findViewById(R.id.edit_rake_value_textview);
+        oldRakeNumEt = dialogView.findViewById(R.id.edit_old_rakeNum_et);
+        rakeEditValueEt = dialogView.findViewById(R.id.edit_rake_value);
+        rakesEditDialogButton = dialogView.findViewById(R.id.edit_rake_dialog_edit_button);
+        rakesEditDialogCancelButton = dialogView.findViewById(R.id.edit_rake_dialog_cancel_button);
+
+        rakeEditValueTv.setText(name);
+
+        rakesEditDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editRakes(name);
             }
         });
 
         rakesEditDialogCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editRakesDialog.dismiss();
+                editRakesValueDialog.cancel();
             }
         });
 
-        rakesEditDialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editRakes();
-            }
-        });
+
     }
 
-    private void editRakes() {
+    private void editRakes(String name) {
 
-        final String oldRakeNum = rakesEditOldEt.getText().toString().trim().toUpperCase();
-        String newRakeNum = rakesEditNewEt.getText().toString().trim().toUpperCase();
-        String despatchDate = rakesEditDespatchDateEt.getText().toString().trim();
-        final String tempRakeNum = rakesEditNewEt.getText().toString().trim().toUpperCase();
+        final String oldRakeNum = oldRakeNumEt.getText().toString().trim().toUpperCase();
+        String rakeEditValue = rakeEditValueEt.getText().toString().trim().toUpperCase();
+        final String tempEditValue = rakeEditValue;
 
         if (oldRakeNum.isEmpty()) {
-            rakesEditOldEt.setError("Enter old rake number");
-            rakesEditOldEt.requestFocus();
+            oldRakeNumEt.setError("Enter old rake number");
+            oldRakeNumEt.requestFocus();
             return;
         }
 
-        if (newRakeNum.isEmpty() && despatchDate.isEmpty()) {
-            rakesEditNewEt.setError("Enter new rake number");
-            rakesEditNewEt.requestFocus();
+        if (rakeEditValue.isEmpty()) {
+            rakeEditValueEt.setError("Enter a value");
+            rakeEditValueEt.requestFocus();
             return;
         }
 
-        if (newRakeNum.isEmpty()) {
-            newRakeNum = null;
-        } else {
+        Map<String, String> editRakeMap = new HashMap<>();
+        if(name.equalsIgnoreCase("Railway Name")){
+            newRailwayChanged = true;
+            fieldName = "railway";
+            editRakeMap.put("railway",rakeEditValue);
+        }else if(name.equalsIgnoreCase("New Rake Number")){
             newRakeChanged = true;
+            fieldName = "rake_num";
+            editRakeMap.put("rake_num",rakeEditValue);
+        }else if(name.equalsIgnoreCase("Despatch Date")){
+            rakeEditValue = parseDateSend(rakeEditValue);
+            fieldName = "despatch";
+            editRakeMap.put("despatch",rakeEditValue);
         }
 
-
-        if (despatchDate.isEmpty()) {
-            despatchDate = null;
-        } else {
-            despatchDate = Utils.parseDateSend(despatchDate);
-        }
 
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.editRake(token, oldRakeNum, newRailway, newRakeNum, despatchDate);
+        Call<PostResponse> call = apiInterface.editRake(fieldName, token, oldRakeNum, editRakeMap);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
                 if (status == 200) {
-                    editRakesDialog.dismiss();
+                    editRakesValueDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Edited Successfully.", Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < rakeNames.size(); i++) {
                         if (rakeList.get(i).getRakeNum().equalsIgnoreCase(oldRakeNum)) {
 
-                            if (!newRakeChanged) {
-
-                            } else {
-                                rakeNames.set(i, newRailway + tempRakeNum);
-                                rakeList.set(i, new RakeName(newRailway, tempRakeNum, null));
+                            if (newRakeChanged) {
+                                rakeNames.set(i, rakeList.get(i).getRailway() + tempEditValue);
+                                rakeList.set(i, new RakeName(rakeList.get(i).getRailway(), tempEditValue, null));
+                            } else if(newRailwayChanged){
+                                rakeNames.set(i, tempEditValue  + rakeList.get(i).getRakeNum());
+                                rakeList.set(i, new RakeName(tempEditValue, rakeList.get(i).getRakeNum(), null));
                             }
-
-
                             rakesAdapter.notifyDataSetChanged();
                         }
                     }
@@ -433,7 +466,6 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(getApplicationContext(), "Error editing rake. Try again later.", Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
-
             }
 
             @Override
@@ -460,12 +492,10 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
             case R.id.edit_rake_menu:
                 editRakesDialog();
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

@@ -285,12 +285,11 @@ public interface ApiInterface {
     Call<PostResponse> deleteCoach(@Path("coach_num") String coachNum, @Field("token") String token);
 
     @FormUrlEncoded
-    @POST("/emuprod2/api/rakes/edit")
-    Call<PostResponse> editRake(@Field("token") String token,
-                                @Field("old_rakenum") String oldRakeNum,
-                                @Field("railway") String railway,
-                                @Field("rake_num") String rakeNum,
-                                @Field("despatch") String despatch);
+    @POST("/emuprod2/api/rakes/edit/{field_name}")
+    Call<PostResponse> editRake(@Path("field_name") String fieldName,
+                                @Field("token") String token,
+                                @Field("old_rakenum")String oldRakeNum,
+                                @QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("/emuprod2/api/coaches/edit")
