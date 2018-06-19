@@ -232,6 +232,7 @@ public class EditStatusActivity extends AppCompatActivity {
         coachPositionList.add("Paint");
         coachPositionList.add("Out");
         coachPositionList.add("Shop36");
+        coachPositionList.add("Coach-despatched");
 
         coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
         coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

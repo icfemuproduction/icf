@@ -220,6 +220,7 @@ public class AddCoachActivity extends AppCompatActivity implements View.OnClickL
         coachPositionList.add("Paint");
         coachPositionList.add("Out");
         coachPositionList.add("Shop36");
+        coachPositionList.add("Coach-Despatched");
 
         coachPositionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachPositionList);
         coachPositionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

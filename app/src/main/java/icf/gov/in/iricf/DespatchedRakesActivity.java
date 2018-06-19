@@ -86,7 +86,7 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
     }
 
-    private void openCoachesDialog(String rakenum, String rakedate) {
+    private void openCoachesDialog(String railwayName, String rakenum, String rakedate) {
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -97,7 +97,7 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
         TextView rakeNumTv = dialogView.findViewById(R.id.despatch_coaches_dialog_rake);
         TextView dateTv = dialogView.findViewById(R.id.despatch_coaches_dialog_date);
-        rakeNumTv.setText(rakenum);
+        rakeNumTv.setText(String.format("%s%s", railwayName, rakenum));
         String temp = "Despatched on " + parseDateReceive(rakedate);
         dateTv.setText(temp);
 
@@ -124,9 +124,10 @@ public class DespatchedRakesActivity extends AppCompatActivity {
 
     private void openCoaches(int position) {
 
+        String railwayName = rakeList.get(position).getRailway();
         String rakeNum = rakeList.get(position).getRakeNum();
         String rakeDate = rakeList.get(position).getDespatchDate().toString();
-        openCoachesDialog(rakeNum, rakeDate);
+        openCoachesDialog(railwayName, rakeNum, rakeDate);
 
         loadingDialog.show();
         Call<CoachPerRakeRegister> call = apiInterface.getRakeCoaches(rakeNum, token);
