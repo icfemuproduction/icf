@@ -49,28 +49,16 @@ public class Shop36Activity extends AppCompatActivity {
     @BindView(R.id.shop36_line_six_rv)
     RecyclerView shop36SixRv;
 
-    @BindView(R.id.shop36_line_seven_rv)
-    RecyclerView shop36SevenRv;
-
-    @BindView(R.id.shop36_line_eight_rv)
-    RecyclerView shop36EightRv;
-
-    @BindView(R.id.shop36_line_nine_rv)
-    RecyclerView shop36NineRv;
-
-    @BindView(R.id.shop36_line_ten_rv)
-    RecyclerView shop36TenRv;
 
 
     ProdLineAdapter prodOneAdapter, prodTwoAdapter, prodThreeAdapter, prodFourAdapter, prodFiveAdapter,
-            prodSixAdapter, prodSevenAdapter, prodEightAdapter, prodNineAdapter, prodTenAdapter;
+            prodSixAdapter;
     ApiInterface apiInterface;
     SharedPreferences preferences;
     String token;
     List<Position> positionArrayList, productionList;
     List<StagePosition> stagePositionListOne, stagePositionListTwo, stagePositionListThree, stagePositionListFour,
-            stagePositionListFive, stagePositionListSix, stagePositionListSeven, stagePositionListEight, stagePositionListNine,
-            stagePositionListTen;
+            stagePositionListFive, stagePositionListSix;
     AlertDialog loadingDialog;
 
     @Override
@@ -97,10 +85,6 @@ public class Shop36Activity extends AppCompatActivity {
         stagePositionListFour = new ArrayList<>();
         stagePositionListFive = new ArrayList<>();
         stagePositionListSix = new ArrayList<>();
-        stagePositionListSeven = new ArrayList<>();
-        stagePositionListEight = new ArrayList<>();
-        stagePositionListNine = new ArrayList<>();
-        stagePositionListTen = new ArrayList<>();
 
         fetchPositionData();
 
@@ -127,23 +111,6 @@ public class Shop36Activity extends AppCompatActivity {
         prodSixAdapter = new ProdLineAdapter(this, stagePositionListSix);
         shop36SixRv.setLayoutManager(new LinearLayoutManager(this));
         shop36SixRv.setAdapter(prodSixAdapter);
-
-        prodSevenAdapter = new ProdLineAdapter(this, stagePositionListSeven);
-        shop36SevenRv.setLayoutManager(new LinearLayoutManager(this));
-        shop36SevenRv.setAdapter(prodSevenAdapter);
-
-        prodEightAdapter = new ProdLineAdapter(this, stagePositionListEight);
-        shop36EightRv.setLayoutManager(new LinearLayoutManager(this));
-        shop36EightRv.setAdapter(prodEightAdapter);
-
-        prodNineAdapter = new ProdLineAdapter(this, stagePositionListNine);
-        shop36NineRv.setLayoutManager(new LinearLayoutManager(this));
-        shop36NineRv.setAdapter(prodNineAdapter);
-
-        prodTenAdapter = new ProdLineAdapter(this, stagePositionListTen);
-        shop36TenRv.setLayoutManager(new LinearLayoutManager(this));
-        shop36TenRv.setAdapter(prodTenAdapter);
-
 
     }
 
@@ -206,30 +173,6 @@ public class Shop36Activity extends AppCompatActivity {
                                                     , productionList.get(j).getCoachNum()));
                                         }
                                         break;
-                                    case 7:
-                                        if (productionList.get(j).getStage() != null) {
-                                            stagePositionListSeven.add(new StagePosition(productionList.get(j).getStage()
-                                                    , productionList.get(j).getCoachNum()));
-                                        }
-                                        break;
-                                    case 8:
-                                        if (productionList.get(j).getStage() != null) {
-                                            stagePositionListEight.add(new StagePosition(productionList.get(j).getStage()
-                                                    , productionList.get(j).getCoachNum()));
-                                        }
-                                        break;
-                                    case 9:
-                                        if (productionList.get(j).getStage() != null) {
-                                            stagePositionListNine.add(new StagePosition(productionList.get(j).getStage()
-                                                    , productionList.get(j).getCoachNum()));
-                                        }
-                                        break;
-                                    case 10:
-                                        if (productionList.get(j).getStage() != null) {
-                                            stagePositionListTen.add(new StagePosition(productionList.get(j).getStage()
-                                                    , productionList.get(j).getCoachNum()));
-                                        }
-                                        break;
                                     default:
                                         break;
 
@@ -247,10 +190,6 @@ public class Shop36Activity extends AppCompatActivity {
                     sortList(stagePositionListFour);
                     sortList(stagePositionListFive);
                     sortList(stagePositionListSix);
-                    sortList(stagePositionListSeven);
-                    sortList(stagePositionListEight);
-                    sortList(stagePositionListNine);
-                    sortList(stagePositionListTen);
 
                     prodOneAdapter.notifyDataSetChanged();
                     prodTwoAdapter.notifyDataSetChanged();
@@ -258,10 +197,6 @@ public class Shop36Activity extends AppCompatActivity {
                     prodFourAdapter.notifyDataSetChanged();
                     prodFiveAdapter.notifyDataSetChanged();
                     prodSixAdapter.notifyDataSetChanged();
-                    prodSevenAdapter.notifyDataSetChanged();
-                    prodEightAdapter.notifyDataSetChanged();
-                    prodNineAdapter.notifyDataSetChanged();
-                    prodTenAdapter.notifyDataSetChanged();
 
                     shop36layout.setVisibility(View.VISIBLE);
 
