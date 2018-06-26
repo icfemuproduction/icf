@@ -99,7 +99,7 @@ public class CommissionActivity extends AppCompatActivity {
                     positionArrayList = positionRegister.getPositionList();
                     commissionList = new ArrayList<>();
                     for (int i = 0; i < positionArrayList.size(); i++) {
-                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("despatch")) {
+                        if (positionArrayList.get(i).getLineName().equalsIgnoreCase("commission")) {
                             commissionList.add(positionArrayList.get(i));
                         }
                     }
