@@ -336,28 +336,36 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.edit_rakes_dialog, null);
+        final View dialogView = inflater.inflate(R.layout.edit_dialog, null);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(true);
         editRakesDialog = dialogBuilder.create();
         editRakesDialog.show();
 
+        TextView textView = dialogView.findViewById(R.id.edit_1_text);
+        textView.setText("Railway Name");
 
-        railwayNameEdit = dialogView.findViewById(R.id.railway_name_edit);
+        textView = dialogView.findViewById(R.id.edit_2_text);
+        textView.setText("Rake Number");
+
+        textView = dialogView.findViewById(R.id.edit_3_text);
+        textView.setText("Despatch Date");
+
+        railwayNameEdit = dialogView.findViewById(R.id.edit_1);
         railwayNameEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editRakesValueDialog("Railway Name");
             }
         });
-        rakeNumberEdit = dialogView.findViewById(R.id.rake_number_edit);
+        rakeNumberEdit = dialogView.findViewById(R.id.edit_2);
         rakeNumberEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editRakesValueDialog("New Rake Number");
             }
         });
-        despatchDateEdit = dialogView.findViewById(R.id.despatch_date_edit);
+        despatchDateEdit = dialogView.findViewById(R.id.edit_3);
         despatchDateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -372,18 +380,20 @@ public class RakesEditActivity extends AppCompatActivity implements View.OnClick
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.edit_rake_value_dialog, null);
+        final View dialogView = inflater.inflate(R.layout.edit_value_dialog, null);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(false);
         editRakesValueDialog = dialogBuilder.create();
         editRakesValueDialog.show();
         editRakesDialog.dismiss();
 
-        rakeEditValueTv = dialogView.findViewById(R.id.edit_rake_value_textview);
-        oldRakeNumEt = dialogView.findViewById(R.id.edit_old_rakeNum_et);
-        rakeEditValueEt = dialogView.findViewById(R.id.edit_rake_value);
-        rakesEditDialogButton = dialogView.findViewById(R.id.edit_rake_dialog_edit_button);
-        rakesEditDialogCancelButton = dialogView.findViewById(R.id.edit_rake_dialog_cancel_button);
+        TextView oldName = dialogView.findViewById(R.id.edit_old_name_textview);
+        oldName.setText("Old Rake Number");
+        rakeEditValueTv = dialogView.findViewById(R.id.edit_new_value_textview);
+        oldRakeNumEt = dialogView.findViewById(R.id.edit_old_name_et);
+        rakeEditValueEt = dialogView.findViewById(R.id.edit_new_value_et);
+        rakesEditDialogButton = dialogView.findViewById(R.id.edit_value_dialog_edit_button);
+        rakesEditDialogCancelButton = dialogView.findViewById(R.id.edit_value_dialog_cancel_button);
 
         rakeEditValueTv.setText(name);
 

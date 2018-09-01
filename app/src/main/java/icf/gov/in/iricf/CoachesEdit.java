@@ -16,19 +16,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static icf.gov.in.iricf.Utils.parseDateSend;
 
 public class CoachesEdit extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,12 +59,13 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
     List<CoachPerRake> coachPerRakesList;
     ArrayList<String> coachNumList, coachTypeList;
     ArrayAdapter<String> coachTypeAdapter;
-    String token, rakeNum, editCoachType, oldCoachNum, newCoachNum, newRakeNum;
-    AlertDialog coachesDeleteDialog, coachesEditDialog;
+    String token, rakeNum, editCoachType, oldCoachNum;
+    AlertDialog coachesDeleteDialog, coachesEditDialog, editCoachesValueDialog;
     EditText deleteCoachDialogEt, coachesEditOldEt, coachesEditNewEt, coachesEditNewRAkeEt;
     Spinner coachesEditSpinner;
     Button deleteCoachDialogButton, deleteCoachDialogCancelButton, coachesEditDialogCancelButton,
             coachesEditDialogButton;
+    ImageView coachNumberEdit,rakeNumberEdit,typeEdit;
     AlertDialog loadingDialog;
 
     @Override
@@ -258,59 +264,108 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.edit_coaches_dialog, null);
+        final View dialogView = inflater.inflate(R.layout.edit_dialog, null);
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setCancelable(false);
         coachesEditDialog = dialogBuilder.create();
         coachesEditDialog.show();
 
-        coachesEditOldEt = dialogView.findViewById(R.id.edit_coach_dialog_old_et);
-        coachesEditNewEt = dialogView.findViewById(R.id.edit_coach_dialog_new_et);
-        coachesEditNewRAkeEt = dialogView.findViewById(R.id.edit_coach_dialog_new_rake_et);
-        coachesEditSpinner = dialogView.findViewById(R.id.edit_coach_dialog_new_spinner);
-        coachesEditDialogCancelButton = dialogView.findViewById(R.id.edit_coach_dialog_cancel_button);
-        coachesEditDialogButton = dialogView.findViewById(R.id.edit_coach_dialog_edit_button);
 
-        coachTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachTypeList);
-        coachTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        coachesEditSpinner.setAdapter(coachTypeAdapter);
-        coachesEditSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        TextView textView = dialogView.findViewById(R.id.edit_1_text);
+        textView.setText("Coach Number");
+
+        textView = dialogView.findViewById(R.id.edit_2_text);
+        textView.setText("Rake Number");
+
+        textView = dialogView.findViewById(R.id.edit_3_text);
+        textView.setText("Type");
+
+        coachNumberEdit = dialogView.findViewById(R.id.edit_1);
+        coachNumberEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                editCoachType = adapterView.getItemAtPosition(i).toString();
+            public void onClick(View view) {
+                editCoachesValueDialog("New Coach Number");
             }
-
+        });
+        rakeNumberEdit = dialogView.findViewById(R.id.edit_2);
+        rakeNumberEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onClick(View view) {
+                editCoachesValueDialog("New Rake Number");
+            }
+        });
+        typeEdit = dialogView.findViewById(R.id.edit_3);
+        typeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editCoachesValueDialog("New type");
+            }
+        });
 
+
+//
+//        coachTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, coachTypeList);
+//        coachTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        coachesEditSpinner.setAdapter(coachTypeAdapter);
+//        coachesEditSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                editCoachType = adapterView.getItemAtPosition(i).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+
+    }
+
+    private void editCoachesValueDialog(final String field){
+
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.edit_value_dialog, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+        editCoachesValueDialog = dialogBuilder.create();
+        editCoachesValueDialog.show();
+        coachesEditDialog.dismiss();
+
+        TextView oldName = dialogView.findViewById(R.id.edit_old_name_textview);
+        oldName.setText("Old Coach Number");
+        TextView coachesEditValueTv = dialogView.findViewById(R.id.edit_new_value_textview);
+        coachesEditOldEt = dialogView.findViewById(R.id.edit_old_name_et);
+        coachesEditNewEt = dialogView.findViewById(R.id.edit_new_value_et);
+        coachesEditDialogButton = dialogView.findViewById(R.id.edit_value_dialog_edit_button);
+        coachesEditDialogCancelButton = dialogView.findViewById(R.id.edit_value_dialog_cancel_button);
+
+        coachesEditValueTv.setText(field);
+
+        coachesEditDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editCoach(field);
             }
         });
 
         coachesEditDialogCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coachesEditDialog.dismiss();
+                editCoachesValueDialog.cancel();
             }
         });
 
-        coachesEditDialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editCoach();
-            }
-        });
 
     }
 
-    private void editCoach() {
+    private void editCoach(final String field) {
 
-        newRakeNum = null;
-        newCoachNum = null;
+
         oldCoachNum = null;
 
         oldCoachNum = coachesEditOldEt.getText().toString().trim();
-        newRakeNum = coachesEditNewRAkeEt.getText().toString().trim();
-        newCoachNum = coachesEditNewEt.getText().toString().trim();
+        final String coachEditValue = coachesEditNewEt.getText().toString().trim().toUpperCase();
 
         if (oldCoachNum.isEmpty()) {
             coachesEditOldEt.setError("Enter old coach number");
@@ -318,45 +373,55 @@ public class CoachesEdit extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
-        if (newRakeNum.isEmpty()) {
-            newRakeNum = null;
-        }
-        if (newCoachNum.isEmpty()) {
-            newCoachNum = null;
+        if (coachEditValue.isEmpty()) {
+            coachesEditNewEt.setError("Enter new value");
+            coachesEditNewEt.requestFocus();
+            return;
         }
 
+        String fieldName = null;
+        Map<String, String> editCoachMap = new HashMap<>();
+        if(field.equalsIgnoreCase("New Coach Number")){
+            fieldName = "coach_num";
+            editCoachMap.put("coach_num",coachEditValue);
+        }else if(field.equalsIgnoreCase("New Rake Number")){
+            fieldName = "rake_num";
+            editCoachMap.put("rake_num",coachEditValue);
+        }else if(field.equalsIgnoreCase("New Date")){
+            fieldName = "type";
+            editCoachMap.put("type",coachEditValue);
+        }
+
+
+
+
         loadingDialog.show();
-        Call<PostResponse> call = apiInterface.editCoach(token, oldCoachNum, newCoachNum, newRakeNum, editCoachType);
+        Call<PostResponse> call = apiInterface.editCoach(fieldName, token, oldCoachNum, editCoachMap);
         call.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 int status = response.body().getStatus();
 
                 if (status == 200) {
-                    coachesEditDialog.dismiss();
+                    editCoachesValueDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Edited successfully.", Toast.LENGTH_SHORT).show();
 
-                    for (int i = 0; i < coachNumList.size(); i++) {
-                        if (coachNumList.get(i).equalsIgnoreCase(oldCoachNum)) {
-                            if (newCoachNum != null) {
-                                coachNumList.set(i, newCoachNum);
+                    if (field.equalsIgnoreCase("New Coach Number")) {
+                        for (int i = 0; i < coachNumList.size(); i++) {
+                            if (coachNumList.get(i).equalsIgnoreCase(oldCoachNum)){
+                                coachNumList.set(i, coachEditValue);
                                 coachesAdapter.notifyDataSetChanged();
                             }
                         }
+                    } else if(field.equalsIgnoreCase("New Rake Number")){
+                        coachNumList.remove(oldCoachNum.toUpperCase());
+                        coachesAdapter.notifyDataSetChanged();
                     }
 
-                    if (newRakeNum != null && !newRakeNum.equalsIgnoreCase(rakeNum)) {
-                        for (int i = 0; i < coachNumList.size(); i++) {
-                            if (coachNumList.get(i).equalsIgnoreCase(oldCoachNum)
-                                    || coachNumList.get(i).equalsIgnoreCase(newCoachNum)) {
-                                coachNumList.remove(i);
-                                coachesAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
+
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error editing. Try again later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error editing. Try again later."+ status, Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }

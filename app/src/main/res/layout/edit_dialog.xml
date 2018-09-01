@@ -23,14 +23,14 @@
 
         <TextView
             android:layout_width="0dp"
-            android:text="Railway Name"
+            android:id="@+id/edit_1_text"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/railway_name_edit"
+            android:id="@+id/edit_1"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/transbg"
@@ -52,7 +52,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="Rake Number"
+            android:id="@+id/edit_2_text"
             android:layout_width="0dp"
             android:gravity="center"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/rake_number_edit"
+            android:id="@+id/edit_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/transbg"
@@ -83,7 +83,7 @@
         android:layout_marginBottom="5dp">
 
         <TextView
-            android:text="Despatch Date"
+            android:id="@+id/edit_3_text"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/despatch_date_edit"
+            android:id="@+id/edit_3"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/transbg"
